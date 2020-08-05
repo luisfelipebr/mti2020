@@ -1,0 +1,10 @@
+---
+title: "Aula 1"
+output: html_document
+---
+
+## Introdução
+
+Após instalar os softwares R e RStudio, abra o RStudio e crie um novo script.
+
+## 
