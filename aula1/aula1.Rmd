@@ -1,10 +1,186 @@
 ---
-title: "Aula 1"
-output: html_document
+title: "Aula 1 - Introdução ao R"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: FALSE
+    theme: cosmo
+    highlight: haddock
 ---
 
-## Introdução
+## 1. Introdução
 
-Após instalar os softwares R e RStudio, abra o RStudio e crie um novo script.
+No decorrer deste curso, o R será usado como uma **ferramenta** que deve auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
 
-## 
+É importante ressaltar que ele não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses e coleta de dados, além da **análise de dados** (que é o foco deste curso).
+
+### 1.1. O que é o R?
+
+O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
+
+Algumas de suas vantagens são:
+
+* É gratuito, de distribuição livre e de código aberto.
+* Possui uma curva de aprendizado bastante amigável, sendo muito fácil de se aprender (se comparado a outros programas estatísticos)
+* Existe uma enorme quantidade de ajuda e tutoriais disponíveis gratuitamente na internet
+* Existe uma enorme quantidade de pacotes (*packages*), para diversos tipos de aplicações
+* É excelente para criar rotinas e sistematizar tarefas repetitivas
+* É amplamente utilizado pela comunidade acadêmica e mercado
+* É uma ótima ferramenta para criar relatórios e gráficos
+
+Um código (*script*) refere-se à uma rotina de análise ou visualização de dados que:
+
+* É um texto
+* É transparente
+* É simples
+* É reprodutível
+* Pode ser compartilhado
+* Pode ser colaborativo
+
+### 1.2. O que é o RStudio?
+
+Explicar RStudio.
+
+Adicionar figuras da interface.
+
+### 1.3. Exemplos de aplicações do R
+
+Seção opcional. Sugestões: processamento de microdados, gráficos e mapas, gráficos e mapas dinâmicos, os roteiros dessa disciplina, geobr (download de centenas de dados geoespaciais), acesso a oportunidades (projeto inteiro desenvolvido com o uso da ferramenta R), projeto do coronavirus no abc (confirmar se foi desenvolvido no R ou python)...
+
+### 1.4. Transferência e instalação do R e RStudio
+
+Fazer um tutorial ou referenciar tutoriais disponíveis.
+
+## 2. Análise exploratória
+
+Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes já matriculados no Bacharelado em Planejamento Territorial (BPT), a partir dos dados da pesquisa Perfil Discente UFABC 2019, com o objetivo de responder às seguintes perguntas: 
+
+1. Qual é a mediana da idade dos discentes do BPT?
+2. Qual é o CR médio dos discentes do BPT?
+3. Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?
+4. Quais são os municípios de residência mais comuns entre os discentes do BPT?
+
+Após a instalação do R e RStudio, abra o RStudio. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo *script*, onde vamos salvar o nosso código para tornar possível a sua reprodução e submetê-lo na atividade dessa aula.
+
+### 2.1 Importando os dados
+
+O RStudio conta com um botão para auxiliar na importação de dados. Clique em `Import Dataset` >>> `From Text (readr)...` para importar a sua primeira base de dados. Em `File/URL` você pode colocar o endereço web para a transferência e importação da base de dados (desde que você tenha conexão com a internet) ou você pode clicar em `Browse` para navegar pelo seu diretório até encontrar o arquivo que deseja importar. Uma pré-visualização do arquivo deve aparecer em `Data preview`, permitindo que você confira se a importação da base de dados deu certo. `Import options` apresenta algumas opções de importação adicionais que você pode explorar mais tarde.
+
+Adicione o endereço web da nossa base de dados e clique em `Update` ou faça a transferência do arquivo e indique o caminho clicando no botão `Browse`.
+
+Endereço web para acessar a base de dados:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv)
+
+Veja que alguns caracteres apareceram com erro. Isso aconteceu porque o formato do nosso arquivo não foi reconhecido. É possível arrumar esses caracteres clicando em `Locale: Configure...`. Em `Encoding:` selecione `Other...` e escreva `latin1`. Clique em `OK` e em seguida em `Configure`.
+
+Se você clicar na opção `Import`, a base de dados será importada. Mas como o nosso objetivo é tornar o código reprodutível, vamos copiar o código que apareceu em `Code preview` e colar no nosso script.
+
+```{r}
+library(readr)
+dados_bpt1 <- read_csv("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv", locale = locale(encoding = "latin1"))
+View(dados_bpt1)
+```
+
+Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para reproduzir o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução da linha `View(dados_bpt1)`.
+
+Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **dados_bpt1** com 37 observações e 8 variáveis. A nossa base de dados contém apenas os 37 discentes que responderam já estar matriculados no BPT.
+
+### 2.2. Análise exploratória
+
+Além da função `View()`, existem diversas outras funções que permitem explorar uma base de dados.
+
+A função `head()` exibe as primeiras observações da base de dados no `Console`, sem a necessidade de abrir uma nova aba, e é altamente recomendada para bases de dados grandes (mais de 100.000 observações) que podem travar o programa RStudio se abertas.
+
+```{r}
+head(dados_bpt1)
+```
+
+A função `tail()`, de forma similar, exibe as últimas observações da base de dados no `Console`.
+
+```{r}
+tail(dados_bpt1)
+```
+
+A função `names()` exibe o nome de todas as variáveis da base dados no `Console`.
+
+```{r}
+names(dados_bpt1)
+```
+A função `str()` exibe a estrutura da base de dados, com a classe da base de dados (**tibble** - é um nome para dados em formato de tabela), o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outras) e as primeiras observações.
+
+```{r}
+str(dados_bpt1)
+```
+Veja que o operador `$` é usado para referir-se a uma variável da base de dados.
+
+A função `summary()` apresenta um sumário com estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA's) para todas as variáveis numéricas.
+
+```{r}
+summary(dados_bpt1)
+```
+No sumário, já temos a resposta para as duas primeiras questões.
+
+Mas essas respostas também podem ser apresentadas de forma mais direta, através de funções específicas.
+
+**1. Qual é a mediana da idade dos discentes do BPT?**
+
+A mediana pode ser obtida através da função `median()`.
+
+```{r}
+median(dados_bpt1$idade)
+```
+Mas quando digitamos `median(dados_bpt1$idade)`, a resposta é um valor faltante (NA). Isso aconteceu porque, conforme vimos no sumário, existem 2 NA's na variável idade. Para obter o mesmo resultado do sumário, podemos acrescentar o argumento `na.rm = TRUE` para remover os valores faltantes do cálculo da mediana.
+
+```{r}
+median(dados_bpt1$idade, na.rm = TRUE)
+```
+A mediana da idade dos discentes é 25 anos.
+
+**2. Qual é o CR médio dos discentes do BPT?**
+
+De forma similar, podemos aplicar a função `mean()` para obter o CR médio dos discentes do BPT.
+
+```{r}
+mean(dados_bpt1$cr, na.rm = TRUE)
+```
+O CR médio dos discentes do BPT é 2,757.
+
+**3. Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?** 
+
+Para responder a terceira pergunta, podemos criar uma tabela com a função `table()` para ver em qual turno os discentes assistiram à maioria das disciplinas no último ano.
+
+```{r}
+table(dados_bpt1$turno)
+```
+O turno que os discentes assistiram à maioria das disciplinas foi o noturno.
+
+**4. Quais são os municípios de residência mais comuns entre os discentes do BPT?**
+
+De forma similar, aplicamos a função `table()` para descobrir os municípios de residência mais comuns entre os discentes do BPT. 
+
+```{r}
+table(dados_bpt1$municipio_de_residencia)
+```
+Portanto, os muncípios de residência mais comuns entre os discentes do BPT são São Paulo, São Bernardo do Campo e Santo André.
+
+### 2.3. Exportando os dados e script
+
+Adicionar como salvar base de dados e script.
+
+## 3. Atividades
+
+Adicionar atividades.
+
+## 4. Na próxima aula...
+
+Adicionar conteúdo da próxima aula.
+
+## Referências bibliográficas
+
+[1] FIELD, Andy; MILES, Jeremy; FIELD, Zoë. *Discovering statistics using R*. Sage publications, 2012.
+
+[2] GROLEMUND, Garrett; WICKHAM, Hadley.  *R for Data Science*. 2017. Disponível em: https://r4ds.had.co.nz/. Acesso em: 21 de setembro de 2020.
+
+[3] OLIVEIRA, Paulo Felipe de; GUERRA, Saulo; MCDONNELL, Robert. *Ciência de dados com R*: Introdução. Brasília: Editora IBPAD, 2018. Disponível em: https://cdr.ibpad.com.br/cdr-intro.pdf. Acesso em: 21 de setembro de 2020.
+
+[4] Curso-r. *Material para cursos de R*. 2018. Disponível em: https://material.curso-r.com/. Acesso em: 21 de setembro de 2020.
