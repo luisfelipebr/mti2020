@@ -211,12 +211,12 @@ write_csv(dados_bpt1, path = "D:/OneDrive/@/mti/aula1/dados_bpt1.csv")
 
 ### 2.4. Salvando o *script*
 
-Após reproduzir a análise exploratória de dados proposta nessa aula prática o seu script deve estar parecido com (esse)[].
+Após reproduzir a análise exploratória de dados proposta nessa aula prática o seu script deve estar parecido com [esse](https://raw.githubusercontent.com/luisfelipebr/mti/master/aula1/aula1.R).
 
-!(Fig. 5 - *Script* final)[https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/5_script.png]
+![Fig. 5 - *Script* final](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/5_script.png)
 
 **Importante: todo o conteúdo após o `#` não será rodado pelo R. Ele é muito usado para adicionar comentários antes de cada linha, para que você e outras pessoas que estão lendo o seu código entendam o que cada linha de código faz ao ser rodada.**
 
 Você pode salvar o seu script para reproduzir a análise exploratória proposta nessa aula quando quiser, clicando no disquete azul ou através do comando `Ctrl + S`.
 
-!(Fig. 6 - Salvando o *script*)[https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/6_salvar_script.png]
+![Fig. 6 - Salvando o *script*](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/6_salvar_script.gif)
