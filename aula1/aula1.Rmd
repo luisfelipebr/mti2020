@@ -18,15 +18,34 @@ No decorrer deste curso, o R será usado como uma **ferramenta** que deve auxili
 
 O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
 
-Algumas de suas vantagens são:
+Algumas de suas vantagens são ([IBPAD, 2018](https://cdr.ibpad.com.br/cdr-intro.pdf)):
 
-* É gratuito, de distribuição livre e de código aberto.
-* Possui uma curva de aprendizado bastante amigável, sendo muito fácil de se aprender (se comparado a outros programas estatísticos)
-* Existe uma enorme quantidade de ajuda e tutoriais disponíveis gratuitamente na internet
-* Existe uma enorme quantidade de pacotes (*packages*), para diversos tipos de aplicações
-* É excelente para criar rotinas e sistematizar tarefas repetitivas
-* É amplamente utilizado pela comunidade acadêmica e mercado
-* É uma ótima ferramenta para criar relatórios e gráficos
+* É **gratuito**, de **distribuição livre** e de **código aberto**
+* Possui uma **curva de aprendizado bastante amigável**, sendo muito fácil de se aprender (se comparado a outros programas estatísticos)
+* Existe uma enorme quantidade de **ajuda e tutoriais** disponíveis gratuitamente na internet
+* Existe uma enorme quantidade de **pacotes (*packages*)**, para diversos tipos de aplicações
+* É excelente para **criar rotinas** e **sistematizar tarefas repetitivas**
+* É amplamente utilizado pela **comunidade acadêmica** e **mercado**
+* É uma ótima ferramenta para criar **relatórios** e **gráficos**
+
+### 1.2. O que é o RStudio?
+
+Explicar RStudio.
+
+### 1.3. Transferência e instalação do R e RStudio
+
+Referenciar os tutoriais disponíveis.
+
+## 2. Análise exploratória
+
+Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes matriculados no Bacharelado em Planejamento Territorial (BPT), a partir da amostra dos respondentes da pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, com o objetivo de responder às seguintes perguntas: 
+
+1. Qual é a mediana da idade dos discentes matriculados no BPT?
+2. Qual é o CR médio dos discentes matriculados no BPT?
+3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?
+4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino no último ano?
+
+Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo *script*, onde vamos salvar o nosso código.
 
 Um código (*script*) refere-se à uma rotina de análise ou visualização de dados que:
 
@@ -37,53 +56,61 @@ Um código (*script*) refere-se à uma rotina de análise ou visualização de d
 * Pode ser compartilhado
 * Pode ser colaborativo
 
-### 1.2. O que é o RStudio?
+![Fig. 1 - Como criar um novo *script*](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
 
-Explicar RStudio.
+Em cada aula prática, vamos salvar a rotina de análise de dados em um novo *script*, que podemos abrir a qualquer momento para lembrar as funções e objetos que foram usados. É recomendado submeter, junto com o trabalho final, um *script* que permite a reprodução da análise de dados, seguindo as boas práticas da **ciência aberta**.
 
-Adicionar figuras da interface.
+Se tudo deu certo, a sua interface conta agora com quatro painéis principais:
 
-### 1.3. Exemplos de aplicações do R
+**1. Source:** É a sua área de trabalho principal. Pode conter várias janelas, com códigos (*scripts*), tabelas e outros conteúdos. Ao clicar em `Run`,  a linha que o cursor está apontando vai rodar e aparecer no `Console`.
 
-Seção opcional. Sugestões: processamento de microdados, gráficos e mapas, gráficos e mapas dinâmicos, os roteiros dessa disciplina, geobr (download de centenas de dados geoespaciais), acesso a oportunidades (projeto inteiro desenvolvido com o uso da ferramenta R), projeto do coronavirus no abc (confirmar se foi desenvolvido no R ou python)...
+**2. Console:** Você pode escrever uma linha de código diretamente no `Console`. Todo o código que rodar na `Fonte`, será enviado ao `Console`, onde os avisos e resultados do código rodado aparecerão.
 
-### 1.4. Transferência e instalação do R e RStudio
+**3. Environment/History**:
+* Environment: É o ambiente de trabalho ativo. Todos os objetos e funções definidas devem aparecer no ambiente.
+* History: Exibe o histórico de cada linha de código rodada, que podem ser enviadas ao `Source` ou `Console`. 
 
-Fazer um tutorial ou referenciar tutoriais disponíveis.
+**4. Files/Plots/Packages/Help/Viewer:**
+* Files: Exibe o diretório de trabalho ativo.
+* Plots: Exibe os gráficos, mapas e outras figuras produzidas.
+* Packages: Exibe uma lista de pacotes instalados e ativos.
+* Help: Exibe 
+* Viewer: Funciona como um navegador de internet.
 
-## 2. Análise exploratória
-
-Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes já matriculados no Bacharelado em Planejamento Territorial (BPT), a partir dos dados da pesquisa Perfil Discente UFABC 2019, com o objetivo de responder às seguintes perguntas: 
-
-1. Qual é a mediana da idade dos discentes do BPT?
-2. Qual é o CR médio dos discentes do BPT?
-3. Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?
-4. Quais são os municípios de residência mais comuns entre os discentes do BPT?
-
-Após a instalação do R e RStudio, abra o RStudio. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo *script*, onde vamos salvar o nosso código para tornar possível a sua reprodução e submetê-lo na atividade dessa aula.
+![Fig. 2 - Interface RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/2_interface_rstudio_com_quadros.png)
 
 ### 2.1 Importando os dados
+
+Os dados já foram pré-processados para conter apenas as observações (discentes matriculados no BPT) e variáveis de interesse. O endereço para acessar a base de dados é:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv).
 
 O RStudio conta com um botão para auxiliar na importação de dados. Clique em `Import Dataset` >>> `From Text (readr)...` para importar a sua primeira base de dados. Em `File/URL` você pode colocar o endereço web para a transferência e importação da base de dados (desde que você tenha conexão com a internet) ou você pode clicar em `Browse` para navegar pelo seu diretório até encontrar o arquivo que deseja importar. Uma pré-visualização do arquivo deve aparecer em `Data preview`, permitindo que você confira se a importação da base de dados deu certo. `Import options` apresenta algumas opções de importação adicionais que você pode explorar mais tarde.
 
 Adicione o endereço web da nossa base de dados e clique em `Update` ou faça a transferência do arquivo e indique o caminho clicando no botão `Browse`.
 
-Endereço web para acessar a base de dados:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv)
-
 Veja que alguns caracteres apareceram com erro. Isso aconteceu porque o formato do nosso arquivo não foi reconhecido. É possível arrumar esses caracteres clicando em `Locale: Configure...`. Em `Encoding:` selecione `Other...` e escreva `latin1`. Clique em `OK` e em seguida em `Configure`.
 
-Se você clicar na opção `Import`, a base de dados será importada. Mas como o nosso objetivo é tornar o código reprodutível, vamos copiar o código que apareceu em `Code preview` e colar no nosso script.
+Se você clicar na opção `Import`, a base de dados será importada. Mas como o nosso objetivo é tornar o código reprodutível, vamos copiar o código que apareceu em `Code preview` e colar no nosso *script*.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(readr)
 dados_bpt1 <- read_csv("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv", locale = locale(encoding = "latin1"))
 View(dados_bpt1)
 ```
 
-Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para reproduzir o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução da linha `View(dados_bpt1)`.
+![Fig. 3 - Importação da base de dados através da interface](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3_importar_base_de_dados.gif)
 
-Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **dados_bpt1** com 37 observações e 8 variáveis. A nossa base de dados contém apenas os 37 discentes que responderam já estar matriculados no BPT.
+Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para rodar o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução do código `View(dados_bpt1)`, que abre uma tabela parecida com a do excel para visualização dos dados.
+
+Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **dados_bpt1** com 37 observações e 8 variáveis.
+
+![Fig. 4 - Rodando o código](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/4_rodar_codigo.gif)
+
+**Atenção: Se essa foi a sua primeira vez usando o R no seu computador, pode ser necessário instalar o pacote `readr` para importar os dados. Isso pode ser feito rodando o código abaixo após copiar e colar no seu script ou console. Um pacote só precisa ser instalado uma vez em cada computador.**
+
+```{r, eval = FALSE}
+install.packages("readr")
+```
 
 ### 2.2. Análise exploratória
 
@@ -101,86 +128,95 @@ A função `tail()`, de forma similar, exibe as últimas observações da base d
 tail(dados_bpt1)
 ```
 
-A função `names()` exibe o nome de todas as variáveis da base dados no `Console`.
+A função `names()` exibe o nome de todas as variáveis da base de dados no `Console`.
 
 ```{r}
 names(dados_bpt1)
 ```
+
 A função `str()` exibe a estrutura da base de dados, com a classe da base de dados (**tibble** - é um nome para dados em formato de tabela), o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outras) e as primeiras observações.
 
 ```{r}
 str(dados_bpt1)
 ```
-Veja que o operador `$` é usado para referir-se a uma variável da base de dados.
+
+**Importante: o operador `$` é usado para referir-se a uma variável da base de dados.**
 
 A função `summary()` apresenta um sumário com estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA's) para todas as variáveis numéricas.
 
 ```{r}
 summary(dados_bpt1)
 ```
+
 No sumário, já temos a resposta para as duas primeiras questões.
 
 Mas essas respostas também podem ser apresentadas de forma mais direta, através de funções específicas.
 
-**1. Qual é a mediana da idade dos discentes do BPT?**
+**1. Qual é a mediana da idade dos discentes matriculados no BPT?**
 
 A mediana pode ser obtida através da função `median()`.
 
 ```{r}
 median(dados_bpt1$idade)
 ```
+
 Mas quando digitamos `median(dados_bpt1$idade)`, a resposta é um valor faltante (NA). Isso aconteceu porque, conforme vimos no sumário, existem 2 NA's na variável idade. Para obter o mesmo resultado do sumário, podemos acrescentar o argumento `na.rm = TRUE` para remover os valores faltantes do cálculo da mediana.
 
 ```{r}
 median(dados_bpt1$idade, na.rm = TRUE)
 ```
-A mediana da idade dos discentes é 25 anos.
 
-**2. Qual é o CR médio dos discentes do BPT?**
+Portanto, a mediana da idade dos discentes matriculados no BPT é 25 anos.
 
-De forma similar, podemos aplicar a função `mean()` para obter o CR médio dos discentes do BPT.
+**2. Qual é o CR médio dos discentes matriculados no BPT?**
+
+De forma similar, podemos aplicar a função `mean()` para obter o CR médio dos discentes matriculados no BPT.
 
 ```{r}
 mean(dados_bpt1$cr, na.rm = TRUE)
 ```
-O CR médio dos discentes do BPT é 2,757.
 
-**3. Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?** 
+O CR médio dos discentes matriculados no BPT é 2,757.
 
-Para responder a terceira pergunta, podemos criar uma tabela com a função `table()` para ver em qual turno os discentes assistiram à maioria das disciplinas no último ano.
+**3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?**
 
-```{r}
-table(dados_bpt1$turno)
-```
-O turno que os discentes assistiram à maioria das disciplinas foi o noturno.
-
-**4. Quais são os municípios de residência mais comuns entre os discentes do BPT?**
-
-De forma similar, aplicamos a função `table()` para descobrir os municípios de residência mais comuns entre os discentes do BPT. 
+Para responder a terceira pergunta, aplicamos a função `table()` para criar uma tabela com a contagem do município de residência dos discentes matriculados no BPT. 
 
 ```{r}
 table(dados_bpt1$municipio_de_residencia)
 ```
-Portanto, os muncípios de residência mais comuns entre os discentes do BPT são São Paulo, São Bernardo do Campo e Santo André.
 
-### 2.3. Exportando os dados e script
+Os três municípios de residência mais comuns entre os discentes matriculados no BPT são São Paulo, São Bernardo do Campo e Santo André.
 
-Adicionar como salvar base de dados e script.
+**4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino no último ano?**
 
-## 3. Atividades
+Para responder a essa pergunta, usamos a função `table()` para criar uma tabela com dois argumentos: município de residência e turno.
 
-Adicionar atividades.
+```{r}
+table(dados_bpt1$municipio_de_residencia, dados_bpt1$turno)
+```
+O município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino é São Paulo.
 
-## 4. Na próxima aula...
+### 2.3. Exportando uma base de dados
 
-Adicionar conteúdo da próxima aula.
+O R não vai exportar a sua base de dados a menos que você especifique esse comando.
 
-## Referências bibliográficas
+Após rodar a sua rotina de análise de dados, você ter feito alterações na base de dados e gostaria de salvá-la como um novo arquivo para acessá-la futuramente. No nosso caso, não fizemos alterações, mas ainda assim vamos exportar a base de dados com o uso da função `write_csv()`. 
 
-[1] FIELD, Andy; MILES, Jeremy; FIELD, Zoë. *Discovering statistics using R*. Sage publications, 2012.
+```{r}
+write_csv(dados_bpt1, path = "D:/OneDrive/@/mti/aula1/dados_bpt1.csv")
+```
 
-[2] GROLEMUND, Garrett; WICKHAM, Hadley.  *R for Data Science*. 2017. Disponível em: https://r4ds.had.co.nz/. Acesso em: 21 de setembro de 2020.
+**Atenção: você precisa alterar o argumento `path =` para incluir o diretório de trabalho onde deseja salvar o arquivo. `dados_bpt1.csv` deve ser mantido, pois refere-se ao nome e formato do arquivo que será exportado.**
 
-[3] OLIVEIRA, Paulo Felipe de; GUERRA, Saulo; MCDONNELL, Robert. *Ciência de dados com R*: Introdução. Brasília: Editora IBPAD, 2018. Disponível em: https://cdr.ibpad.com.br/cdr-intro.pdf. Acesso em: 21 de setembro de 2020.
+### 2.4. Salvando o *script*
 
-[4] Curso-r. *Material para cursos de R*. 2018. Disponível em: https://material.curso-r.com/. Acesso em: 21 de setembro de 2020.
+Após reproduzir a análise exploratória de dados proposta nessa aula prática o seu script deve estar parecido com (esse)[].
+
+!(Fig. 5 - *Script* final)[https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/5_script.png]
+
+**Importante: todo o conteúdo após o `#` não será rodado pelo R. Ele é muito usado para adicionar comentários antes de cada linha, para que você e outras pessoas que estão lendo o seu código entendam o que cada linha de código faz ao ser rodada.**
+
+Você pode salvar o seu script para reproduzir a análise exploratória proposta nessa aula quando quiser, clicando no disquete azul ou através do comando `Ctrl + S`.
+
+!(Fig. 6 - Salvando o *script*)[https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/6_salvar_script.png]
