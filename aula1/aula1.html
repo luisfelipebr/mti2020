@@ -458,17 +458,14 @@ summary {
 <li><a href="#introdução">1. Introdução</a><ul>
 <li><a href="#o-que-é-o-r">1.1. O que é o R?</a></li>
 <li><a href="#o-que-é-o-rstudio">1.2. O que é o RStudio?</a></li>
-<li><a href="#exemplos-de-aplicações-do-r">1.3. Exemplos de aplicações do R</a></li>
-<li><a href="#transferência-e-instalação-do-r-e-rstudio">1.4. Transferência e instalação do R e RStudio</a></li>
+<li><a href="#transferência-e-instalação-do-r-e-rstudio">1.3. Transferência e instalação do R e RStudio</a></li>
 </ul></li>
 <li><a href="#análise-exploratória">2. Análise exploratória</a><ul>
 <li><a href="#importando-os-dados">2.1 Importando os dados</a></li>
 <li><a href="#análise-exploratória-1">2.2. Análise exploratória</a></li>
-<li><a href="#exportando-os-dados-e-script">2.3. Exportando os dados e script</a></li>
+<li><a href="#exportando-os-dados">2.3. Exportando os dados</a></li>
+<li><a href="#salvando-o-script">2.4. Salvando o script</a></li>
 </ul></li>
-<li><a href="#atividades">3. Atividades</a></li>
-<li><a href="#na-próxima-aula">4. Na próxima aula…</a></li>
-<li><a href="#referências-bibliográficas">Referências bibliográficas</a></li>
 </ul>
 </div>
 
@@ -504,54 +501,45 @@ summary {
 <p>Explicar RStudio.</p>
 <p>Adicionar figuras da interface.</p>
 </div>
-<div id="exemplos-de-aplicações-do-r" class="section level3">
-<h3>1.3. Exemplos de aplicações do R</h3>
-<p>Seção opcional. Sugestões: processamento de microdados, gráficos e mapas, gráficos e mapas dinâmicos, os roteiros dessa disciplina, geobr (download de centenas de dados geoespaciais), acesso a oportunidades (projeto inteiro desenvolvido com o uso da ferramenta R), projeto do coronavirus no abc (confirmar se foi desenvolvido no R ou python)…</p>
-</div>
 <div id="transferência-e-instalação-do-r-e-rstudio" class="section level3">
-<h3>1.4. Transferência e instalação do R e RStudio</h3>
-<p>Fazer um tutorial ou referenciar tutoriais disponíveis.</p>
+<h3>1.3. Transferência e instalação do R e RStudio</h3>
+<p>Referenciar os tutoriais disponíveis.</p>
 </div>
 </div>
 <div id="análise-exploratória" class="section level2">
 <h2>2. Análise exploratória</h2>
-<p>Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes já matriculados no Bacharelado em Planejamento Territorial (BPT), a partir dos dados da pesquisa Perfil Discente UFABC 2019, com o objetivo de responder às seguintes perguntas:</p>
+<p>Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes matriculados no Bacharelado em Planejamento Territorial (BPT), a partir da amostra dos respondentes da pesquisa <a href="http://propladi.ufabc.edu.br/informacoes/perfil">Perfil Discente</a> 2019 da PROPLADI/UFABC, com o objetivo de responder às seguintes perguntas:</p>
 <ol style="list-style-type: decimal">
-<li>Qual é a mediana da idade dos discentes do BPT?</li>
-<li>Qual é o CR médio dos discentes do BPT?</li>
-<li>Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?</li>
-<li>Quais são os municípios de residência mais comuns entre os discentes do BPT?</li>
+<li>Qual é a mediana da idade dos discentes matriculados no BPT?</li>
+<li>Qual é o CR médio dos discentes matriculados no BPT?</li>
+<li>Em qual turno os discentes matriculados no BPT assistiram à maioria das disciplinas no último ano?</li>
+<li>Quais são os municípios de residência mais comuns entre os discentes matriculados no BPT?</li>
 </ol>
 <p>Após a instalação do R e RStudio, abra o RStudio. Clique em <code>New file</code> &gt;&gt;&gt; <code>R Script</code> ou aperte os comando <code>Ctrl + Shift + N</code> para criar um novo <em>script</em>, onde vamos salvar o nosso código para tornar possível a sua reprodução e submetê-lo na atividade dessa aula.</p>
+<p>Falar sobre a interface.</p>
+<p>Figura interface.</p>
+<p>Falar sobre script e comentários.</p>
 <div id="importando-os-dados" class="section level3">
 <h3>2.1 Importando os dados</h3>
+<p>Os dados já foram pré-processados para conter apenas as observações (alunos matriculados no BPT) e variáveis de interesse. O endereço para acessar a base de dados é: <a href="https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv">https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv</a>.</p>
 <p>O RStudio conta com um botão para auxiliar na importação de dados. Clique em <code>Import Dataset</code> &gt;&gt;&gt; <code>From Text (readr)...</code> para importar a sua primeira base de dados. Em <code>File/URL</code> você pode colocar o endereço web para a transferência e importação da base de dados (desde que você tenha conexão com a internet) ou você pode clicar em <code>Browse</code> para navegar pelo seu diretório até encontrar o arquivo que deseja importar. Uma pré-visualização do arquivo deve aparecer em <code>Data preview</code>, permitindo que você confira se a importação da base de dados deu certo. <code>Import options</code> apresenta algumas opções de importação adicionais que você pode explorar mais tarde.</p>
 <p>Adicione o endereço web da nossa base de dados e clique em <code>Update</code> ou faça a transferência do arquivo e indique o caminho clicando no botão <code>Browse</code>.</p>
-<p>Endereço web para acessar a base de dados: <a href="https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv">https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv</a></p>
 <p>Veja que alguns caracteres apareceram com erro. Isso aconteceu porque o formato do nosso arquivo não foi reconhecido. É possível arrumar esses caracteres clicando em <code>Locale: Configure...</code>. Em <code>Encoding:</code> selecione <code>Other...</code> e escreva <code>latin1</code>. Clique em <code>OK</code> e em seguida em <code>Configure</code>.</p>
+<p>Adicionar gif da importação.</p>
 <p>Se você clicar na opção <code>Import</code>, a base de dados será importada. Mas como o nosso objetivo é tornar o código reprodutível, vamos copiar o código que apareceu em <code>Code preview</code> e colar no nosso script.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>dados_bpt1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">encoding =</span> <span class="st">&quot;latin1&quot;</span>))</span></code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   id = col_double(),
-##   idade = col_double(),
-##   ano_de_ingresso = col_double(),
-##   ca = col_double(),
-##   cr = col_double(),
-##   turno = col_character(),
-##   renda = col_character(),
-##   municipio_de_residencia = col_character()
-## )</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">View</span>(dados_bpt1)</span></code></pre></div>
-<p>Selecione todo o código (3 linhas) e clique em <code>Run</code> ou aperte os comandos <code>Ctrl + Enter</code> para reproduzir o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução da linha <code>View(dados_bpt1)</code>.</p>
-<p>Se tudo deu certo, a sua base de dados está agora listada no <code>Environment</code>: <strong>dados_bpt1</strong> com 37 observações e 8 variáveis. A nossa base de dados contém apenas os 37 discentes que responderam já estar matriculados no BPT.</p>
+<span id="cb1-2"><a href="#cb1-2"></a>dados_bpt1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">encoding =</span> <span class="st">&quot;latin1&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">View</span>(dados_bpt1)</span></code></pre></div>
+<p>Selecione todo o código (3 linhas) e clique em <code>Run</code> ou aperte os comandos <code>Ctrl + Enter</code> para reproduzir o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução do código <code>View(dados_bpt1)</code>, que abre uma tabela parecida com a do excel para visualização dos dados.</p>
+<p>Adicionar gif com a reprodução do código.</p>
+<p>Se tudo deu certo, a sua base de dados está agora listada no <code>Environment</code>: <strong>dados_bpt1</strong> com 37 observações e 8 variáveis.</p>
+<p>Adicionar figura do environment.</p>
 </div>
 <div id="análise-exploratória-1" class="section level3">
 <h3>2.2. Análise exploratória</h3>
 <p>Além da função <code>View()</code>, existem diversas outras funções que permitem explorar uma base de dados.</p>
 <p>A função <code>head()</code> exibe as primeiras observações da base de dados no <code>Console</code>, sem a necessidade de abrir uma nova aba, e é altamente recomendada para bases de dados grandes (mais de 100.000 observações) que podem travar o programa RStudio se abertas.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">head</span>(dados_bpt1)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">head</span>(dados_bpt1)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 8
 ##      id idade ano_de_ingresso    ca    cr turno  renda        municipio_de_resi~
 ##   &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;             
@@ -562,7 +550,7 @@ summary {
 ## 5     5    24            2013  2     1.6  Notur~ De R$ 4.000~ São Paulo - SP    
 ## 6     6    31            2013  3.2   2.72 Matut~ De R$ 3.000~ São Paulo - SP</code></pre>
 <p>A função <code>tail()</code>, de forma similar, exibe as últimas observações da base de dados no <code>Console</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">tail</span>(dados_bpt1)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">tail</span>(dados_bpt1)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 8
 ##      id idade ano_de_ingresso    ca    cr turno  renda        municipio_de_resi~
 ##   &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;             
@@ -573,13 +561,13 @@ summary {
 ## 5    36    23            2015  4     3.6  Notur~ De R$ 750,0~ São Paulo - SP    
 ## 6    37    29            2012  2.43  1.93 Notur~ Até R$ 750,~ São Paulo - SP</code></pre>
 <p>A função <code>names()</code> exibe o nome de todas as variáveis da base dados no <code>Console</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">names</span>(dados_bpt1)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">names</span>(dados_bpt1)</span></code></pre></div>
 <pre><code>## [1] &quot;id&quot;                      &quot;idade&quot;                  
 ## [3] &quot;ano_de_ingresso&quot;         &quot;ca&quot;                     
 ## [5] &quot;cr&quot;                      &quot;turno&quot;                  
 ## [7] &quot;renda&quot;                   &quot;municipio_de_residencia&quot;</code></pre>
 <p>A função <code>str()</code> exibe a estrutura da base de dados, com a classe da base de dados (<strong>tibble</strong> - é um nome para dados em formato de tabela), o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outras) e as primeiras observações.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">str</span>(dados_bpt1)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">str</span>(dados_bpt1)</span></code></pre></div>
 <pre><code>## tibble [37 x 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ id                     : num [1:37] 1 2 3 4 5 6 7 8 9 10 ...
 ##  $ idade                  : num [1:37] 25 22 25 23 24 31 32 29 NA 23 ...
@@ -600,9 +588,9 @@ summary {
 ##   ..   renda = col_character(),
 ##   ..   municipio_de_residencia = col_character()
 ##   .. )</code></pre>
-<p>Veja que o operador <code>$</code> é usado para referir-se a uma variável da base de dados.</p>
+<p><strong>Importante: o operador <code>$</code> é usado para referir-se a uma variável da base de dados.</strong></p>
 <p>A função <code>summary()</code> apresenta um sumário com estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA’s) para todas as variáveis numéricas.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">summary</span>(dados_bpt1)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">summary</span>(dados_bpt1)</span></code></pre></div>
 <pre><code>##        id         idade       ano_de_ingresso       ca              cr       
 ##  Min.   : 1   Min.   :19.00   Min.   :2009    Min.   :2.000   Min.   :1.600  
 ##  1st Qu.:10   1st Qu.:24.00   1st Qu.:2012    1st Qu.:2.675   1st Qu.:2.475  
@@ -621,31 +609,31 @@ summary {
 ## </code></pre>
 <p>No sumário, já temos a resposta para as duas primeiras questões.</p>
 <p>Mas essas respostas também podem ser apresentadas de forma mais direta, através de funções específicas.</p>
-<p><strong>1. Qual é a mediana da idade dos discentes do BPT?</strong></p>
+<p><strong>1. Qual é a mediana da idade dos discentes matriculados no BPT?</strong></p>
 <p>A mediana pode ser obtida através da função <code>median()</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">median</span>(dados_bpt1<span class="op">$</span>idade)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">median</span>(dados_bpt1<span class="op">$</span>idade)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>Mas quando digitamos <code>median(dados_bpt1$idade)</code>, a resposta é um valor faltante (NA). Isso aconteceu porque, conforme vimos no sumário, existem 2 NA’s na variável idade. Para obter o mesmo resultado do sumário, podemos acrescentar o argumento <code>na.rm = TRUE</code> para remover os valores faltantes do cálculo da mediana.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">median</span>(dados_bpt1<span class="op">$</span>idade, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">median</span>(dados_bpt1<span class="op">$</span>idade, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 25</code></pre>
-<p>A mediana da idade dos discentes é 25 anos.</p>
-<p><strong>2. Qual é o CR médio dos discentes do BPT?</strong></p>
-<p>De forma similar, podemos aplicar a função <code>mean()</code> para obter o CR médio dos discentes do BPT.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">mean</span>(dados_bpt1<span class="op">$</span>cr, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>A mediana da idade dos discentes matriculados no BPT é 25 anos.</p>
+<p><strong>2. Qual é o CR médio dos discentes matriculados no BPT?</strong></p>
+<p>De forma similar, podemos aplicar a função <code>mean()</code> para obter o CR médio dos discentes matriculados no BPT.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">mean</span>(dados_bpt1<span class="op">$</span>cr, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 2.7575</code></pre>
-<p>O CR médio dos discentes do BPT é 2,757.</p>
-<p><strong>3. Em qual turno os discentes do BPT assistiram à maioria das disciplinas no último ano?</strong></p>
-<p>Para responder a terceira pergunta, podemos criar uma tabela com a função <code>table()</code> para ver em qual turno os discentes assistiram à maioria das disciplinas no último ano.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">table</span>(dados_bpt1<span class="op">$</span>turno)</span></code></pre></div>
+<p>O CR médio dos discentes matriculados no BPT é 2,757.</p>
+<p><strong>3. Em qual turno os discentes matriculados no BPT assistiram à maioria das disciplinas no último ano?</strong></p>
+<p>Para responder a terceira pergunta, podemos criar uma tabela com a função <code>table()</code> para visualizar em qual turno os discentes assistiram à maioria das disciplinas no último ano.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">table</span>(dados_bpt1<span class="op">$</span>turno)</span></code></pre></div>
 <pre><code>## 
 ##              Matutino               Noturno Prefiro não responder 
 ##                     8                    26                     2 
 ##            Vespertino 
 ##                     1</code></pre>
 <p>O turno que os discentes assistiram à maioria das disciplinas foi o noturno.</p>
-<p><strong>4. Quais são os municípios de residência mais comuns entre os discentes do BPT?</strong></p>
-<p>De forma similar, aplicamos a função <code>table()</code> para descobrir os municípios de residência mais comuns entre os discentes do BPT.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">table</span>(dados_bpt1<span class="op">$</span>municipio_de_residencia)</span></code></pre></div>
+<p><strong>4. Quais são os municípios de residência mais comuns entre os discentes matriculados no BPT?</strong></p>
+<p>De forma similar, aplicamos a função <code>table()</code> para ver quais são os municípios de residência mais comuns entre os discentes matriculados no BPT.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">table</span>(dados_bpt1<span class="op">$</span>municipio_de_residencia)</span></code></pre></div>
 <pre><code>## 
 ##                         Guarulhos - SP                              Mauá - SP 
 ##                                      1                                      1 
@@ -655,27 +643,20 @@ summary {
 ##                                      8                                      9 
 ##                         São Paulo - SP 
 ##                                     14</code></pre>
-<p>Portanto, os muncípios de residência mais comuns entre os discentes do BPT são São Paulo, São Bernardo do Campo e Santo André.</p>
+<p>Os muncípios de residência mais comuns entre os discentes matriculados no BPT são São Paulo, São Bernardo do Campo e Santo André.</p>
 </div>
-<div id="exportando-os-dados-e-script" class="section level3">
-<h3>2.3. Exportando os dados e script</h3>
-<p>Adicionar como salvar base de dados e script.</p>
+<div id="exportando-os-dados" class="section level3">
+<h3>2.3. Exportando os dados</h3>
+<p>Explicar como salvar base de dados.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># write.csv2()</span></span></code></pre></div>
 </div>
+<div id="salvando-o-script" class="section level3">
+<h3>2.4. Salvando o script</h3>
+<p>Explicar como o script do aluno deve estar.</p>
+<p>Explicar o que é comentário.</p>
+<p>Explicar como salvar o script.</p>
+<p>Adicionar figura de como salvar o script.</p>
 </div>
-<div id="atividades" class="section level2">
-<h2>3. Atividades</h2>
-<p>Adicionar atividades.</p>
-</div>
-<div id="na-próxima-aula" class="section level2">
-<h2>4. Na próxima aula…</h2>
-<p>Adicionar conteúdo da próxima aula.</p>
-</div>
-<div id="referências-bibliográficas" class="section level2">
-<h2>Referências bibliográficas</h2>
-<p>[1] FIELD, Andy; MILES, Jeremy; FIELD, Zoë. <em>Discovering statistics using R</em>. Sage publications, 2012.</p>
-<p>[2] GROLEMUND, Garrett; WICKHAM, Hadley. <em>R for Data Science</em>. 2017. Disponível em: <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a>. Acesso em: 21 de setembro de 2020.</p>
-<p>[3] OLIVEIRA, Paulo Felipe de; GUERRA, Saulo; MCDONNELL, Robert. <em>Ciência de dados com R</em>: Introdução. Brasília: Editora IBPAD, 2018. Disponível em: <a href="https://cdr.ibpad.com.br/cdr-intro.pdf" class="uri">https://cdr.ibpad.com.br/cdr-intro.pdf</a>. Acesso em: 21 de setembro de 2020.</p>
-<p>[4] Curso-r. <em>Material para cursos de R</em>. 2018. Disponível em: <a href="https://material.curso-r.com/" class="uri">https://material.curso-r.com/</a>. Acesso em: 21 de setembro de 2020.</p>
 </div>
 
 
