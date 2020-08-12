@@ -1,5 +1,5 @@
 ---
-title: "Aula 1 - Introdução ao R"
+title: "Aula 1 - Introdução ao R/RStudio"
 output: 
   html_document:
     toc: TRUE
@@ -10,57 +10,44 @@ output:
 
 ## 1. Introdução
 
-No decorrer deste curso, o R será usado como uma **ferramenta** que deve auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
+No decorrer deste curso, os programas R/RStudio serão usados como uma **ferramenta** que deve auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
 
-É importante ressaltar que ele não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses e coleta de dados, além da **análise de dados** (que é o foco deste curso).
+É importante ressaltar o uso do R/RStudio não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses, coleta de dados e **análise de dados**, sendo este o foco deste curso.
 
 ### 1.1. O que é o R?
 
-O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
+O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (uma linguagem de programação).
 
-Algumas de suas vantagens são ([IBPAD, 2018](https://cdr.ibpad.com.br/cdr-intro.pdf)):
+Algumas de suas vantagens são:
 
 * É **gratuito**, de **distribuição livre** e de **código aberto**
 * Possui uma **curva de aprendizado bastante amigável**, sendo muito fácil de se aprender (se comparado a outros programas estatísticos)
+* Todas as rotinas criadas em R são **transparentes e reprodutíveis**, seguindo os princípios da ciência aberta
+* Existe uma enorme quantidade de **pacotes**, para diversos tipos de aplicações
 * Existe uma enorme quantidade de **ajuda e tutoriais** disponíveis gratuitamente na internet
-* Existe uma enorme quantidade de **pacotes (*packages*)**, para diversos tipos de aplicações
-* É excelente para **criar rotinas** e **sistematizar tarefas repetitivas**
 * É amplamente utilizado pela **comunidade acadêmica** e **mercado**
-* É uma ótima ferramenta para criar **relatórios** e **gráficos**
+
+Um **script** refere-se à uma rotina de análise ou visualização de dados que:
+
+* É um texto
+* É transparente
+* É reprodutível
+* Pode ser compartilhado
+* Pode ser colaborativo
 
 ### 1.2. O que é o RStudio?
 
-Explicar RStudio.
+O **RStudio** é um programa livre de **ambiente de desenvolvimento integrado**, ou seja, é uma interface para desenvolver programas com a linguagem R. Além de permitir **escrever códigos em scripts** e **rodar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
 
 ### 1.3. Transferência e instalação do R e RStudio
 
 Referenciar os tutoriais disponíveis.
 
-## 2. Análise exploratória
+### 1.4. Interface RStudio
 
-Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes matriculados no Bacharelado em Planejamento Territorial (BPT), a partir da amostra dos respondentes da pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, com o objetivo de responder às seguintes perguntas: 
+A interface do RStudio deve exibir, na maior parte do tempo, quatro painéis principais:
 
-1. Qual é a mediana da idade dos discentes matriculados no BPT?
-2. Qual é o CR médio dos discentes matriculados no BPT?
-3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?
-4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino no último ano?
-
-Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo *script*, onde vamos salvar o nosso código.
-
-Um código (*script*) refere-se à uma rotina de análise ou visualização de dados que:
-
-* É um texto
-* É transparente
-* É simples
-* É reprodutível
-* Pode ser compartilhado
-* Pode ser colaborativo
-
-![Fig. 1 - Como criar um novo *script*](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
-
-Em cada aula prática, vamos salvar a rotina de análise de dados em um novo *script*, que podemos abrir a qualquer momento para lembrar as funções e objetos que foram usados. É recomendado submeter, junto com o trabalho final, um *script* que permite a reprodução da análise de dados, seguindo as boas práticas da **ciência aberta**.
-
-Se tudo deu certo, a sua interface conta agora com quatro painéis principais:
+![Fig. 1 - Interface RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/2_interface_rstudio_com_quadros.png)
 
 **1. Source:** É a sua área de trabalho principal. Pode conter várias janelas, com códigos (*scripts*), tabelas e outros conteúdos. Ao clicar em `Run`,  a linha que o cursor está apontando vai rodar e aparecer no `Console`.
 
@@ -77,9 +64,28 @@ Se tudo deu certo, a sua interface conta agora com quatro painéis principais:
 * Help: Exibe 
 * Viewer: Funciona como um navegador de internet.
 
-![Fig. 2 - Interface RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/2_interface_rstudio_com_quadros.png)
+### 1.5. Como buscar ajuda
 
-### 2.1 Importando os dados
+No decorrer das aulas práticas, é possível que você não consiga entender porque uma função não está funcionando ou tenha uma ideia e precisa aprender como aplicá-la. Não se preocupe: é normal ter dúvidas no processo de análise e visualização de dados. Na verdade, o R/RStudio conta com uma ferramenta para isso: é possível 
+
+## 2. Análise exploratória
+
+Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes matriculados no Bacharelado em Planejamento Territorial (BPT), a partir da amostra dos respondentes da pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, com o objetivo de responder às seguintes perguntas: 
+
+1. Qual é a mediana da idade dos discentes matriculados no BPT?
+2. Qual é o CR médio dos discentes matriculados no BPT?
+3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?
+4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino no último ano?
+
+### 2.1 Criando um script
+
+Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo *script*, onde vamos salvar a rotina de análise de dados.
+
+![Fig. 2 - Como criar um novo *script*](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
+
+Em cada aula prática, vamos salvar a rotina de análise de dados em um novo *script*, que podemos abrir a qualquer momento para lembrar as funções e objetos que foram usados. É recomendado submeter, junto com o trabalho final, um *script* que permite a reprodução da análise de dados.
+
+### 2.2 Importando os dados
 
 Os dados já foram pré-processados para conter apenas as observações (discentes matriculados no BPT) e variáveis de interesse. O endereço para acessar a base de dados é:
 [https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv).
@@ -112,7 +118,7 @@ Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **d
 install.packages("readr")
 ```
 
-### 2.2. Análise exploratória
+### 2.3. Análise exploratória
 
 Além da função `View()`, existem diversas outras funções que permitem explorar uma base de dados.
 
@@ -197,7 +203,7 @@ table(dados_bpt1$municipio_de_residencia, dados_bpt1$turno)
 ```
 O município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino é São Paulo.
 
-### 2.3. Exportando uma base de dados
+### 2.4. Exportando uma base de dados
 
 O R não vai exportar a sua base de dados a menos que você especifique esse comando.
 
@@ -209,7 +215,7 @@ write_csv(dados_bpt1, path = "D:/OneDrive/@/mti/aula1/dados_bpt1.csv")
 
 **Atenção: você precisa alterar o argumento `path =` para incluir o diretório de trabalho onde deseja salvar o arquivo. `dados_bpt1.csv` deve ser mantido, pois refere-se ao nome e formato do arquivo que será exportado.**
 
-### 2.4. Salvando o *script*
+### 2.5. Salvando o *script*
 
 Após reproduzir a análise exploratória de dados proposta nessa aula prática o seu script deve estar parecido com [esse](https://raw.githubusercontent.com/luisfelipebr/mti/master/aula1/aula1.R).
 

@@ -1,0 +1,52 @@
+---
+title: "Aula 3 - Manipulação de dados com o R e tidyverse"
+output: html_document
+---
+
+## Introdução ao "tidyverse"
+
+Após instalar os programas R e RStudio, abra o RStudio e crie um novo script.
+
+Em todas as aulas, vamos usar o pacote `tidyverse` para realizar a análise de dados. 
+
+Portanto, os primeiros passos são instalar e abrir esse pacote.
+
+## Instalando e abrindo o pacote "tidyverse"
+
+Para instalar o pacote `tidyverse`, utilizamos a função `install.packages()`, com o nome do pacote dentro do parênteses e entre aspas. **Atenção: só é necessário instalar o pacote uma única vez em cada computador.**
+
+```{r, warning=FALSE, message=FALSE}
+# instala o pacote tidyverse
+#install.packages("tidyverse", repos = 'http://cran.us.r-project.org')
+```
+
+Após instalar o pacote, utilizamos a função `library()` para abri-lo. Não é necessário colocar o nome do pacote entre aspas. **Atenção: é necessário abrir o pacote todas as vezes que o programa R/RStudio é aberto ou a sessão é reiniciada.**
+
+```{r, warning=FALSE, message=FALSE}
+# abre o pacote tidyverse
+library(tidyverse)
+```
+
+## Abrindo os dados
+
+Os dados dessa aula estão hospedados na nuvem, em formato csv2. Portanto, se você possui conexão com a internet, você pode abrir os dados com o comando abaixo.
+
+```{r}
+dados <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv")
+```
+
+```{r}
+dados2 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua%26Rede2010_SNIS.csv")
+```
+
+
+Uma alternativa é transferir os dados da aula para o seu computador e abri-los colocando o caminho (*path*) para acessá-lo no seu computador, conforme as instruções abaixo. **Atenção: é necessário editar o código abaixo com o caminho do arquivo no seu computador**
+
+```{r}
+#dados <- read.csv("C:/Users/aluno/Documents/mti/aula1/Agua2010_SNIS.csv")
+```
+
+## Explorando os dados
+
+Antes de realizar qualquer análise, é recomendado explorar a base de dados aberta. Diversos comandos podem auxiliar nessa tarefa.
+

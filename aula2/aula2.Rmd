@@ -1,0 +1,260 @@
+---
+title: "Aula 2 - Análise exploratória de dados com o R"
+output: html_document
+---
+
+# 1. Introdução
+
+Nesta segunda aula prática vamos continuar aprendendo os fundamentos da análise de dados com o R, que inclui: como definir o diretório de trabalho, como criar um projeto no RStudio, 
+
+# 2. Definindo o diretório de trabalho
+
+# 3. Criando um projeto no RStudio
+
+# 4. Objetos
+
+Mas o que realmente revoluciona a análise de dados com o R é a possibilidade de definir e usar objetos. No exemplo abaixo, definimos o nosso primeiro objeto.
+
+# 5. Funções
+
+Um tipo de objeto muito importante são as **funções**! O R básico já vem com diversas funções estatísticas clássicas definidas, e qualquer um pode criar novas funções e adicioná-las a um pacote, tornando-as disponíveis aos outros usuários.
+
+No exemplo abaixo, aplicamos as funções de raiz quadrada (`sqrt()`) e exponencial (`exp()`), que são outras operações matemáticas muito importantes.
+
+# 6. Dados estruturados (tabela)
+
+# 7. Operadores lógicos
+
+# 8. Criando novas variáveis
+
+# 9. Como criar um histograma
+
+# 10. Como criar um boxplot
+
+# 11. Como criar um gráfico de barras
+
+# 12. Como exportar um gráfico
+
+# 13. 
+
+Abra o R e crie um novo script.
+
+## 2.1. Operações matemáticas
+
+O R básico funciona como uma grande calculadora científica, onde é possível fazer operações matemáticas básicas. Você pode copiar e colar as operações abaixo no console ou script.
+
+```{r}
+# soma
+5 + 5
+```
+
+```{r}
+# subtração
+10 - 5
+```
+
+```{r}
+# multiplicação
+5 * 5
+```
+
+```{r}
+# divisão
+10 / 5
+```
+
+```{r}
+# exponenciação
+2 ^ 5
+```
+
+Perceba que tudo que é colocado após o símbolo **`#`** (jogo da velha/*hashtag*), recebe destaque e é considerado um **comentário**. Isso significa que todo o conteúdo após o `#` não será computado pelo R. É comum adicionar comentários que explicam o código através do uso de `#`.
+
+## 2.2. Objetos
+
+
+
+```{r}
+# definindo um objeto
+numero <- 5
+```
+
+Esse objeto foi adicionado ao **ambiente (*environment*)**, conforme ilustra a Figura X.
+
+Figura X.
+
+Agora é possível chamar o objeto `numero` através do seu nome, para ver o seu conteúdo. Você pode dar qualquer nome para um objeto, desde que... Mas lembre-se de dar um nome claro, para que outras pessoas consigam entender o seu código.
+
+```{r}
+# exibe o conteúdo de um objeto, chamando-o pelo seu nome
+numero
+```
+
+Você também pode aplicar operações matemáticas em seus objetos.
+
+```{r}
+# aplica soma com o objeto
+numero + 5
+```
+
+```{r}
+# aplica exponenciação com o objeto
+2 ^ numero
+```
+
+## 2.3. Funções
+
+
+
+```{r}
+# aplica raiz quadrada
+sqrt(25)
+```
+
+```{r}
+# aplica exponencial
+exp(numero)
+```
+
+## 2.4. Classes de dados
+
+Todos os exemplos apresentados até agora foram realizados com números reais. Mas na verdade, existem 5 classes básicas de objetos no R:
+
+* **Character**: São objetos do tipo caráctere ou texto. Para criar um caráctere você pode colocar qualquer conteúdo entre aspas.
+* **Integer**: São objetos do tipo númerico inteiro. São números acompanhados da letra L.
+* **Numeric**: São objetos do tipo númerico real. São números, lembrando que o divisor da casa decimal no R é o ponto (.).
+* **Complex**: São objetos do tipo númerico complexo. Eles são pouco usados na análise de dados.
+* **Logical**: São objetos do tipo lógico. Pode ser TRUE/FALSE ou 1/0.
+
+A função `class()` exibe a classe de um objeto. Você pode ver exemplos das classes básicas abaixo.
+
+```{r}
+caractere <- "Isso é um texto."
+caractere
+class(caractere)
+```
+
+```{r}
+inteiro <- 5L
+inteiro
+class(inteiro)
+```
+```{r}
+numerico <- 2.5
+numerico
+class(numerico)
+```
+
+```{r}
+complexo <- 2 + 3i
+complexo
+class(complexo)
+```
+```{r}
+logico <- TRUE
+logico
+class(logico)
+```
+
+## 2.5. Tipos de objetos
+
+Existem diversos tipos de objetos no R. Ele pode ser um valor, de uma classe básica, mas pode ser também uma **tabela** (*data frame*), um **vetor** (*vector*) - a coluna ou linha da tabela, uma matriz (*matrix*), uma lista (*list*), um modelo (*model*), um objeto geoespacial (*sf*), dentre muitos outros. Nesta aula vamos explorar apenas os vetores e tabelas, as duas unidades básicas de dados estruturados.
+
+Conforme ilustra a Figura Y, dados estruturados são os dados que já estamos acostumados a trabalhar no Excel. Eles são tabelas bidimensionais, com linhas (observações) e colunas (variáveis). Se extrairmos uma linha ou uma coluna de uma tabela, estamos nos referindo a um vetor - unidimensional - de dados.
+
+Figura Y.
+
+É possível criar um vetor a partir de classes básicas através da função `c()` (concatenar) e uma tabela a partir de vetores com a função `data.frame()`. Atenção: todos os elementos de um vetor devem ter a mesma classe básica, se não serão convertidos para a classe caractére.
+
+```{r}
+# cria um vetor com os nomes
+nome <- c("Alice", "Bárbara", "Carlos", "Débora")
+```
+```{r}
+# vê a classe do objeto nome
+class(nome)
+```
+
+
+```{r}
+# vê o conteúdo do objeto nome
+nome
+```
+
+
+```{r}
+# cria um vetor com a altura
+altura <- c(1.75, 1.65, 1.70, 1.70)
+```
+
+```{r}
+# cria um vetor com o ano de ingresso na UFABC
+ano_de_ingresso <- c(2017L, 2018L, 2018L, 2018L)
+```
+
+```{r}
+# cria uma tabela
+tabela <- data.frame(nome, altura, ano_de_ingresso)
+```
+
+```{r}
+# vê a classe do objeto tabela
+class(tabela)
+```
+
+```{r}
+# vê o conteúdo do objeto tabela
+tabela
+```
+
+## 2.6. Manipulando tabelas
+
+Tomando como base a nossa tabela, podemos aplicar uma série de novas operações e funções. O uso de colchetes após um objeto serve para filtrar ou selecionar uma linha ou coluna específica, seguindo o modelo `tabela[linha, coluna]`, conforme ilustram os exemplos abaixo.
+
+```{r}
+# filtra as informações da Alice
+tabela[1,]
+```
+
+```{r}
+# seleciona a altura dos estudantes
+tabela[,2]
+```
+
+```{r}
+# exibe a altura da Alice
+tabela[1,2]
+```
+Outra forma de acessar uma coluna de uma tabela é através do operador `$` (cifrão).
+
+```{r}
+# seleciona a altura dos estudantes
+tabela$altura
+```
+Com o uso do operador `$`, podemos aplicar funções em um vetor da tabela, para obter, por exemplo, a média, desvio padrão e variância.
+
+```{r}
+# calcula a altura média
+mean(tabela$altura)
+```
+
+```{r}
+# calcula o desvio padrão
+sd(tabela$altura)
+```
+
+```{r}
+# calcula a variância
+var(tabela$altura)
+```
+É possível também criar novas variáveis com base nas informações básicas: no exemplo abaixo, calculamos o ano de egresso previsto para o BCH (três anós após o ingresso).
+
+```{r}
+# cria uma nova variável na tabela
+tabela$ano_de_egresso_previsto <- tabela$ano_de_ingresso + 3
+```
+
+```{r}
+# exibe a nova tabela
+tabela
+```
