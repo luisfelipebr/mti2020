@@ -1,5 +1,5 @@
 ---
-title: "Aula 1 - Introdução ao R/RStudio"
+title: "Aula 1 - Introdução e análise exploratória com o R/RStudio"
 output: 
   html_document:
     toc: TRUE

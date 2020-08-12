@@ -1,5 +1,5 @@
 ---
-title: "Aula 2 - Análise exploratória de dados com o R"
+title: "Aula 2 - Introdução à análise de dados com o R/RStudio"
 output: html_document
 ---
 
