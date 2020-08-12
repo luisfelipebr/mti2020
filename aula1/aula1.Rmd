@@ -1,5 +1,6 @@
 ---
 title: "Aula 1 - Introdução e análise exploratória com o R/RStudio"
+author: Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
     toc: TRUE
