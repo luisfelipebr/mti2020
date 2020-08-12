@@ -41,9 +41,7 @@ O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado para des
 
 ### 1.3. Transferência e instalação do R e RStudio
 
-Primeiro, é necessário instalar o R. Você pode transferir a última versão [neste endereço](https://cran.r-project.org/bin/windows/base/).
-
-Após a transferência, siga o passo a passo para a instalação (Fig. 1).
+Primeiro, é necessário instalar o R. Você pode transferir a última versão [neste endereço](https://cran.r-project.org/bin/windows/base/). Após a transferência, siga o passo a passo para a instalação (Fig. 1).
 
 ![Fig. 1 - Instalação do R](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_instalar_r.gif)
 
@@ -102,13 +100,13 @@ Que deve exibir o seguinte conteúdo em `Help` (Fig. 4):
 
 **Importante: a seção uso descreve os argumentos obrigatórios (apenas x, no caso da função `mean()`), sendo todos os outros argumentos descritos opcionais. Atente-se aos argumentos obrigatórios e opcionais ao usar uma função.**
 
-![Fig. 4 - Documentação da função `mean()`](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_documentacao_media.png)
-
 Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. :-(
 
 Você pode traduzir o conteúdo da documentação no tradutor de sua preferência, como fizemos para apresentar a documentação da função `mean()`.
 
 Nós também recomendamos que você busque ajuda no buscador de sua preferência (Google, Bing etc.) e no [Stackoverflow](https://stackoverflow.com/), mas estaremos disponíveis no decorrer deste curso para tirar qualquer dúvida que você tiver no processo de análise de dados.
+
+![Fig. 4 - Documentação da função `mean()`](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_documentacao_media.png)
 
 ## 2. Análise exploratória
 
@@ -123,9 +121,9 @@ Nessa primeira aula prática, vamos realizar uma análise exploratória dos disc
 
 Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo script, onde vamos salvar a rotina de análise de dados.
 
-![Fig. 5 - Como criar um novo script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
-
 Em cada aula prática, vamos salvar a rotina de análise de dados em um novo script, que podemos abrir a qualquer momento para lembrar as funções e objetos que foram usados. É recomendado submeter, junto com o trabalho final, um script que permite a reprodução da sua pesquisa.
+
+![Fig. 5 - Como criar um novo script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
 
 ### 2.2 Importando os dados
 
