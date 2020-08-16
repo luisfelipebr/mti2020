@@ -229,10 +229,12 @@ Você pode conhecer os outros argumentos do gráfico de correlação acessando a
 help(corrplot)
 ```
 
-# ATIVIDADES
+# ATIVIDADE
 
-Utilizando a base de dados que você construiu para o trabalho final do curso, conduza as seguintes análises:
+Utilizando os dados do seu trabalho de curso, conduza as seguintes análises no Software R:
 
-1. Construa e interprete um diagrama de dispersão a partir das variáveis de interesse.
+1. Construa e interprete diagrama(s) de dispersão a partir de variáveis de interesse.
 
-2. Calcule e interprete a correlação entre variáveis de interesse. Ela é significativa? O que isso significa?
+2. Calcule e interprete a correlação entre variáveis de interesse. É significativa? O que isso significa?
+
+A atividade deverá ser compreendida como uma versão preliminar de parte do trabalho final da disciplina. Lembre-se de Caprichar!!! Interprete!!! Aproveite para entender melhor o problema investigado.
