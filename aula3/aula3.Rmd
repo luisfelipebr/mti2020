@@ -50,3 +50,40 @@ Uma alternativa é transferir os dados da aula para o seu computador e abri-los 
 
 Antes de realizar qualquer análise, é recomendado explorar a base de dados aberta. Diversos comandos podem auxiliar nessa tarefa.
 
+
+
+
+# Estatísticas descritivas
+
+Consumo de água per capita - Pop Total - m3/ano (AG020/GE012)
+
+Estatísticas descritivas
+
+Histograma
+
+Box-plot
+
+QQ Plot
+
+---
+
+**graficos por regiões**
+
+---
+
+Comparando medias com intervalo de confiança
+
+(grafico de barras)
+
+---
+
+Transformações nos dados - 
+logaritmica - log(x)
+radiciação - sqrt(x)
+recíproca - 1/x
+
+---
+
+sqr e log consumo
+
+---

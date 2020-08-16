@@ -5,7 +5,32 @@ output: html_document
 
 # 1. Introdução
 
-Nesta segunda aula prática vamos continuar aprendendo os fundamentos da análise de dados com o R, que inclui: como definir o diretório de trabalho, como criar um projeto no RStudio, 
+Nesta segunda aula prática vamos continuar aprendendo os fundamentos da análise de dados com o R. Mais especificamente: como definir o diretório de trabalho, como criar um projeto no RStudio, objetos, funções, dados estruturados, operadores lógicos, subconjuntos, definição de novas variáveis, histograma, box-plot e gráfico de barras.
+
+Vamos continuar trabalhando com a pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, mas dessa vez com a amostra de discentes que declararam interesse em se matricular no BPT (174 observações) e 14 variáveis.
+
+As perguntas que tentaremos responder são:
+
+1. Qual o CR dos discentes que declararam interesse em se matricular no BPT?
+R: hist, boxplot, var, sd.
+
+2. Qual a proporção de discentes interessados no BPT que realizam estágio?
+R: calcular proporção a partir da tabela
+
+3. Quais os setores de atuação dos discentes que realizam estágio?
+R: subset, table, barplot
+
+
+
+```{r}
+library(readr)
+dados_bpt2 <- read_csv("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt2.csv", 
+                       locale = locale(encoding = "latin1"))
+
+par(mai=c(1,1.4,1,1))
+barplot(table(dados_bpt2$vinculo_atividade_renumerada), horiz = TRUE, las = 2, cex.axis = 0.5, cex.names = 0.5)
+```
+
 
 # 2. Definindo o diretório de trabalho
 

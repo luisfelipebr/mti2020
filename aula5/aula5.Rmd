@@ -1,9 +1,238 @@
 ---
-title: "Aula 5"
-output: html_document
+title: "Aula 5 - Correlação com o R"
+author: Luis Felipe Bortolatto da Cunha
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: FALSE
+    theme: cosmo
+    highlight: haddock
 ---
 
-# Introdução
+# 1. Introdução
 
-#
+Esse roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de correlação** com o uso do programa estatístico R.
 
+Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, de forma semelhante à análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+
+### 1.1. Instalação e importação de pacotes
+
+O programa estatístico R já conta com funções básicas que permitem executar uma análise de correlação. Mas além das funções básicas, vamos usar os pacotes:
+
+* `readr`: para importar a base de dados, com o uso da função `read_csv2` (disponibilizada em formato csv2, ou seja, com `;` como separador de campo e `,` como separador decimal)
+* `dplyr`: para adicionar o operador `%>%` e a função `select()`
+* `corrplot`: para criar um gráfico a partir da matriz de correlação
+
+Se você ainda não possui esses pacotes instalados, é possível instalá-los com o uso da função `install.packages()`.
+
+```{r, eval = FALSE}
+install.packages("readr")
+```
+
+```{r, eval = FALSE}
+install.packages("dplyr")
+```
+
+```{r, eval = FALSE}
+install.packages("corrplot")
+```
+
+Após a instalação, é necessário importá-los com o uso da função `library()`.
+
+```{r, message=FALSE,warning=FALSE}
+library(readr)
+```
+
+```{r, message=FALSE,warning=FALSE}
+library(dplyr)
+```
+
+```{r, message=FALSE,warning=FALSE}
+library(corrplot)
+```
+
+### 1.2. Importação da base de dados
+
+Uma base de dados pré-processada está disponível no endereço abaixo:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv)
+
+Para abri-la, vamos usar a função `read_csv()`.
+
+```{r, message=FALSE,warning=FALSE}
+dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv")
+```
+
+### 1.3. Análise exploratória
+
+A função `head()` exibe as primeiras observações. Se a importação deu certo, uma tabela semelhante à tabela exibida abaixo será apresentada no `Console`.
+
+```{r}
+head(dados)
+```
+
+A função `names()` exibe os nomes das variáveis.
+
+```{r}
+names(dados)
+```
+A tabela abaixo apresenta uma descrição de cada variável.
+
+| Código    | Descrição                                                                              |
+|-----------|----------------------------------------------------------------------------------------|
+| ID_IBGE   | ID do IBGE (String)                                                                    |
+| ID_SNIS   | ID do SNIS (String)                                                                    |
+| ID_IBGE_N | ID do IBGE (Numeric)                                                                   |
+| ID_SNIS_N | ID do SNIS (Numeric)                                                                   |
+| MUNICIP1  | Nome do Municipio 1                                                                    |
+| MUNICIP2  | Nome do Municipio 2                                                                    |
+| UF        | UF                                                                                     |
+| REGIAO    | Regiao do pais                                                                         |
+| CENTRX    | Centroide (X)                                                                          |
+| CENTRY    | Centroide (Y)                                                                          |
+| RENDAPITA | Renda per Capita 2010                                                                  |
+| GINI      | Indice Gini 2010                                                                       |
+| PIB       | PIB 2010                                                                               |
+| IDH       | IDH 2010                                                                               |
+| AG001     | Populacao Total Atendida com Abastecimento de Agua (AG001)                             |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000   m3/ano (AG020). |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas  (AG022)                      |
+| GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
+| CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
+| CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
+
+A variável que descreve a renda é **RENDAPITA** e a variável que descreve o consumo de água é **CONSUMO1**.
+
+# 2. Diagrama de dispersão
+
+Agora já é possível criar um **diagrama de dispersão**, que é um **gráfico que exibe, para cada observação, o seu escore em uma variável contra seu escore em outra variável**, permitindo a **visualização da correlação entre duas variáveis**.
+
+Para construir um diagrama de dispersão, usamos a função `plot()` com dois argumentos, que são as duas variáveis que desejamos investigar a correlação.
+
+```{r}
+plot(x = dados$RENDAPITA, y = dados$CONSUMO1)
+```
+
+É possível aprimorar o diagrama de dispersão adicionando alguns argumentos: 
+
+* `xlab`: um rótulo para o eixo x
+* `ylab`: um rótulo para o eixo y
+* Para explorar mais opções, acesse a documentação da função `plot` executando o comando `help(plot)`
+
+```{r}
+plot(x = dados$RENDAPITA, y = dados$CONSUMO1,
+     xlab = "Renda per capita",
+     ylab = "Consumo de água per capita")
+```
+
+O diagrama de dispersão indica que existe uma **correlação positiva** entre as duas variáveis, ou seja, **quanto maior a renda, maior o consumo de água**. Mas vamos verificar essa relação estatísticamente através de um teste de correlação.
+
+# 3. Correlação
+
+Um **coeficiente de correlação** é uma **medida padronizada do relacionamento entre duas variáveis**. O  **coeficiente de correlação de Pearson** apresenta um valor entre -1 e 1, sendo que:
+
+* -1 indica uma correlação negativa perfeita 
+* 0 indica a ausência de relacionamento linear
+* 1 indica uma correlação positiva perfeita
+
+Para calcular o coeficiente de correlação de Pearson entre duas variáveis usaremos a função `cor()`, definindo os argumentos:
+
+* `x`: Renda per capita
+* `y`: Consumo de Água per capita
+* `method = "pearson"`: para calcular o coeficiente de correlação de Pearson (também é possível calcular coeficiente de correlação de Spearman e o Tau de Kendall)
+* `use = "complete.obs"`: para remover os valores faltantes (NA)
+
+```{r}
+cor(x = dados$RENDAPITA, 
+    y = dados$CONSUMO1,
+    method = "pearson",
+    use = "complete.obs")
+```
+A correlação entre a Renda e o Consumo de Água é de `0,6`, indicando a mesma **correlação positiva** que o gráfico de dispersão permitiu visualizar.
+
+Ainda é necessário confirmar se a correlação não se deve a um erro amostral, ou seja, ao acaso. Para isso vamos realizar um **teste de hipótese**.
+
+Para testar a significâcia do coeficiente de correlação vamos executar um teste t, com o uso da função `cor.test()`, especificando os argumentos:
+
+* `x`: Renda per capita
+* `y`: Consumo de Água per capita
+* `method = "pearson"`: para calcular o coeficiente de correlação de Pearson
+* `alternative = "two.sided"`: para teste de hipótese bilateral
+* `conf.level = 0.95`: define o nível de confiança como 0,05
+
+```{r}
+cor.test(x = dados$RENDAPITA, 
+         y = dados$CONSUMO1,
+         method = "pearson",
+         alternative = "two.sided",
+         conf.level = 0.95)
+```
+Como o p-valor (`0,00000000000000022`) é menor que o nível de confiança (`0,05`), **rejeitamos a hipótese nula (H0)**, ou seja, os dados indicam que não é possível falsear a hipótese experimental (H1), sendo uma evidência que **pode existir uma correlação entre o Consumo de Água e a Renda**.
+
+# 4. Matriz de correlação
+
+Quando você estiver explorando a sua hipótese de pesquisa, com a base de dados que você construiu, você pode achar necessário analisar a correlação entre várias variáveis.
+
+Para **analisar a correlação entre várias duplas de variáveis**, indicamos a construção de uma **matriz de correlação**.
+
+Para construir uma matriz de correlação, primeiro é necessário selecionar as variáveis que deseja investigar (com a função `select()`), para depois calcular o coeficiente de correlação entre cada dupla de variáveis (com a função `cor()`).
+
+```{r}
+dados %>%
+  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  cor(method = "pearson",
+    use = "complete.obs")
+```
+
+Se você quiser facilitar a visualização da matriz de correlação, é recomendado adicionar a função `round()` para arredondar os valores para duas casas decimais.
+
+```{r}
+dados %>%
+  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  cor(method = "pearson",
+    use = "complete.obs") %>%
+  round(digits = 2)
+```
+
+Também é possível visualizar a matriz de correlação construindo um gráfico, usando a função `corrplot()` do pacote `corrplot`.
+
+```{r}
+dados %>%
+  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  cor(method = "pearson",
+    use = "complete.obs") %>%
+  corrplot()
+```
+
+Adicionando o argumento `method = "color"`, você pode alterar a visualização desse gráfico.
+
+```{r}
+dados %>%
+  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  cor(method = "pearson",
+    use = "complete.obs") %>%
+  corrplot(method = "color")
+```
+
+O argumento `method = "number"` exibe os valores do coeficiente de correlação, de forma semelhante à matriz de correlação.
+
+```{r}
+dados %>%
+  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  cor(method = "pearson",
+    use = "complete.obs") %>%
+  corrplot(method = "number")
+```
+
+Você pode conhecer os outros argumentos do gráfico de correlação acessando a sua documentação.
+
+```{r, eval=FALSE}
+help(corrplot)
+```
+
+# ATIVIDADES
+
+Utilizando a base de dados que você construiu para o trabalho final do curso, conduza as seguintes análises:
+
+1. Construa e interprete um diagrama de dispersão a partir das variáveis de interesse.
+
+2. Calcule e interprete a correlação entre variáveis de interesse. Ela é significativa? O que isso significa?

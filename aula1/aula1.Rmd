@@ -38,7 +38,7 @@ Um **script** refere-se à uma rotina de análise ou visualização de dados que
 
 ### 1.2. O que é o RStudio?
 
-O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado para desenvolver análise de dados com a linguagem R. Além de permitir **escrever códigos em scripts** e **rodar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
+O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado para desenvolver análise de dados com a linguagem R. Além de permitir **escrever códigos em scripts** e **executar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
 
 ### 1.3. Transferência e instalação do R e RStudio
 
@@ -54,13 +54,13 @@ Se a instalação do R foi bem sucedida, você pode transferir o RStudio Desktop
 
 A interface do RStudio deve exibir, na maior parte do tempo, quatro painéis (Fig. 3):
 
-**1. Source:** É a sua área de trabalho principal. Pode exibir várias janelas, com scripts, tabelas e outros conteúdos. Ao clicar em `Run` ou apertar os comandos `Ctrl + Enter`, dentro de um script, o conteúdo selecionado vai rodar e aparecer no `Console`.
+**1. Source:** É a sua área de trabalho principal. Pode exibir várias janelas, com scripts, tabelas e outros conteúdos. Ao clicar em `Run` ou apertar os comandos `Ctrl + Enter`, dentro de um script, o conteúdo selecionado vai executar e aparecer no `Console`.
 
-**2. Console:** Todo código que você rodar de um script será enviado ao `Console`, onde os resultados e avisos aparecerão. Você também pode escrever uma linha de código diretamente no `Console`.
+**2. Console:** Todo código que você executar de um script será enviado ao `Console`, onde os resultados e avisos aparecerão. Você também pode escrever uma linha de código diretamente no `Console`.
 
 **3. Environment/History**:
 * Environment: É o ambiente de trabalho ativo. Todos os objetos e funções definidos devem aparecer no `Environment`.
-* History: Exibe o histórico de cada linha de código rodada, que podem ser enviadas à `Source` ou `Console`. 
+* History: Exibe o histórico de cada linha de código executada, que podem ser enviadas à `Source` ou `Console`. 
 
 **4. Files/Plots/Packages/Help:**
 * Files: Permite navegar pelos diretórios de trabalho.
@@ -148,13 +148,13 @@ View(dados_bpt1)
 
 ![Fig. 6 - Importação da base de dados através da interface](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3_importar_base_de_dados.gif)
 
-Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para rodar o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução do código `View(dados_bpt1)`, que abre uma tabela parecida com a do excel para visualização dos dados.
+Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para executar o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução do código `View(dados_bpt1)`, que abre uma tabela parecida com a do excel para visualização dos dados.
 
 Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **dados_bpt1** com 37 observações e 8 variáveis.
 
-![Fig. 7 - Rodando o código](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/4_rodar_codigo.gif)
+![Fig. 7 - Executando o código](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/4_rodar_codigo.gif)
 
-**Atenção: Se essa foi a sua primeira vez usando o R no seu computador, pode ser necessário instalar o pacote `readr` para importar os dados. Isso pode ser feito rodando o código abaixo após copiar e colar no seu script ou console. Um pacote só precisa ser instalado uma vez em cada computador.**
+**Atenção: Se essa foi a sua primeira vez usando o R no seu computador, pode ser necessário instalar o pacote `readr` para importar os dados. Isso pode ser feito executando o código abaixo após copiar e colar no seu script ou console. Um pacote só precisa ser instalado uma vez em cada computador.**
 
 ```{r, eval = FALSE}
 install.packages("readr")
@@ -249,7 +249,7 @@ O município de residência mais comum entre os discentes matriculados no BPT qu
 
 O R não vai exportar a sua base de dados a menos que você especifique esse comando.
 
-Após rodar a sua rotina de análise de dados, você pode ter feito alterações na base de dados e gostaria de salvá-la como um novo arquivo para acessá-la futuramente. No nosso caso, não fizemos alterações, mas ainda assim vamos exportar a base de dados com o uso da função `write_csv()`. 
+Após executar a sua rotina de análise de dados, você pode ter feito alterações na base de dados e gostaria de salvá-la como um novo arquivo para acessá-la futuramente. No nosso caso, não fizemos alterações, mas ainda assim vamos exportar a base de dados com o uso da função `write_csv()`. 
 
 ```{r}
 write_csv(dados_bpt1, path = "D:/OneDrive/@/mti/aula1/dados_bpt1.csv")
@@ -267,4 +267,4 @@ Você pode salvar o seu script clicando no disquete azul ou através do comando 
 
 ![Fig. 8 - Salvando o script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/6_salvar_script.gif)
 
-**Importante: todo o conteúdo após o `#` não será rodado pelo R. Ele é muito usado para adicionar comentários antes de cada linha, para que você e outras pessoas que estão lendo o seu código entendam o que cada linha de código faz ao ser rodada.**
+**Importante: todo o conteúdo após o `#` não será executado pelo R. Ele é muito usado para adicionar comentários antes de cada linha, para que você e outras pessoas que estão lendo o seu código entendam o que cada linha de código faz ao ser executada.**

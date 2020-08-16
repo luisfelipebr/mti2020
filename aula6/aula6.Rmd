@@ -1,0 +1,128 @@
+---
+title: "Aula 6 - Regressão linear com o R"
+author: Luis Felipe Bortolatto da Cunha
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: FALSE
+    theme: cosmo
+    highlight: haddock
+---
+
+# 1. Introdução
+
+Esse roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de regressão linear** com o uso do programa estatístico R.
+
+Para executar a análise de regressão linear vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, de forma semelhante à análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+
+### 1.1. Instalação e importação de pacotes
+
+O programa estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear simples. Mas além das funções básicas, vamos usar os pacotes:
+
+* `readr`: para importar a base de dados, com o uso da função `read_csv2` (disponibilizada em formato csv2, ou seja, com `;` como separador de campo e `,` como separador decimal)
+* `dplyr`: para adicionar o operador `%>%` e a função `select()`
+* `corrplot`: para criar um gráfico a partir da matriz de correlação
+
+Se você ainda não possui esses pacotes instalados, é possível instalá-los com o uso da função `install.packages()`.
+
+```{r, eval = FALSE}
+install.packages("readr")
+```
+
+```{r, eval = FALSE}
+install.packages("dplyr")
+```
+
+```{r, eval = FALSE}
+install.packages("corrplot")
+```
+
+Após a instalação, é necessário importá-los com o uso da função `library()`.
+
+```{r, message=FALSE,warning=FALSE}
+library(readr)
+```
+
+```{r, message=FALSE,warning=FALSE}
+library(dplyr)
+```
+
+```{r, message=FALSE,warning=FALSE}
+library(corrplot)
+```
+
+### 1.2. Importação da base de dados
+
+Uma base de dados pré-processada está disponível no endereço abaixo:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv)
+
+Para abri-la, vamos usar a função `read_csv()`.
+
+```{r, message=FALSE,warning=FALSE}
+dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv")
+```
+
+### 1.3. Análise exploratória
+
+A função `head()` exibe as primeiras observações. Se a importação deu certo, uma tabela semelhante à tabela exibida abaixo será apresentada no `Console`.
+
+```{r}
+head(dados)
+```
+
+A função `names()` exibe os nomes das variáveis.
+
+```{r}
+names(dados)
+```
+A tabela abaixo apresenta uma descrição de cada variável.
+
+| Código    | Descrição                                                                              |
+|-----------|----------------------------------------------------------------------------------------|
+| ID_IBGE   | ID do IBGE (String)                                                                    |
+| ID_SNIS   | ID do SNIS (String)                                                                    |
+| ID_IBGE_N | ID do IBGE (Numeric)                                                                   |
+| ID_SNIS_N | ID do SNIS (Numeric)                                                                   |
+| MUNICIP1  | Nome do Municipio 1                                                                    |
+| MUNICIP2  | Nome do Municipio 2                                                                    |
+| UF        | UF                                                                                     |
+| REGIAO    | Regiao do pais                                                                         |
+| CENTRX    | Centroide (X)                                                                          |
+| CENTRY    | Centroide (Y)                                                                          |
+| RENDAPITA | Renda per Capita 2010                                                                  |
+| GINI      | Indice Gini 2010                                                                       |
+| PIB       | PIB 2010                                                                               |
+| IDH       | IDH 2010                                                                               |
+| AG001     | Populacao Total Atendida com Abastecimento de Agua (AG001)                             |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000   m3/ano (AG020). |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas  (AG022)                      |
+| GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
+| CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
+| CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
+
+A variável que descreve a renda é **RENDAPITA** e a variável que descreve o consumo de água é **CONSUMO1**.
+
+### 1.4. Diagrama de dispersão
+
+
+
+### 1.5. Transformação nas variáveis
+
+
+
+
+# 2. Regressão linear simples
+
+
+### 2.1. 
+
+### 2.2. 
+
+### 2.3. Análise dos resíduos
+
+
+# ATIVIDADES
+
+Utilizando a base de dados que você construiu para o trabalho final do curso:
+
+* Conduza uma análise de regressão linear utilizando as técnicas apresentadas e interprete o seu modelo.
