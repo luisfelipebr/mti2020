@@ -1,6 +1,6 @@
 ---
-title: "Aula 6 - Regressão linear com o R"
-author: Luis Felipe Bortolatto da Cunha
+title: "6 - Regressão linear"
+author: Flávia da Fonseca Feitosa e Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
     toc: TRUE
