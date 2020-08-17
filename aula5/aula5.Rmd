@@ -1,5 +1,5 @@
 ---
-title: "5 - Correlação"
+title: "Roteiro 4 - Correlação"
 author: Autores - Flávia da Fonseca Feitosa e Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
@@ -212,7 +212,7 @@ dados %>%
   corrplot(method = "number")
 ```
 
-# Atividades
+# Tarefa 4
 
 Utilizando os dados do seu trabalho de curso, conduza as seguintes análises no software R:
 
