@@ -194,7 +194,7 @@ dados %>%
   corrplot()
 ```
 
-Manipulando o argumento `method`, você pode testar outras visualizações desse gráfico, conforme indica a documentação da função (`help(corrplot)`).
+Manipulando o argumento `method`, você pode testar outras visualizações desse gráfico, conforme indica a documentação da função (`help(corrplot)`) e os exemplos abaixo.
 
 ```{r}
 dados %>%

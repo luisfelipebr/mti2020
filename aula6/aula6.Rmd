@@ -1,81 +1,58 @@
 ---
-title: "6 - Regressão linear"
-author: Flávia da Fonseca Feitosa e Luis Felipe Bortolatto da Cunha
+title: "Roteiro 5 - Regressão linear"
+author: Luis Felipe Bortolatto da Cunha e Flávia da Fonseca Feitosa
 output: 
   html_document:
     toc: TRUE
-    toc_float: FALSE
-    theme: cosmo
-    highlight: haddock
 ---
 
 # 1. Introdução
 
-Esse roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de regressão linear** com o uso do programa estatístico R.
+Esse roteiro tem como objetivo ensinar a executar uma **análise de regressão lienar** no software R. Isso inclui:
 
-Para executar a análise de regressão linear vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, de forma semelhante à análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
 
 ### 1.1. Instalação e importação de pacotes
 
-O programa estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear simples. Mas além das funções básicas, vamos usar os pacotes:
+O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar os pacotes:
 
-* `readr`: para importar a base de dados, com o uso da função `read_csv2` (disponibilizada em formato csv2, ou seja, com `;` como separador de campo e `,` como separador decimal)
+* `haven`: para importar a base de dados em formato `sav` (SPSS)
 * `dplyr`: para adicionar o operador `%>%` e a função `select()`
-* `corrplot`: para criar um gráfico a partir da matriz de correlação
 
-Se você ainda não possui esses pacotes instalados, é possível instalá-los com o uso da função `install.packages()`.
-
-```{r, eval = FALSE}
-install.packages("readr")
-```
+Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
+install.packages("haven")
 install.packages("dplyr")
 ```
 
-```{r, eval = FALSE}
-install.packages("corrplot")
-```
-
-Após a instalação, é necessário importá-los com o uso da função `library()`.
+Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
-library(readr)
-```
-
-```{r, message=FALSE,warning=FALSE}
+library(haven)
 library(dplyr)
-```
-
-```{r, message=FALSE,warning=FALSE}
-library(corrplot)
 ```
 
 ### 1.2. Importação da base de dados
 
 Uma base de dados pré-processada está disponível no endereço abaixo:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv)
+[https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true](https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true)
 
-Para abri-la, vamos usar a função `read_csv()`.
+Para importá-la é necessário usar a função `read_sav()`.
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv")
+dados <- read_sav("https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true")
 ```
 
 ### 1.3. Análise exploratória
-
-A função `head()` exibe as primeiras observações. Se a importação deu certo, uma tabela semelhante à tabela exibida abaixo será apresentada no `Console`.
-
-```{r}
-head(dados)
-```
 
 A função `names()` exibe os nomes das variáveis.
 
 ```{r}
 names(dados)
 ```
-A tabela abaixo apresenta uma descrição de cada variável.
+
+Como é possível ver após a execução do comando, os nomes das variáveis estão codificados. Mas a tabela abaixo apresenta uma descrição de cada variável.
 
 | Código    | Descrição                                                                              |
 |-----------|----------------------------------------------------------------------------------------|
@@ -100,7 +77,10 @@ A tabela abaixo apresenta uma descrição de cada variável.
 | CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
 | CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
 
-A variável que descreve a renda é **RENDAPITA** e a variável que descreve o consumo de água é **CONSUMO1**.
+Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
+
+* **H0 (hipótese nula):** o consumo de água *não* está correlacionado com a renda
+* **H1: (hipótese alternativa)** o consumo de água está correlacionado com a renda
 
 ### 1.4. Diagrama de dispersão
 
@@ -114,15 +94,109 @@ A variável que descreve a renda é **RENDAPITA** e a variável que descreve o c
 # 2. Regressão linear simples
 
 
-### 2.1. 
+### 2.1. Ajuste global do modelo
 
-### 2.2. 
+### 2.2. Parâmetros do modelo
 
 ### 2.3. Análise dos resíduos
 
 
-# ATIVIDADES
+# 3. Regressão linear múltipla
 
-Utilizando a base de dados que você construiu para o trabalho final do curso:
+regressao <- lm(formula = y ~ x, data = dados)
 
-* Conduza uma análise de regressão linear utilizando as técnicas apresentadas e interprete o seu modelo.
+summary(regressao)
+
+
+
+Alguns comandos úteis são listados a seguir:
+
+regressão$fitted.values: calcula os valores preditos da variável resposta para cada elemento da amostra (faz uma previsão);
+
+regressão$residuals: calcula o erro ou os resíduos (valor observado - valor predito) para cada ponto da amostra;
+
+regressão$coefficients: obtém uma estimativa dos coeficientes da regressão.
+coef(modelo.regressao)      # Coeficientes do modelo (intercepto e beta)
+predict(modelo.regressao)   # Valores previstos pelo modelo
+residuals(modelo.regressao) # Resíduos do modelo
+
+
+# Esta função ajusta a reta do modelo aos dados
+plot (Y ~ X,pch=16 ,data = dados)
+abline(modelo.regressao,col="red") 
+
+# Resíduos vs. Y esperado
+plot(resid(modelo.regressao) ~ predict(modelo.regressao),pch=16)
+abline(0,0,col="red") 
+
+
+plot(regressao$fitted.values, regressao$residuals)
+
+hist(regressao$residuals)
+
+Distribuição dos resíduos
+plot(lm1, which = 1)
+
+Normalidade dos residuos
+plot(lm1, which = 2)
+
+shapiro.test(lm1$residuals)
+
+Distancia cook
+plot(lm1, which = 5)
+
+Outliers
+which(rstudent(lm1) > 2)
+
+confint(lm1)
+
+
+# Diagnóstico completo dos resíduos
+par(mfrow=c(2,2))
+plot(modelo.regressao) 
+
+
+
+### 3.1. Estatísticas
+
+### 3.2. Resumo do modelo
+
+### 3.3. ANOVA
+
+### 3.4. Parâmetros do modelo
+
+### 3.5. Colinearidade
+
+### 3.6. Diagnósticos por casos
+
+### 3.7. Estatísticas salvas
+
+### 3.8. Estatísticas de influência
+
+### 3.9. Conferindo as hipóteses
+
+### 3.10. Análise dos resíduos
+
+anova
+
+### 4. (Extra) Comparando modelos
+
+check_collinearity()
+
+check_normality()
+
+check_heteroscedasticity()
+
+check_model()
+
+model_performance(m1)
+
+compare_performance(m1, m2, m3, m4, rank = TRUE)
+
+plot(compare_performance(m1, m2, m3, m4, rank = TRUE))
+
+# Tarefa 5
+
+Utilizando os dados do seu trabalho de curso, conduza uma análise de regressão utilizando as técnicas apresentadas na aula prática.
+
+Interprete seu modelo de regressão!!!
