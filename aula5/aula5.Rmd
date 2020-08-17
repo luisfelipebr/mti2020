@@ -1,6 +1,6 @@
 ---
 title: "Roteiro 4 - Correlação"
-author: Autores - Flávia da Fonseca Feitosa e Luis Felipe Bortolatto da Cunha
+author: Luis Felipe Bortolatto da Cunha e Flávia da Fonseca Feitosa
 output: 
   html_document:
     toc: TRUE
