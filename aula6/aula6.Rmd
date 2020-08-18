@@ -8,40 +8,40 @@ output:
 
 # 1. Introdução
 
-Esse roteiro tem como objetivo auxiliar os alunos na execução de uma  **análise de regressão linear** no software R. Isso inclui:
+Esse roteiro tem como objetivo auxiliar os alunos na execução de uma  **análise de regressão linear** no software R. Isso inclui: 
 
-Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar em que medida **o consumo de água está relacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
 
 ### 1.1. Instalação e importação de pacotes
 
 O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar os pacotes:
 
-* `haven`: para importar a base de dados em formato `sav` (SPSS)
-* `dplyr`: para adicionar o operador `%>%` e a função `select()`
+* `readr`: para importar a base de dados em formato `csv2`
+* `dplyr`: para adicionar o operador `%>%` e a função `mutate()`
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
-install.packages("haven")
+install.packages("readr")
 install.packages("dplyr")
 ```
 
 Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
-library(haven)
+library(readr)
 library(dplyr)
 ```
 
 ### 1.2. Importação da base de dados
 
 Uma base de dados pré-processada está disponível no endereço abaixo:
-[https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true](https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true)
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv)
 
-Para importá-la é necessário usar a função `read_sav()`.
+Para importá-la é necessário usar a função `read_csv2()`.
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read_sav("https://github.com/luisfelipebr/mti/blob/master/dados/Agua&Rede2010_SNIS.sav?raw=true")
+dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv")
 ```
 
 ### 1.3. Análise exploratória
@@ -56,10 +56,8 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 
 | Código    | Descrição                                                                              |
 |-----------|----------------------------------------------------------------------------------------|
-| ID_IBGE   | ID do IBGE (String)                                                                    |
-| ID_SNIS   | ID do SNIS (String)                                                                    |
-| ID_IBGE_N | ID do IBGE (Numeric)                                                                   |
-| ID_SNIS_N | ID do SNIS (Numeric)                                                                   |
+| ID_IBGE   | ID do IBGE                                                                             |
+| ID_SNIS   | ID do SNIS                                                                             |
 | MUNICIP1  | Nome do Municipio 1                                                                    |
 | MUNICIP2  | Nome do Municipio 2                                                                    |
 | UF        | UF                                                                                     |
@@ -76,86 +74,112 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 | GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
 | CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
 | CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
-
-Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
-
-* **H0 (hipótese nula):** o consumo de água *não* está correlacionado com a renda
-* **H1: (hipótese alternativa)** o consumo de água está correlacionado com a renda
-
-### 1.4. Diagrama de dispersão
-
-
-
-### 1.5. Transformação nas variáveis
-
-
-
+| REDE      | Rede de água - em metros?                                                              |
+| PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
 
 # 2. Regressão linear simples
 
+Com o código e descrição das variáveis já é possível executar uma **análise de regressão linear** simples.
 
-### 2.1. Ajuste global do modelo
+A análise de regressão linear é uma ferramenta estatística que permite **explorar e inferir a relação de uma variável dependente com variáveis independentes**, a partir da fórmula:
 
-### 2.2. Parâmetros do modelo
+$Y = \beta_0 + \beta_1 X_1$
 
-### 2.3. Análise dos resíduos
+Onde:
+
+* Y = variável dependente (resposta/saída)
+* X = variável independente (indicadora/explicativa/preditora)
+* $\beta_0$ = coeficiente do intercepto
+* $\beta_1$ = coeficiente da inclinação
+
+Para executar uma regressão linear simples no R usaremos a função `lm()`, salvando os resultados no objeto `modelo1`.
+
+```{r}
+modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = dados)
+```
+
+### 2.1. Análise do ajuste global e coeficientes do modelo
+
+É possível exibir o ajuste global e coeficientes do modelo executando a função `summary()`.
+
+```{r}
+summary(modelo1)
+```
+
+Primeiro sobre o ajuste. O **R² (coeficiente de determinação)** do modelo é `0,3614`, que podemos interpretar como a medida que a variável preditora X explica a variação em Y. O **R² múltiplo** é `0,315`, que é uma medida de quão bem o modelo prevê os dados observados. O R² e R² múltiplo indicam um bom ajuste do modelo.
+
+O **Teste F**, que é uma medida do quanto o modelo melhorou na previsão de valores comparado com o nível de não precisão do modelo. O modelo apresenta um valor alta de **estatística F** (`2500`), e ainda mais importante é que o **p-valor** (`0,00000000000000022`) é menor que o nível de significância (`0,05`), ou seja, existe uma alta probabilidade de que os resultados do modelo não representem um erro amostral.
+
+Sobre os **coeficientes beta**, a estimativa do **$\beta_0$** (coeficiente do intercepto) é `4,252` e do **$\beta_1$** (coeficiente da inclinação) é `0,041`. A tabela de coeficientes também apresenta o erro padrão, estatística t e p-valor, que indicam que os resultados são significativos até para um nível de significância de `0,001`.
+
+Portanto, podemos inferir que, em média, um aumento de R$ 1,00 na renda per capita está associada a um aumento de 0,041 m³/ano no consumo de água (41 litros/ano).
+
+### 2.2. Análise dos resíduos
+
+O modelo de regressão linear assume algumas **hipóteses** sobre os dados de entrada para que seu resultado seja significativo. 
+
+1. O modelo é linear nos parâmetros
+2. A amostragem é aleatória
+3. Variação amostral da variável independente
+4. Média condicional do erro igual a zero
+5. O erro tem a mesma variância para qualquer valor da variável explicativa
+
+Se o modelo for adequado, **os resíduos devem refletir as propriedades impostas pelo termo de erro do modelo**. Portanto, a **análise dos resíduos** se faz necessária para avaliar a adequação do modelo.
+
+O modelo salvo permite a visualização de seis gráficos que auxiliam na análise dos resíduos e hipóteses.
+
+Para avaliar a variação dos resíduos, criamos um diagrama de dispersão dos resíduos e ajuste com a função `plot()` e o argumento `which = 1`.
+
+```{r}
+plot(modelo1, which = 1)
+```
+
+O modelo parece ter um ótimo ajuste, com três outliers destacados (observações número 4236, 3797 e 4016).
+
+```{r}
+plot(modelo1, which = 2)
+```
+
+```{r}
+plot(modelo1, which = 3)
+```
+
+```{r}
+plot(modelo1, which = 4)
+```
+
+```{r}
+plot(modelo1, which = 5)
+```
+
+```{r}
+plot(modelo1, which = 6)
+```
 
 
-# 3. Regressão linear múltipla
+### 2.3. Diagrama de dispersão com ajuste
 
-regressao <- lm(formula = y ~ x, data = dados)
+```{r}
+plot(x = dados$RENDAPITA, 
+     y = dados$CONSUMO1,
+     xlab = "Renda per capita",
+     ylab = "Consumo de água per capita")
+abline(modelo1, col = "red") 
+```
 
-summary(regressao)
-
-
-
-Alguns comandos úteis são listados a seguir:
+### 2.4. Salvando os resultados do modelo
 
 regressão$fitted.values: calcula os valores preditos da variável resposta para cada elemento da amostra (faz uma previsão);
 
 regressão$residuals: calcula o erro ou os resíduos (valor observado - valor predito) para cada ponto da amostra;
 
 regressão$coefficients: obtém uma estimativa dos coeficientes da regressão.
-coef(modelo.regressao)      # Coeficientes do modelo (intercepto e beta)
-predict(modelo.regressao)   # Valores previstos pelo modelo
-residuals(modelo.regressao) # Resíduos do modelo
 
+# 3. Regressão linear múltipla
 
-# Esta função ajusta a reta do modelo aos dados
-plot (Y ~ X,pch=16 ,data = dados)
-abline(modelo.regressao,col="red") 
-
-# Resíduos vs. Y esperado
-plot(resid(modelo.regressao) ~ predict(modelo.regressao),pch=16)
-abline(0,0,col="red") 
-
-
-plot(regressao$fitted.values, regressao$residuals)
-
-hist(regressao$residuals)
-
-Distribuição dos resíduos
-plot(lm1, which = 1)
-
-Normalidade dos residuos
-plot(lm1, which = 2)
-
-shapiro.test(lm1$residuals)
-
-Distancia cook
-plot(lm1, which = 5)
-
-Outliers
-which(rstudent(lm1) > 2)
-
-confint(lm1)
-
-
-# Diagnóstico completo dos resíduos
-par(mfrow=c(2,2))
-plot(modelo.regressao) 
-
-
+```{r}
+modelo2 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE, data = dados)
+```
 
 ### 3.1. Estatísticas
 
@@ -177,23 +201,28 @@ plot(modelo.regressao)
 
 ### 3.10. Análise dos resíduos
 
-anova
-
 ### 4. (Extra) Comparando modelos
 
-check_collinearity()
+```{r}
+library(performance)
+```
 
-check_normality()
+```{r,message=FALSE,warning=FALSE}
+check_model(modelo2)
+```
 
-check_heteroscedasticity()
+```{r}
+model_performance(modelo2)
+```
 
-check_model()
+```{r}
+compare_performance(modelo1, modelo2, rank = TRUE)
+```
 
-model_performance(m1)
 
-compare_performance(m1, m2, m3, m4, rank = TRUE)
-
-plot(compare_performance(m1, m2, m3, m4, rank = TRUE))
+```{r}
+plot(compare_performance(modelo1, modelo2, rank = TRUE))
+```
 
 # Tarefa 5
 

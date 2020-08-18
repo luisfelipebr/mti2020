@@ -16,14 +16,14 @@ Para executar a análise de correlação vamos utilizar dados demográficos e de
 
 O software R já conta com funções básicas que permitem executar uma análise de correlação. Mas além das funções básicas, vamos usar os pacotes:
 
-* `haven`: para importar a base de dados em formato `sav` (SPSS)
+* `readr`: para importar a base de dados em formato `csv2`
 * `dplyr`: para adicionar o operador `%>%` e a função `select()`
 * `corrplot`: para visualizar como gráfico uma matriz de correlação
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
-install.packages("haven")
+install.packages("readr")
 install.packages("dplyr")
 install.packages("corrplot")
 ```
@@ -31,7 +31,7 @@ install.packages("corrplot")
 Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
-library(haven)
+library(readr)
 library(dplyr)
 library(corrplot)
 ```
@@ -39,12 +39,12 @@ library(corrplot)
 ### 1.2. Importação da base de dados
 
 Uma base de dados pré-processada está disponível no endereço abaixo:
-[https://github.com/luisfelipebr/mti/blob/master/dados/Agua2010_SNIS.sav?raw=true](https://github.com/luisfelipebr/mti/blob/master/dados/Agua2010_SNIS.sav?raw=true)
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv)
 
-Para importá-la é necessário usar a função `read_sav()`.
+Para importá-la é necessário usar a função `read_csv2()`.
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read_sav("https://github.com/luisfelipebr/mti/blob/master/dados/Agua2010_SNIS.sav?raw=true")
+dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv")
 ```
 
 ### 1.3. Análise exploratória
@@ -59,10 +59,8 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 
 | Código    | Descrição                                                                              |
 |-----------|----------------------------------------------------------------------------------------|
-| ID_IBGE   | ID do IBGE (String)                                                                    |
-| ID_SNIS   | ID do SNIS (String)                                                                    |
-| ID_IBGE_N | ID do IBGE (Numeric)                                                                   |
-| ID_SNIS_N | ID do SNIS (Numeric)                                                                   |
+| ID_IBGE   | ID do IBGE                                                                             |
+| ID_SNIS   | ID do SNIS                                                                             |
 | MUNICIP1  | Nome do Municipio 1                                                                    |
 | MUNICIP2  | Nome do Municipio 2                                                                    |
 | UF        | UF                                                                                     |
@@ -79,6 +77,8 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 | GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
 | CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
 | CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
+| REDE      | Rede de água - em metros?                                                              |
+| PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
 
 Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
 
@@ -169,7 +169,7 @@ Para construir uma matriz de correlação, primeiro é necessário selecionar as
 
 ```{r}
 dados %>%
-  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs")
 ```
@@ -178,7 +178,7 @@ Se você quiser facilitar ainda mais a visualização da matriz de correlação,
 
 ```{r}
 dados %>%
-  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
   round(digits = 2)
@@ -188,7 +188,7 @@ Também é possível visualizar a matriz de correlação construindo um gráfico
 
 ```{r}
 dados %>%
-  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
   corrplot()
@@ -198,7 +198,7 @@ Manipulando o argumento `method`, você pode testar outras visualizações desse
 
 ```{r}
 dados %>%
-  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
   corrplot(method = "color")
@@ -206,7 +206,7 @@ dados %>%
 
 ```{r}
 dados %>%
-  select(RENDAPITA, GINI, PIB, IDH, AG001, AG020, AG022, GE012, CONSUMO1, CONSUMO2) %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
   corrplot(method = "number")
