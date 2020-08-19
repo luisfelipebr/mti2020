@@ -1,6 +1,6 @@
 ---
 title: "Roteiro 5 - Regressão linear no software R"
-author: Luis Felipe Bortolatto da Cunha
+author: Elaborado por Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
     toc: TRUE

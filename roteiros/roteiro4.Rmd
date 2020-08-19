@@ -78,7 +78,7 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 | GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
 | CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
 | CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
-| REDE      | Rede de água - em metros?                                                              |
+| REDE      | População Total com Acesso à Rede Geral de Água                                        |
 | PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
 
 Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
