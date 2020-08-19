@@ -4,6 +4,8 @@ author: Elaborado por Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
     toc: TRUE
+    theme: flatly
+    highlight: haddock
 ---
 
 # 1. Introdução
