@@ -1,6 +1,7 @@
 ---
 title: "Roteiro 4 - Correlação no software R"
 author: Elaborado por Luis Felipe Bortolatto da Cunha
+layout: page
 output: 
   html_document:
     toc: TRUE
