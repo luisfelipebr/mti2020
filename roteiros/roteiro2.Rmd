@@ -1,285 +1,274 @@
 ---
-title: "Aula 2 - Introdução à análise de dados com o R/RStudio"
-output: html_document
+title: "Prática no R! Roteiro 2 - Análise Exploratória I"
+author: Elaborado por Luis Felipe Bortolatto da Cunha
+output: 
+  html_document:
+    toc: TRUE
+    theme: flatly
+    highlight: haddock
 ---
 
 # 1. Introdução
 
-Nesta segunda aula prática vamos continuar aprendendo os fundamentos da análise de dados com o R. Mais especificamente: como definir o diretório de trabalho, como criar um projeto no RStudio, objetos, funções, dados estruturados, operadores lógicos, subconjuntos, definição de novas variáveis, histograma, box-plot e gráfico de barras.
+Esse roteiro tem como objetivo apresentar algumas funções para a execução de uma **análise exploratória** no software R.
 
-Vamos continuar trabalhando com a pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, mas dessa vez com a amostra de discentes que declararam interesse em se matricular no BPT (174 observações) e 14 variáveis.
+A apresentação será feita usando uma base de dados demográficos e de consumo de água de 2010, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). A base de dados está disponível para download no endereço abaixo:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv)
 
-As perguntas que tentaremos responder são:
+Baixe essa base de dados pelo endereço indicado para salvá-la em seu computador.
 
-1. Qual o CR dos discentes que declararam interesse em se matricular no BPT?
-R: hist, boxplot, var, sd.
+Se você ainda não criou uma pasta para salvar o conteúdo da disciplina, essa é a hora: crie uma pasta e coloque a base de dados nessa pasta.
 
-2. Qual a proporção de discentes interessados no BPT que realizam estágio?
-R: calcular proporção a partir da tabela
+# 2. Criando um novo script
 
-3. Quais os setores de atuação dos discentes que realizam estágio?
-R: subset, table, barplot
+Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo script, onde você vai salvar a rotina de análise de dados.
 
+É muito importante salvar a rotina de cada semana em um script, que pode ser aberto para lembrar as funções e objetos que foram usados e permite a reprodução da rotina de análise de dados, se for necessário.
 
+![Fig. 2 - Como criar um novo script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
 
-```{r}
-library(readr)
-dados_bpt2 <- read_csv("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt2.csv", 
-                       locale = locale(encoding = "latin1"))
+# 3. Definindo o diretório de trabalho
 
-par(mai=c(1,1.4,1,1))
-barplot(table(dados_bpt2$vinculo_atividade_renumerada), horiz = TRUE, las = 2, cex.axis = 0.5, cex.names = 0.5)
-```
+O **diretório de trabalho** refere-se à **pasta** onde você está guardando os seus dados e documentos adicionais.
 
+Sempre que você abrir o RStudio, um diretório de trabalho será definido automaticamente. Para conferir qual o seu diretório de trabalho, você pode executar a função `getwd()`.
 
-# 2. Definindo o diretório de trabalho
-
-# 3. Criando um projeto no RStudio
-
-# 4. Objetos
-
-Mas o que realmente revoluciona a análise de dados com o R é a possibilidade de definir e usar objetos. No exemplo abaixo, definimos o nosso primeiro objeto.
-
-# 5. Funções
-
-Um tipo de objeto muito importante são as **funções**! O R básico já vem com diversas funções estatísticas clássicas definidas, e qualquer um pode criar novas funções e adicioná-las a um pacote, tornando-as disponíveis aos outros usuários.
-
-No exemplo abaixo, aplicamos as funções de raiz quadrada (`sqrt()`) e exponencial (`exp()`), que são outras operações matemáticas muito importantes.
-
-# 6. Dados estruturados (tabela)
-
-# 7. Operadores lógicos
-
-# 8. Criando novas variáveis
-
-# 9. Como criar um histograma
-
-# 10. Como criar um boxplot
-
-# 11. Como criar um gráfico de barras
-
-# 12. Como exportar um gráfico
-
-# 13. 
-
-Abra o R e crie um novo script.
-
-## 2.1. Operações matemáticas
-
-O R básico funciona como uma grande calculadora científica, onde é possível fazer operações matemáticas básicas. Você pode copiar e colar as operações abaixo no console ou script.
-
-```{r}
-# soma
-5 + 5
+```{r, eval=FALSE}
+getwd()
 ```
 
 ```{r}
-# subtração
-10 - 5
+print("C:/Users/luisf/Documents")
+```
+
+No meu caso, o diretório de trabalho retornado foi `"C:/Users/luisf/Documents"`, mas eu gostaria de trabalhar com outro diretório. É possível definir um novo diretório de trabalho com a função `setwd()`.
+
+```{r, message=FALSE, warning=FALSE}
+setwd("C:/Users/luisf/Documents/MTI")
+```
+
+**Atenção: quando copiei o diretório de trabalho no Windows ele estava no formato `C:\Users\luisf\Documents\MTI`. Se esse for o seu caso, é necessário substituir todas as barras invertidas (\) por barras inclinadas (/) e colocar todo o conteúdo entre aspas ("), conforme indicado no código acima.**
+
+Para conferir se deu tudo certo, você pode executar a função `getwd()` novamente.
+
+```{r, eval=FALSE}
+getwd()
 ```
 
 ```{r}
-# multiplicação
-5 * 5
+print("C:/Users/luisf/Documents/MTI")
+```
+
+A definição do diretório de trabalho é uma etapa opcional, mas que pode economizar muito tempo no processo de análise de dados. Quando você for importar ou exportar uma base de dados, ao invés de escrever o caminho completo até os dados (por exemplo, `"C:/Users/luisf/Documents/MTI/dados/agua1.csv"`), você pode escrever apenas metade do caminho (seguindo o exemplo, `"dados/agua1.csv"`).
+
+**Atenção: neste caso, salvei a base de dados em uma pasta chamada "dados", dentro do diretório de trabalho ("pasta mti2020"). Manter-se organizado é essencial no processo de análise de dados!**
+
+# 4. Importando a base de dados
+
+A base de dados que você baixou está em formato textual, mais especificamente no formato `csv2`. Esse é o formato mais comum para a disponibilização de dados na internet.
+
+**Importante: o formato `csv` possui duas variações:
+* `csv`: os valores são separados por vírgula e decimais por ponto
+* `csv2`: os valores são separados por ponto e vírgula e decimais por vírgula
+Lembre-se de especificar o formato correto.**
+
+É possível importar essa base de dados pela interface (`Environment`) ou script.
+
+Para importar a base de dados pela interface, clique em `Import Dataset` e em seguida em `From Text (base)...`. Na janela que foi aberta, encontre o arquivo que deseja importar no diretório e clique em `Open`. Uma janela com opções adcionais será aberta. Você deve selecionar as seguintes opções:
+
+* Encoding: UTF-8   (Codificação: UTF-8)
+* Heading: Yes    (Cabeçalho: Sim)
+* Separator: Semicolon    (Separador: ponto e vírgula)
+* Decimal: Comma    (Decimal: vírgula)
+
+Uma pré-visualização estará disponível em `Data Frame`, onde você pode conferir se a base de dados será importada corretamente. Quando estiver pronto clique em `Import`.
+
+Nesse momento o código foi executado no `Console` e uma nova janela em `Source`, que permite a visualização da tabela, foi aberta.
+
+Embora a interface seja útil para importar dados, para tornar o código reprodutível, precisamos copiar o código que foi executado para o nosso script. Faça isso copiando e colando do `Console` ou de `History`.
+
+O código copiado e colado deve ser semelhante ao código abaixo, com alterações apenas no diretório.
+
+```{r}
+agua1 <- read.csv2("D:/OneDrive/@/mti2020/dados/agua1.csv", encoding="UTF-8")
+```
+
+Se você fechou a janela em `Source` que permite a visualização interativa da tabela e deseja abri-la de novo, use a função `View()`.
+
+```{r}
+View(agua1)
+```
+
+![Fig. 3 - Importação de dados pela interface]()
+
+# 5. Explorando os dados
+
+Além da função `View()`, que permite a visualização interativa de uma tabela, existem diversas outras funções que permitem explorar uma base de dados.
+
+A função `head()` exibe as primeiras observações da base de dados no `Console`, sem a necessidade de abrir uma nova aba em `Source`, e é altamente recomendada para exibir bases de dados muito grandes (mais de 100.000 observações) que podem travar o programa RStudio quando abertas.
+
+```{r}
+head(agua1)
+```
+
+A função `tail()`, de forma similar, exibe as últimas observações da base de dados no `Console`.
+
+```{r}
+tail(agua1)
+```
+
+A função `names()` exibe o nome de todas as variáveis da base de dados no `Console`.
+
+```{r}
+names(agua1)
+```
+
+Os nomes das variáveis dessa base de dados estão codificados. Para saber o que cada variável significa, as bases de dados geralmente vêm acompanhadas de um dicionário, que é um repositório centralizado com informações sobre os dados, tais como: código, descrição, metadados, origem, uso e formato. A tabela abaixo apresenta uma descrição de cada código, de forma semelhante a um dicionário:
+
+INSERIR TABELA
+
+A função `str()` exibe a estrutura da base de dados, com a classe da base de dados (**tibble** - é um nome para uma base de dados estruturada em formato de tabela), o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outras) e as primeiras observações.
+
+```{r}
+str(agua1)
+```
+
+**Importante: o operador `$` é usado para referir-se a uma variável da base de dados.**
+
+A função `summary()` apresenta um sumário com estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA's) para todas as variáveis numéricas.
+
+```{r}
+summary(agua1)
+```
+
+# 6. Criando um subconjunto (filtrar observações e selecionar variáveis)
+
+No decorrer de uma análise de dados, você pode precisar selecionar variáveis específicas e filtrar amostras do conjunto. Na linguagem R, subconjuntos podem ser criados com o uso de colchetes, seguindo o formato: `base_da_dados[observações,variáveis]`.
+
+Por exemplo, é possível selecionar as seis primeiras observações, de forma similar à função `head()`, com o comando:
+
+```{r}
+agua1[1:6,]
+```
+
+Para visualizar apenas o IDH desses seis municípios, podemos adicionar um segundo argumento com o número ou nome da variável:
+
+```{r}
+agua1[1:6,9]
 ```
 
 ```{r}
-# divisão
-10 / 5
+agua1[1:6,"IDH"]
+```
+
+Subconjuntos também funcionam com vetores. Para ver o nome do município e IDH, podemos alterar o segundo argumento para um vetor:
+
+```{r}
+agua1[1:6,c("NOME_MUN", "IDH")]
+```
+
+Outra forma de acessar uma coluna pelo seu nome é usando o operador `$` (cifrão) após os colchetes.
+
+```{r}
+agua1[1:6,]$IDH
+```
+
+Subconjuntos também funcionam com operadores lógicos, sendo possível filtrar as observações que satisfazem uma determinada condição usando a função `which()`. No exemplo abaixo, visualizamos o nome e IDH dos municípios que satisfazem as condições: Unidade da Federação é igual a São Paulo E IDH maior que 0,85.
+
+```{r}
+agua1[which(agua1$UF == "SP" & agua1$IDH > 0.85),c("NOME_MUN", "IDH")]
+```
+
+# 7. Criando tabelas de contingência
+
+Quando trabalhando com variáveis categóricas, pode ser necessário criar tabelas de contingência, que apresentam a contagem de ocorrências daquela variável. Para ver a distribuição de municípios de acordo com a classificação do IDH, usaremos a função `table()`.
+
+```{r}
+table(agua1$IDH_CLASS)
+```
+
+A função `table()` também pode ser usada com dois argumentos, conforme mostra o exemplo abaixo com a classificação do IDH por região.
+
+```{r}
+table(agua1$REGIAO, agua1$IDH_CLASS)
+```
+
+# 8. Definindo uma nova variável
+
+É possível criar uma nova variável usando o operador `<-` ou `=`. Neste exemplo, vamos criar duas novas variáveis, chamadas `CONSUMO1` e `CONSUMO2`: 
+
+* `CONSUMO1`: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)
+* `CONSUMO2`: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)
+
+Como a unidade do consumo de agua (AG020) é **1.000 m³/ano**, primeiro é preciso multiplicar AG020 por 1.000 para obter a unidade **m³/ano** e depois dividir pela população para obter o consumo de água per capita.
+
+```{r}
+agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
 ```
 
 ```{r}
-# exponenciação
-2 ^ 5
+agua1$CONSUMO2 <- agua1$AG020 * 1000 / agua1$AG0001
 ```
 
-Perceba que tudo que é colocado após o símbolo **`#`** (jogo da velha/*hashtag*), recebe destaque e é considerado um **comentário**. Isso significa que todo o conteúdo após o `#` não será computado pelo R. É comum adicionar comentários que explicam o código através do uso de `#`.
-
-## 2.2. Objetos
-
-
+Exibindo as primeiras observações, podemos ver que as duas novas variáveis foram definidas com sucesso.
 
 ```{r}
-# definindo um objeto
-numero <- 5
+head(agua1)
 ```
 
-Esse objeto foi adicionado ao **ambiente (*environment*)**, conforme ilustra a Figura X.
+# 9. Calculando estatísticas básicas (média, mediana, variância, desvio padrão)
 
-Figura X.
-
-Agora é possível chamar o objeto `numero` através do seu nome, para ver o seu conteúdo. Você pode dar qualquer nome para um objeto, desde que... Mas lembre-se de dar um nome claro, para que outras pessoas consigam entender o seu código.
+Com o uso do operador `$` podemos aplicar funções em uma variável para obter estatísticas básicas, como média, mediana, desvio padrão e variância. Vamos executar essas funções na nova variável `CONSUMO1` para ver como o consumo de água per capita se comporta. Em todas as funções usaremos o argumento opcional `na.rm = TRUE` para remover os valores faltantes (NA). Se a variável não possuir valores faltantes, esse argumento não é necessário.
 
 ```{r}
-# exibe o conteúdo de um objeto, chamando-o pelo seu nome
-numero
-```
-
-Você também pode aplicar operações matemáticas em seus objetos.
-
-```{r}
-# aplica soma com o objeto
-numero + 5
+# média
+mean(agua1$CONSUMO1, na.rm = TRUE)
 ```
 
 ```{r}
-# aplica exponenciação com o objeto
-2 ^ numero
-```
-
-## 2.3. Funções
-
-
-
-```{r}
-# aplica raiz quadrada
-sqrt(25)
+# mediana
+median(agua1$CONSUMO1, na.rm = TRUE)
 ```
 
 ```{r}
-# aplica exponencial
-exp(numero)
-```
-
-## 2.4. Classes de dados
-
-Todos os exemplos apresentados até agora foram realizados com números reais. Mas na verdade, existem 5 classes básicas de objetos no R:
-
-* **Character**: São objetos do tipo caráctere ou texto. Para criar um caráctere você pode colocar qualquer conteúdo entre aspas.
-* **Integer**: São objetos do tipo númerico inteiro. São números acompanhados da letra L.
-* **Numeric**: São objetos do tipo númerico real. São números, lembrando que o divisor da casa decimal no R é o ponto (.).
-* **Complex**: São objetos do tipo númerico complexo. Eles são pouco usados na análise de dados.
-* **Logical**: São objetos do tipo lógico. Pode ser TRUE/FALSE ou 1/0.
-
-A função `class()` exibe a classe de um objeto. Você pode ver exemplos das classes básicas abaixo.
-
-```{r}
-caractere <- "Isso é um texto."
-caractere
-class(caractere)
+# variância
+var(agua1$CONSUMO1, na.rm = TRUE)
 ```
 
 ```{r}
-inteiro <- 5L
-inteiro
-class(inteiro)
-```
-```{r}
-numerico <- 2.5
-numerico
-class(numerico)
+# desvio padrão
+sd(agua1$CONSUMO1, na.rm = TRUE)
 ```
 
-```{r}
-complexo <- 2 + 3i
-complexo
-class(complexo)
-```
-```{r}
-logico <- TRUE
-logico
-class(logico)
-```
+Perceba que tudo que foi colocado após o símbolo **`#`** (jogo da velha/*hashtag*), recebe destaque e é considerado um **comentário**. Isso significa que todo o conteúdo após o `#` não será computado pelo R. É comum adicionar comentários que explicam o código com o uso de `#`.
 
-## 2.5. Tipos de objetos
-
-Existem diversos tipos de objetos no R. Ele pode ser um valor, de uma classe básica, mas pode ser também uma **tabela** (*data frame*), um **vetor** (*vector*) - a coluna ou linha da tabela, uma matriz (*matrix*), uma lista (*list*), um modelo (*model*), um objeto geoespacial (*sf*), dentre muitos outros. Nesta aula vamos explorar apenas os vetores e tabelas, as duas unidades básicas de dados estruturados.
-
-Conforme ilustra a Figura Y, dados estruturados são os dados que já estamos acostumados a trabalhar no Excel. Eles são tabelas bidimensionais, com linhas (observações) e colunas (variáveis). Se extrairmos uma linha ou uma coluna de uma tabela, estamos nos referindo a um vetor - unidimensional - de dados.
-
-Figura Y.
-
-É possível criar um vetor a partir de classes básicas através da função `c()` (concatenar) e uma tabela a partir de vetores com a função `data.frame()`. Atenção: todos os elementos de um vetor devem ter a mesma classe básica, se não serão convertidos para a classe caractére.
+# 10. Desenhando um box-plot
 
 ```{r}
-# cria um vetor com os nomes
-nome <- c("Alice", "Bárbara", "Carlos", "Débora")
-```
-```{r}
-# vê a classe do objeto nome
-class(nome)
-```
-
-
-```{r}
-# vê o conteúdo do objeto nome
-nome
-```
-
-
-```{r}
-# cria um vetor com a altura
-altura <- c(1.75, 1.65, 1.70, 1.70)
+boxplot(agua1$CONSUMO1)
 ```
 
 ```{r}
-# cria um vetor com o ano de ingresso na UFABC
-ano_de_ingresso <- c(2017L, 2018L, 2018L, 2018L)
+
 ```
+
+
+# 11. Desenhando um histograma
 
 ```{r}
-# cria uma tabela
-tabela <- data.frame(nome, altura, ano_de_ingresso)
+hist(agua1$CONSUMO1)
 ```
+
+# 12. Desenhando um qqplot
 
 ```{r}
-# vê a classe do objeto tabela
-class(tabela)
+qqnorm(agua1$CONSUMO1)
+qqline(agua1$CONSUMO1, col = "red")
 ```
 
-```{r}
-# vê o conteúdo do objeto tabela
-tabela
-```
+# 13. Exportando um gráfico
 
-## 2.6. Manipulando tabelas
+# 14. Exportando uma base de dados
 
-Tomando como base a nossa tabela, podemos aplicar uma série de novas operações e funções. O uso de colchetes após um objeto serve para filtrar ou selecionar uma linha ou coluna específica, seguindo o modelo `tabela[linha, coluna]`, conforme ilustram os exemplos abaixo.
+# 15. Salvando o script
 
-```{r}
-# filtra as informações da Alice
-tabela[1,]
-```
-
-```{r}
-# seleciona a altura dos estudantes
-tabela[,2]
-```
-
-```{r}
-# exibe a altura da Alice
-tabela[1,2]
-```
-Outra forma de acessar uma coluna de uma tabela é através do operador `$` (cifrão).
-
-```{r}
-# seleciona a altura dos estudantes
-tabela$altura
-```
-Com o uso do operador `$`, podemos aplicar funções em um vetor da tabela, para obter, por exemplo, a média, desvio padrão e variância.
-
-```{r}
-# calcula a altura média
-mean(tabela$altura)
-```
-
-```{r}
-# calcula o desvio padrão
-sd(tabela$altura)
-```
-
-```{r}
-# calcula a variância
-var(tabela$altura)
-```
-É possível também criar novas variáveis com base nas informações básicas: no exemplo abaixo, calculamos o ano de egresso previsto para o BCH (três anós após o ingresso).
-
-```{r}
-# cria uma nova variável na tabela
-tabela$ano_de_egresso_previsto <- tabela$ano_de_ingresso + 3
-```
-
-```{r}
-# exibe a nova tabela
-tabela
-```

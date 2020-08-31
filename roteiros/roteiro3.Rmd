@@ -1,89 +1,268 @@
 ---
-title: "Aula 3 - Manipulação de dados com o R e tidyverse"
-output: html_document
+title: "Roteiro 3 - Análise Exploratória II"
+author: Elaborado por Luis Felipe Bortolatto da Cunha
+output: 
+  html_document:
+    toc: TRUE
+    theme: flatly
+    highlight: haddock
 ---
 
-## Introdução ao "tidyverse"
+# 1. Introdução
 
-Após instalar os programas R e RStudio, abra o RStudio e crie um novo script.
+O presente roteiro tem como objetivo apresentar funções fundamentais para a **análise exploratória**, mas dessa vez  baseadas no pacote **`tidyverse`** que estão organizadas em torno de um **conjunto de princípios básicos** que tornam a análise de dados mais acessível para quem está tendo o primeiro contato com a programação.
 
-Em todas as aulas, vamos usar o pacote `tidyverse` para realizar a análise de dados. 
+A Figura 1 ilustra as 6 etapas essenciais da análise de dados.
 
-Portanto, os primeiros passos são instalar e abrir esse pacote.
+![Fig. 1 - Etapas da análise de dados. Fonte: adaptado de Grolemund & Wickham, 2017](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3.1.png)
 
-## Instalando e abrindo o pacote "tidyverse"
 
-Para instalar o pacote `tidyverse`, utilizamos a função `install.packages()`, com o nome do pacote dentro do parênteses e entre aspas. **Atenção: só é necessário instalar o pacote uma única vez em cada computador.**
 
-```{r, warning=FALSE, message=FALSE}
-# instala o pacote tidyverse
-#install.packages("tidyverse", repos = 'http://cran.us.r-project.org')
-```
-
-Após instalar o pacote, utilizamos a função `library()` para abri-lo. Não é necessário colocar o nome do pacote entre aspas. **Atenção: é necessário abrir o pacote todas as vezes que o programa R/RStudio é aberto ou a sessão é reiniciada.**
-
-```{r, warning=FALSE, message=FALSE}
-# abre o pacote tidyverse
-library(tidyverse)
-```
-
-## Abrindo os dados
+# 1.1. Importando os dados
 
 Os dados dessa aula estão hospedados na nuvem, em formato csv2. Portanto, se você possui conexão com a internet, você pode abrir os dados com o comando abaixo.
 
 ```{r}
-dados <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_SNIS.csv")
+agua2 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua2.csv")
 ```
 
 ```{r}
-dados2 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua%26Rede2010_SNIS.csv")
+rede1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/rede1.csv")
 ```
-
 
 Uma alternativa é transferir os dados da aula para o seu computador e abri-los colocando o caminho (*path*) para acessá-lo no seu computador, conforme as instruções abaixo. **Atenção: é necessário editar o código abaixo com o caminho do arquivo no seu computador**
 
-```{r}
-#dados <- read.csv("C:/Users/aluno/Documents/mti/aula1/Agua2010_SNIS.csv")
-```
-
-## Explorando os dados
+# 1.2. Explorando os dados
 
 Antes de realizar qualquer análise, é recomendado explorar a base de dados aberta. Diversos comandos podem auxiliar nessa tarefa.
 
+# 2. Criando um projeto
 
 
 
-# Estatísticas descritivas
+# 3. Instalando e abrindo o pacote "tidyverse"
 
-Consumo de água per capita - Pop Total - m3/ano (AG020/GE012)
+Para instalar o pacote `tidyverse`, utilizamos a função `install.packages()`, com o nome do pacote dentro do parênteses e entre aspas. 
 
-Estatísticas descritivas
+**Atenção: só é necessário instalar o pacote uma única vez em cada computador.**
 
-Histograma
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
+install.packages("tidyverse")
+```
 
-Box-plot
+Após instalar o pacote, utilizamos a função `library()` para abri-lo. Não é necessário colocar o nome do pacote entre aspas.
 
-QQ Plot
+**Atenção: é necessário abrir o pacote todas as vezes que o programa R/RStudio é aberto ou a sessão é reiniciada.**
 
----
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
 
-**graficos por regiões**
+# 3. Conhecendo o operador pipe (`%>%`)
 
----
+O **operador pipe (`%>%`)** é a principal contribuição do `tidyverse` à análise de dados. Ele é uma ferramenta poderosa para **expressar** de forma clara **uma sequencia de operações**.
 
-Comparando medias com intervalo de confiança
+Para entender como ele funciona, podemos traçar o paralelo com uma receita de bolo ([curso-r, XXXX]()). Usando a linguagem de programação do R básico, a receita poderia ser representada da seguinte forma:
 
-(grafico de barras)
+```{r, eval = FALSE}
+esfrie(asse(coloque(bata(acrescente(recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo"), "farinha", até = "macio"), duração = "3min"), lugar = "forma", tipo = "grande", untada = TRUE), duração = "50min"), "geladeira", "20min")
+```
 
----
+O R básico processa o que está em parênteses primeiro (assim como na matemática), tornando a leitura do código pouco intuitiva. O pipe funciona como um tubo que **conecta as etapas da análise de dados em ordem cronológica**, facilitando a leitura. O mesmo código escrito com o R básico, poderia ser representado com o pipe da seguinte forma:
 
-Transformações nos dados - 
-logaritmica - log(x)
-radiciação - sqrt(x)
-recíproca - 1/x
+```{r, eval = FALSE}
+recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo") %>%
+  acrescente("farinha", até = "macio") %>%
+  bata(duração = "3min") %>%
+  coloque(lugar = "forma", tipo = "grande", untada = TRUE) %>%
+  asse(duração = "50min") %>%
+  esfrie("geladeira", "20min")
+```
 
----
+Esperamos que esse exercício de abstração tenha convencido-o a adotar o operador pipe na análise de dados. A partir desse roteiro, o pipe será usado em todos os exemplos, apesar do seu uso ser opcional no trabalho final.
 
-sqr e log consumo
+# 4. Filtrar e Selecionar (filter, select)
 
----
+Enquanto no R básico a criação de subconjuntos exige o uso de colchetes, o tidyverse adiciona as funções: `filter()` para filtrar observações e `select()` para selecionar variáveis.
+
+Tomemos o mesmo exemplo do Roteiro 2 - para visualizar o nome e IDH dos municípios que satisfazem as condições: Unidade da Federação é igual a São Paulo E IDH maior que 0,85.
+
+No R básico, isso pode ser feito da seguinte forma:
+
+```{r}
+agua1[which(agua1$UF == "SP" & agua1$IDH > 0.85),c("NOME_MUN", "IDH")]
+```
+
+No tidyverse, ficaria assim:
+
+```{r}
+agua1 %>%
+  filter(UF == "SP" & IDH > 0.85) %>%
+  select(NOME_MUN, IDH)
+```
+
+# 5. Transformações (mutate)
+
+Definir novas variáveis no R básico é bem simples. Mas para incluir essa etapa no fluxo do `tidyverse`, podemos usar a função `mutate()`.
+
+Seguindo o exemplo do Roteiro 2, podemos definir as variáveis CONSUMO1 e CONSUMO2 da seguinte forma com o R básico:
+
+```{r}
+agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
+agua1$CONSUMO2 <- agua1$AG020 * 1000 / agua1$AG0001
+```
+
+A mesma operação ficaria da seguinte forma no tidyverse:
+
+```{r}
+agua2 <- agua1 %>%
+  mutate(CONSUMO1 = AG020 * 1000 / GE012,
+         CONSUMO2 = AG020 * 1000 / AG001)
+```
+
+Vamos chamar o novo objeto de agua2, pois ele é igual à tabela que foi exportada com esse nome no Roteiro 2.
+
+# 6. União (join)
+
+Como supõe o nome, a união serve para unir duas bases de dados a partir de um identificador.
+
+No tidyverse, a união pode ser feita usando uma de quatro funções, a depender do seu objetivo:
+
+* `left_join()`: Adiciona à primeira base as variáveis da segunda base que possuem correspondência ao identificador.
+* `right_join()`: Adiciona à segunda base as variáveis da primeira base possuem correspondência ao identificador.
+* `inner_join()`: O resultado é uma base de dados que exclui as observações sem correspondência ao identificador.
+* `full_join()`: O resultado é uma base de dados com todas as observações, da primeira e segunda base, adicionando valores faltantes (NA) quando não há correspondência ao identificador.
+
+![Fig. X - Tipos de união. Fonte: Surles, 2017](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3.x.png)
+
+Neste roteiro vamos explorar o consumo de água per capita (CONSUMO1) e a proporção de domicílios com acesso à rede geral de água (PROPREDE). A proporção de domicílios com acesso à rede geral pode ser calculada com a função `mutate()` para dividir a quantidade de domicílios com acesso à rede geral pela quantidade total de domicílios (REDE/DOMICIL). Como estes dados estão fragmentados em duas bases de dados diferentes, vamos uni-las com a função `full_join()`. Além disso, como as duas bases de dados possuem variáveis repetidas usaremos a opção `select()` para selecionar apenas as variáveis de interesse. Todas essas etapas da análise de dados podem ser escritas em um único fluxo de análise de dados com o tidyverse, da seguinte forma:
+
+```{r}
+agua_rede1 <- rede1 %>%
+  mutate(PROPREDE = REDE/DOMICIL) %>%
+  select(-c(UF, REGIAO)) %>% 
+  full_join(agua2, by = "ID_IBGE")
+```
+
+**ATENÇÃO: o sinal menos (-) significa que vamos selecionar TODAS as variáveis EXCETO as especificadas.**
+
+# 7. Agrupar e resumir (group_by, summarize)
+
+**Agrupar e resumir** são duas etapas da análise de dados, geralmente aplicadas juntas, para calcular estatísticas básicas em subconjuntos. 
+
+Na aula teórica, aprendemos a calcular o intervalo de confiança.
+
+Para explorar a desigualdade de PROPREDE1, vamos primeiro filtrar os valores faltantes (`drop_na()`), agrupar por regiões (`group_by()`), resumir estatísticas básicas (`summarize()`) e calcular o intervalo de confiança para cada região (`mutate()`) com um intervalo de confiança de 95% (escore-z da curva normal é igual a 1,96). O resultado será salvo como o objeto `tabela_PROPREDE`.
+
+```{r, message=FALSE, warning=FALSE}
+tabela_PROPREDE <- agua_rede1 %>%
+  drop_na(PROPREDE) %>%
+  group_by(REGIAO) %>%
+  summarize(n_obs = n(),
+            media = mean(PROPREDE),
+            desvio_padrao = sd(PROPREDE)) %>%
+  mutate(erro = 1.96*desvio_padrao/sqrt(n_obs),
+         limite_superior = media + erro,
+         limite_inferior = media - erro)
+```
+
+É possível visualizar essa tabela chamando o seu nome.
+
+```{r}
+tabela_PROPREDE
+```
+
+# 8. Gráficos (ggplot)
+
+Dentre os componentes do tidyverse, está o pacote `ggplot2`, que permite a criação de gráficos a partir de uma linguagem universal entre os programadores e designers, chamada de a gramática dos gráficos. Não é o objetivo deste roteiro explorar a visualização de dados em detalhes, mas os comandos abaixo mostram como construir alguns tipos de gráficos.
+
+Com o pacote `ggplot2`, qualquer gráfico bidimensional pode ser construído partindo da função `ggplot()`, que segue a seguinte lógica:
+
+ggplot(data = *base_de_dados*, aes(x = *codigo_variavel*, y = *codigo_variavel*)) +
+geom_*tipo_de_geometria*()
+
+Em que os argumentos obrigatórios são:
+
+* `data` = base de dados (tabela)
+* `aes()` = estética. É aqui que você vai especificar os eixos *x* e *y* (se houver), assim como atributos adicionais como cor, tamanho, espessura e formato dos pontos/linhas/polígonos
+
+Alguns dos tipos de geometria mais comuns são:
+
+* `+ geom_histogram()` = histograma
+* `+ geom_boxplot()` = box-plot
+* `+ geom_point()` = gráfico de dispersão
+* `+ geom_line()` = gráfico de linhas
+* `+ geom_abline()` = reta de tendência (correlação)
+* `+ geom_smooth()` = reta de tendência (regressão)
+* `+ geom_bar()` = gráfico de barras (pré-tabulação/contagem)
+* `+ geom_col()` = gráfico de barras (pós-tabulação/contagem)
+* `+ geom_errorbar()` = barras de erro
+
+Alguns argumentos adicionais que podem ser explorados são:
+
+* `+ facet_wrap(~*codigo_variavel*)` = replica um gráfico para diferentes classes
+* `+ coord_flip()` = inverte as coordenadas x e y
+* `+ ggtitle("Título em parênteses")` = adiciona um título
+
+Argumentos adicionais podem ser consultados acessando a bibliografia complementar.
+
+As funções `group_by()` e `summarize()` permitiram explorar as desigualdades regionais relacionadas ao consumo de água per capita (CONSUMO1) e proporção de domicílios com acesso à rede geral (PROPREDE). Essa análise pode ser aprofundada com a construção de gráficos.
+
+O código abaixo desenha um histograma que compara PROPREDE entre as regiões.
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(x = PROPREDE)) +
+  geom_histogram()
+```
+
+É possível replicar esse gráfico para cada região adicionando um argumento.
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(x = PROPREDE)) +
+  geom_histogram() +
+  facet_wrap(~REGIAO)
+```
+
+Adicionando mais alguns argumentos, o gráfico pode ficar ainda mais claro.
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(x = PROPREDE, fill = REGIAO)) +
+  geom_histogram() +
+  facet_wrap(~REGIAO) +
+  ggtitle("Histograma de PROPREDE por região") +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+
+Para desenhar um box-plot que compara as regiões
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(y = PROPREDE, fill = REGIAO)) +
+  geom_boxplot() +
+  facet_wrap(~REGIAO) +
+  ggtitle("Box-plot de PROPREDE por região") +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+Por fim, o gráfico abaixo compara 
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = tabela_PROPREDE, aes(x = REGIAO, y = media, fill=REGIAO)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = limite_inferior, ymax = limite_superior)) +
+  ggtitle("Média e desvio padrão de PROPREDE por região") +
+  xlab("") +
+  ylab("") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+# 9. (Extra) Outras funções do tidyverse
+
+

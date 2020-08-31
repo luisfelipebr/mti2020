@@ -1,7 +1,6 @@
 ---
 title: "Roteiro 4 - Correlação no software R"
 author: Elaborado por Luis Felipe Bortolatto da Cunha
-#layout: homepage
 output: 
   html_document:
     toc: TRUE
@@ -82,6 +81,9 @@ Como é possível ver após a execução do comando, os nomes das variáveis est
 | CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
 | REDE      | População Total com Acesso à Rede Geral de Água                                        |
 | PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
+
+QUANTIDADE DE LIGAÇÕES TOTAIS DE ÁGUA
+QUANTIDADE DE LIGAÇÕES ATIVAS DE ÁGUA
 
 Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
 
@@ -214,13 +216,3 @@ dados %>%
     use = "complete.obs") %>%
   corrplot(method = "number")
 ```
-
-# Tarefa 4
-
-Utilizando os dados do seu trabalho de curso, conduza as seguintes análises no software R:
-
-1. Construa e interprete diagrama(s) de dispersão a partir de variáveis de interesse.
-
-2. Calcule e interprete a correlação entre variáveis de interesse. É significativa? O que isso significa?
-
-A atividade deverá ser compreendida como uma versão preliminar de parte do trabalho final da disciplina. Lembre-se de Caprichar!!! Interprete!!! Aproveite para entender melhor o problema investigado.

@@ -1,5 +1,5 @@
 ---
-title: "Aula 1 - Introdução e análise exploratória com o R/RStudio"
+title: "Roteiro 1 - Introdução ao software R/RStudio"
 author: Luis Felipe Bortolatto da Cunha
 output: 
   html_document:
@@ -9,9 +9,27 @@ output:
     highlight: haddock
 ---
 
+objetos, funções, dados estruturados, operadores lógicos,
+
+# 4. Objetos
+
+Mas o que realmente revoluciona a análise de dados com o R é a possibilidade de definir e usar objetos. No exemplo abaixo, definimos o nosso primeiro objeto.
+
+## 2.5. Tipos de objetos
+
+Existem diversos tipos de objetos no R. Ele pode ser um valor, de uma classe básica, mas pode ser também uma **tabela** (*data frame*), um **vetor** (*vector*) - a coluna ou linha da tabela, uma matriz (*matrix*), uma lista (*list*), um modelo (*model*), um objeto geoespacial (*sf*), dentre muitos outros. Nesta aula vamos explorar apenas os vetores e tabelas, as duas unidades básicas de dados estruturados.
+
+Conforme ilustra a Figura Y, dados estruturados são os dados que já estamos acostumados a trabalhar no Excel. Eles são tabelas bidimensionais, com linhas (observações) e colunas (variáveis). Se extrairmos uma linha ou uma coluna de uma tabela, estamos nos referindo a um vetor - unidimensional - de dados.
+
+# 5. Funções
+
+Um tipo de objeto muito importante são as **funções**! O R básico já vem com diversas funções estatísticas clássicas definidas, e qualquer um pode criar novas funções e adicioná-las a um pacote, tornando-as disponíveis aos outros usuários.
+
+No exemplo abaixo, aplicamos as funções de raiz quadrada (`sqrt()`) e exponencial (`exp()`), que são outras operações matemáticas muito importantes.
+
 ## 1. Introdução
 
-No decorrer deste curso, os programas R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
+No decorrer deste curso, os softwares R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
 
 É importante ressaltar o uso do R/RStudio não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses, coleta de dados e **análise de dados**, sendo este o foco deste curso.
 
@@ -26,7 +44,8 @@ Algumas de suas vantagens são:
 * Todas as rotinas criadas em R são **transparentes**, seguindo os princípios da ciência aberta
 * Existe uma enorme quantidade de **pacotes** gratuitos, para diversos tipos de aplicações
 * Existe uma enorme quantidade de **ajuda e tutoriais** disponíveis gratuitamente na internet
-* É amplamente utilizado pela **comunidade acadêmica** e **mercado**
+* É amplamente utilizado pela **comunidade acadêmica** e 
+mercado
 
 Um **script** refere-se à uma rotina de análise ou visualização de dados que:
 
@@ -70,7 +89,17 @@ A interface do RStudio deve exibir, na maior parte do tempo, quatro painéis (Fi
 
 ![Fig. 3 - Interface RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/2_interface_rstudio_com_quadros.png)
 
-### 1.5. Como buscar ajuda
+### 1.5. Objetos
+
+Dados estruturados (tabela ou *data frame*)
+
+### 1.6. Funções
+
+### 1.7. Operadores matemáticos
+
+### 1.8. Operadores lógicos
+
+### 1.9. Como buscar ajuda
 
 No decorrer das aulas práticas, você pode precisar de ajuda para entender uma função. Não se preocupe: ter dúvidas faz parte do processo de aprendizado. Na verdade, o R/RStudio conta com uma ferramenta que pode te auxiliar: é possível acessar tutoriais produzidos pelo R/RStudio em `Help`.
 
@@ -101,13 +130,18 @@ Que deve exibir o seguinte conteúdo em `Help` (Fig. 4):
 
 **Importante: a seção uso descreve os argumentos obrigatórios (apenas x, no caso da função `mean()`), sendo todos os outros argumentos descritos opcionais. Atente-se aos argumentos obrigatórios e opcionais ao usar uma função.**
 
-Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. :-(
+Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. :worried:
 
 Você pode traduzir o conteúdo da documentação no tradutor de sua preferência, como fizemos para apresentar a documentação da função `mean()`.
 
 Nós também recomendamos que você busque ajuda no buscador de sua preferência (Google, Bing etc.) e no [Stackoverflow](https://stackoverflow.com/), mas estaremos disponíveis no decorrer deste curso para tirar qualquer dúvida que você tiver no processo de análise de dados.
 
 ![Fig. 4 - Documentação da função `mean()`](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_documentacao_media.png)
+
+
+
+
+
 
 ## 2. Análise exploratória
 
