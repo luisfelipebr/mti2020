@@ -11,12 +11,14 @@ output:
 
 # 1. Introdução
 
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kRHmhou-sgLRblag?e=yw6xBY).
+
 Este roteiro tem como objetivo apresentar algumas funções para a execução de uma **análise exploratória** no software R.
 
 A apresentação será feita usando uma base de dados demográficos e de consumo de água de 2010, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
 
 A base de dados está disponível para download no endereço abaixo:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv)
+[https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U](https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U)
 
 Baixe essa base de dados pelo endereço indicado para salvá-la em seu computador.
 
@@ -315,7 +317,7 @@ qqline(agua1$CONSUMO1, col = "red")
 dev.off()
 ```
 
-![Fig. 3 - Fig 4 - Exportando um gráfico](D:/OneDrive/@/mti2020/figuras/2_exportando_um_grafico.gif)
+![Fig 4 - Exportando um gráfico](D:/OneDrive/@/mti2020/figuras/2_exportando_um_grafico.gif)
 
 # 14. Exportando a base de dados
 

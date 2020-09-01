@@ -11,6 +11,8 @@ output:
 
 # 1. Introdução
 
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kUx3S_57SAUZzPug?e=wzGWrC).
+
 Esse roteiro tem como objetivo auxiliar os alunos na execução de uma  **análise de regressão linear** no software R. Isso inclui: 
 
 Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar em que medida **o consumo de água está relacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).

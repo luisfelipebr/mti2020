@@ -11,6 +11,8 @@ output:
 
 # 1. Introdução
 
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kQTASsWP-pSraWqg?e=YIMJEt).
+
 Ao longo deste curso, os softwares R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação no planejamento**, uma etapa fundamental em pesquisas que buscam o aumento da compreensão de questões no nosso campo de interesse.
 
 É importante ressaltar o uso do R/RStudio não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses, coleta de dados e **análise de dados**, sendo este o foco deste curso.

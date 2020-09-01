@@ -11,6 +11,8 @@ output:
 
 # 1. Introdução
 
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kT7RsSZx0tSe0y0w?e=UFuUO1).
+
 Este roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
 
 Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).

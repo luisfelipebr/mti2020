@@ -1,0 +1,329 @@
+---
+title: "Prática no R! Roteiro 2 - Análise Exploratória I"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
+  pdf_document:
+    toc: TRUE
+    highlight: tango
+---
+
+# 1. Introdução
+
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kRHmhou-sgLRblag?e=yw6xBY).
+
+Este roteiro tem como objetivo apresentar algumas funções para a execução de uma **análise exploratória** no software R.
+
+A apresentação será feita usando uma base de dados demográficos e de consumo de água de 2010, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
+
+A base de dados está disponível para download no endereço abaixo:
+[https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U](https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U)
+
+Baixe essa base de dados pelo endereço indicado para salvá-la em seu computador.
+
+Se você ainda não criou uma pasta para salvar o conteúdo da disciplina, essa é a hora: crie uma pasta e coloque a base de dados nessa pasta.
+
+# 2. Criando um novo script
+
+Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` e em seguida em `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo script, onde você vai salvar a rotina de análise de dados.
+
+É muito importante salvar a rotina de cada semana em um script, para lembrar as funções que foram usadas e reproduzir a análise de dados, se necessário.
+
+# 3. Definindo o diretório de trabalho
+
+O **diretório de trabalho** refere-se à **pasta** onde você está guardando a sua base de dados e outros arquivos.
+
+Sempre que você abrir o RStudio, um diretório de trabalho será definido automaticamente. Para conferir qual o seu diretório de trabalho, você pode executar a função `getwd()`.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, echo=FALSE}
+print("D:/OneDrive")
+```
+
+No meu caso, o diretório de trabalho retornado foi `"D:/OneDrive"`, mas eu gostaria de trabalhar com outro diretório. Para definir um novo diretório de trabalho pela interface, clique em `Session`, `Set Working Directory` e `Choose Directory...` ou aperte os comandos `Ctrl + Shift + H` e escolha a pasta onde você está salvando os seus arquivos, .
+
+A função `setwd()` será executada com um argumento para definir o diretório de trabalho, de forma semelhante ao exemplo abaixo.
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+setwd("~/MTI")
+```
+
+Como o objetivo de um script é tornar o código reprodutível, não se esqueça de copiar o código executado no `Console` para o script. Você pode fazer isso clicando em `To Source` na aba `History`.
+
+Para conferir se deu tudo certo, você pode executar a função `getwd()` novamente para visualizar o seu diretório de trabalho.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, echo=FALSE}
+print("C:/Users/luisf/Documents/MTI")
+```
+
+A definição do diretório de trabalho é uma etapa opcional, mas que pode economizar muito tempo no processo de análise de dados. Quando você for importar ou exportar uma base de dados, ao invés de escrever o caminho completo até os dados (por exemplo, `"C:/Users/luisf/Documents/MTI/dados/agua1.csv"`), você pode escrever apenas metade do caminho (seguindo o exemplo, seria `"dados/agua1.csv"`).
+
+# 4. Importando a base de dados
+
+A base de dados que você baixou está em formato textual, mais especificamente no formato `csv`, que é a forma mais comum para a disponibilização de dados na internet.
+
+**ATENÇÃO: o formato `csv` possui duas variações: `csv` - os valores são separados por vírgula e os decimais por ponto; `csv2` - os valores são separados por ponto e vírgula e os decimais por vírgula. Lembre-se de especificar o formato correto.**
+
+É possível importar essa base de dados pela interface, em `Environment`, ou código.
+
+Para importar a base de dados pela interface, clique em `Import Dataset` e em seguida em `From Text (base)...`. Na janela que foi aberta, encontre o arquivo que deseja importar no diretório e clique em `Open`. Uma janela com opções adcionais será aberta. Você deve selecionar as seguintes opções para importar a base de dados baixada:
+
+* Encoding: UTF-8   (Codificação: UTF-8)
+* Heading: Yes    (Cabeçalho: Sim)
+* Separator: Semicolon    (Separador: ponto e vírgula)
+* Decimal: Comma    (Decimal: vírgula)
+
+Uma pré-visualização estará disponível em `Data Frame`, onde você pode conferir se a base de dados será importada corretamente. Quando estiver pronto, clique em `Import`.
+
+Nesse momento o código foi executado no `Console`, um novo objeto está listado em `Environment` (agua1 - 5566 observações de 14 variáveis) e uma nova janela foi aberta em `Source`, que permite a visualização interativa da tabela, de forma semelhante ao Excel.
+
+Embora a interface seja útil para importar dados, para tornar o código reprodutível, é necessário copiar o código que foi executado para o script. Faça isso copiando e colando do `Console` ou pela aba `History`.
+
+O código copiado e colado deve ser semelhante ao código abaixo, com alterações apenas no diretório.
+
+```{r, echo=FALSE}
+agua1 <- read.csv2("C:/Users/luisf/Documents/MTI/dados/agua1.csv", encoding="UTF-8")
+```
+
+```{r, eval=FALSE}
+agua1 <- read.csv2("~/MTI/dados/agua1.csv", encoding="UTF-8")
+```
+
+Se você fechou a janela em `Source` que permite a visualização interativa da tabela e deseja abri-la de novo, execute a função `View()` com o nome da base de dados como argumento, sem aspas.
+
+```{r, eval=FALSE}
+View(agua1)
+```
+
+# 5. Explorando os dados
+
+Além da função `View()`, que permite a visualização interativa de uma tabela, existem diversas outras funções que permitem explorar uma base de dados.
+
+A função `names()` exibe o nome de todas as variáveis da base de dados no `Console`.
+
+```{r}
+names(agua1)
+```
+
+Os nomes das variáveis dessa base de dados estão codificados, o que é uma prática comum na disponibilização de bases de dados na internet. Para saber o que cada variável significa, as bases de dados geralmente vêm acompanhadas de um dicionário, que é um repositório centralizado com informações sobre os dados (metadados), tais como: código, descrição, origem, uso e formato. A tabela abaixo apresenta uma descrição de cada variável, de forma semelhante a um dicionário:
+
+| Código    | Descrição                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| ID_IBGE   | Código IBGE (7 dígitos)                                                                                            |
+| ID_SNIS   | Código IBGE (6 dígitos)                                                                                            |
+| NOME_MUN  | Nome do Município                                                                                                  |
+| UF        | Unidade da Federação                                                                                               |
+| REGIAO    | Região do País                                                                                                     |
+| PIB       | PIB 2010                                                                                                           |
+| RENDAPITA | Renda per Capita 2010                                                                                              |
+| GINI      | Índice GINI 2010                                                                                                   |
+| IDH       | Índice de Desenvolvimento Humano 2010                                                                              |
+| IDH_CLASS | Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto >= 0,9; Alto >= 0,8; Médio >= 0,5; Baixo < 0,5. |
+| GE012     | População Total Residente no Município                                                                             |
+| AG001     | População Total Atendida com Abastecimento de Água                                                                 |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000 m3/ano                                        |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas                                                           |
+
+A função `head()` exibe as primeiras observações da base de dados no `Console`, sem a necessidade de abrir uma nova aba em `Source`. Seu uso é altamente recomendado para exibir bases de dados muito grandes (mais de 100.000 observações) que podem travar o programa RStudio quando aberta a visualização interativa.
+
+```{r}
+head(agua1)
+```
+
+A função `tail()`, de forma similar, exibe as últimas observações da base de dados no `Console`.
+
+```{r}
+tail(agua1)
+```
+
+A função `str()` exibe a estrutura da base de dados, com a classe da base de dados, o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outra) e as primeiras observações.
+
+```{r}
+str(agua1)
+```
+
+**IMPORTANTE: o operador `$` é usado para referir-se a uma variável da base de dados.**
+
+A função `summary()` apresenta um sumário de estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA's) para todas as variáveis numéricas.
+
+```{r}
+summary(agua1)
+```
+
+# 6. Criando um subconjunto (filtrar observações e selecionar variáveis)
+
+No decorrer de uma análise de dados, você pode precisar selecionar variáveis e filtrar observações, ou seja criar um subconjunto. Na linguagem R, subconjuntos podem ser criados com o uso de colchetes, seguindo o formato: `base_da_dados[observações,variáveis]`.
+
+Por exemplo, é possível selecionar as seis primeiras observações, de forma similar à função `head()`, com o comando:
+
+```{r}
+agua1[1:6,]
+```
+
+Para visualizar apenas o IDH desses seis municípios, podemos adicionar um segundo argumento com o número ou nome da variável:
+
+```{r}
+agua1[1:6,9]
+```
+
+```{r}
+agua1[1:6,"IDH"]
+```
+
+Outra forma de acessar uma coluna pelo seu nome é usando o operador `$` (cifrão) após os colchetes.
+
+```{r}
+agua1[1:6,]$IDH
+```
+
+Para ver o nome do município e IDH, podemos adicionar um vetor no segundo argumento com as variáveis de interesse:
+
+```{r}
+agua1[1:6,c("NOME_MUN", "IDH")]
+```
+
+**IMPORTANTE: é possível criar vetores com a função `c()` (concatenar).**
+
+Subconjuntos também funcionam com operadores lógicos, sendo possível filtrar as observações que satisfazem uma determinada condição usando a função `which()`. No exemplo abaixo, visualizamos o nome e IDH dos municípios que satisfazem as condições: Unidade da Federação é igual a São Paulo E IDH maior que 0,85.
+
+```{r}
+agua1[which(agua1$UF == "SP" & agua1$IDH > 0.85),c("NOME_MUN", "IDH")]
+```
+
+# 7. Criando tabelas de contingência
+
+Se você estiver trabalhando com variáveis categóricas, pode ser necessário criar tabelas de contingência para apresentar a contagem de ocorrências daquela variável. Para exibir a distribuição de municípios de acordo com a classificação do IDH, usaremos a função `table()`.
+
+```{r}
+table(agua1$IDH_CLASS)
+```
+
+A função `table()` também pode ser usada com dois argumentos, conforme mostra o exemplo abaixo com a classificação do IDH por região.
+
+```{r}
+table(agua1$REGIAO, agua1$IDH_CLASS)
+```
+
+# 8. Definindo uma nova variável
+
+É possível criar uma nova variável usando o operador `<-` ou `=`. Neste exemplo, vamos criar duas novas variáveis, chamadas `CONSUMO1` e `CONSUMO2`: 
+
+* `CONSUMO1`: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)
+* `CONSUMO2`: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)
+
+Como a unidade do consumo de agua (AG020) é **1.000 m³/ano**, primeiro é preciso multiplicar AG020 por 1.000 para obter a unidade **m³/ano** e depois dividir pela população para obter o consumo de água per capita em m3/ano.
+
+```{r}
+agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
+```
+
+```{r}
+agua1$CONSUMO2 <- agua1$AG020 * 1000 / agua1$AG001
+```
+
+Exibindo as primeiras observações, podemos ver que as duas novas variáveis foram definidas com sucesso.
+
+```{r}
+head(agua1)
+```
+
+# 9. Calculando estatísticas básicas (média, mediana, variância, desvio padrão)
+
+Com o uso do operador `$` podemos aplicar funções em uma variável para obter estatísticas básicas, como média, mediana, desvio padrão e variância. Vamos executar essas funções na nova variável `CONSUMO1`. Em todas as funções usaremos o argumento opcional `na.rm = TRUE` para remover os valores faltantes (NA). Se a variável não possuir valores faltantes, esse argumento não é necessário.
+
+```{r}
+mean(agua1$CONSUMO1, na.rm = TRUE)
+```
+
+```{r}
+median(agua1$CONSUMO1, na.rm = TRUE)
+```
+
+```{r}
+var(agua1$CONSUMO1, na.rm = TRUE)
+```
+
+```{r}
+sd(agua1$CONSUMO1, na.rm = TRUE)
+```
+
+# 10. Desenhando gráficos - Box-plot
+
+O **box-plot** é um gráfico utilizado para **avaliar a distribuição empírica de uma variável**, exibindo a mediana, quartis e limites superior e inferior. Para desenhar um box-plot, use a função `boxplot()`.
+
+```{r}
+boxplot(agua1$CONSUMO1)
+```
+
+O box-plot de `CONSUMO1` indica que existem diversos valores atípicos (*outliers*), ou seja, fora dos limites.
+
+# 11. Desenhando gráficos - Histograma
+
+O **histograma** é um gráfico que exibe a **frequência, ou distribuição, dos valores de uma variável**. É possível desenhar um histograma no R básico com a função `hist()`.
+
+```{r}
+hist(agua1$CONSUMO1)
+```
+
+O histograma de `CONSUMO1` sugere uma distribuição positivamente assimétrica dessa variável. A barra maior indica a `moda`, que neste caso está entre 10-20 m3/ano, sendo menor do que a `média` (24,77 m3/ano) e `mediana` (22,35 m3/ano). Como a média, mediana e moda não coincidem, a distribuição de `CONSUMO1` não representa uma curva normal.
+
+# 12. Desenhando gráficos - Qqplot
+
+A distribuição de `CONSUMO1` também pode ser visualizada com um **qqplot**, que compara duas distribuições de dados traçando quantis. Para desenhar um qqplot comparando a distribuição de `CONSUMO1` com uma curva normal, usaremos as funções `qqnorm` e `qqline`, conforme o exemplo abaixo.
+
+```{r}
+qqnorm(agua1$CONSUMO1)
+qqline(agua1$CONSUMO1, col = "red")
+```
+
+O qqplot de `CONSUMO1` sugere uma certa linearidade pela proximidade com a curva normal (em vermelho) nos quantis centrais, desviando da curva em valores muito altos e muito baixos (*outliers*).
+
+# 13. Exportando um gráfico
+
+É possível exportar os gráficos pela interface ou código. Para exportar pela interface, clique em `Export` e `Save as Image...` na aba `Plots`. Escolha o diretório (`Directory`), nome do arquivo (`File name`), largura (`Width`) e altura (`Height`). Uma pré-visualização estará disponível ao clicar em `Update Preview`. Quando estiver satisfeito com o seu gráfico, clique em `Save`.
+
+Para exportar um gráfico pela linha de código, primeiro execute a função `png()` para criar um arquivo (com o diretório, nome do arquivo e formato entre aspas como argumento), depois execute a função do seu gráfico e em seguida a função `dev.off()` para salvar o arquivo. Argumentos adicionais da função `png()` podem ser acessados na sua documentação e incluem a largura e altura, por exemplo.
+
+```{r, eval=FALSE}
+png("graficos/boxplot_CONSUMO1.png")
+boxplot(agua1$CONSUMO1)
+dev.off()
+```
+
+```{r, eval=FALSE}
+png("graficos/histograma_CONSUMO1.png")
+hist(agua1$CONSUMO1)
+dev.off()
+```
+
+```{r, eval=FALSE}
+png("graficos/qqplot_CONSUMO1.png")
+qqnorm(agua1$CONSUMO1)
+qqline(agua1$CONSUMO1, col = "red")
+dev.off()
+```
+
+# 14. Exportando a base de dados
+
+Após executar a rotina, você fez alterações na base de dados (novas variáveis - CONSUMO1 e CONSUMO2), pos isso é importante salvá-la para acesso futuro. O R não vai exportar a sua base de dados a menos que você especifique esse comando.
+
+É possível exportar a base de dados no formato `csv2` com a função `write.csv2()`. Ela exige dois argumentos: primeiro o nome do objeto que deseja exportar e depois o diretório, nome do arquivo e formato entre aspas. Para não perder a base de dados original, recomendamos salvar essa base de dados com um novo nome - `agua2`.
+
+```{r,eval=FALSE}
+write.csv2(agua1, "dados/agua2.csv")
+```
+
+# 15. Salvando o script
+
+Antes de encerrar a sessão no RStudio, é muito importante salvar o script para tornar a análise exploratória proposta reprodutível.
+
+Para salvar o script, clique no disquete azul em `Source` ou aperte o comando `Ctrl + S`.
+
+**IMPORTANTE: Todo o conteúdo após o símbolo `#` (jogo da velha/*hashtag*), recebe destaque e é considerado um comentário. Isso significa que todo o conteúdo após o `#` não será executado pelo R. É comum adicionar comentários que explicam o código com o uso de `#`.**
