@@ -1,41 +1,23 @@
 ---
-title: "Roteiro 1 - Introdução ao software R/RStudio"
-author: Luis Felipe Bortolatto da Cunha
-output: 
+title: "Prática no R! Roteiro 1 - Introdução ao software R/RStudio"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
   html_document:
     toc: TRUE
-    toc_float: FALSE
-    theme: cosmo
+    theme: flatly
     highlight: haddock
 ---
 
-objetos, funções, dados estruturados, operadores lógicos,
+# 1. Introdução
 
-# 4. Objetos
-
-Mas o que realmente revoluciona a análise de dados com o R é a possibilidade de definir e usar objetos. No exemplo abaixo, definimos o nosso primeiro objeto.
-
-## 2.5. Tipos de objetos
-
-Existem diversos tipos de objetos no R. Ele pode ser um valor, de uma classe básica, mas pode ser também uma **tabela** (*data frame*), um **vetor** (*vector*) - a coluna ou linha da tabela, uma matriz (*matrix*), uma lista (*list*), um modelo (*model*), um objeto geoespacial (*sf*), dentre muitos outros. Nesta aula vamos explorar apenas os vetores e tabelas, as duas unidades básicas de dados estruturados.
-
-Conforme ilustra a Figura Y, dados estruturados são os dados que já estamos acostumados a trabalhar no Excel. Eles são tabelas bidimensionais, com linhas (observações) e colunas (variáveis). Se extrairmos uma linha ou uma coluna de uma tabela, estamos nos referindo a um vetor - unidimensional - de dados.
-
-# 5. Funções
-
-Um tipo de objeto muito importante são as **funções**! O R básico já vem com diversas funções estatísticas clássicas definidas, e qualquer um pode criar novas funções e adicioná-las a um pacote, tornando-as disponíveis aos outros usuários.
-
-No exemplo abaixo, aplicamos as funções de raiz quadrada (`sqrt()`) e exponencial (`exp()`), que são outras operações matemáticas muito importantes.
-
-## 1. Introdução
-
-No decorrer deste curso, os softwares R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação**, uma etapa fundamental em pesquisas que buscam um aumento da compreensão de questões no nosso campo de interesse.
+Ao longo deste curso, os softwares R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação no planejamento**, uma etapa fundamental em pesquisas que buscam o aumento da compreensão de questões no nosso campo de interesse.
 
 É importante ressaltar o uso do R/RStudio não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses, coleta de dados e **análise de dados**, sendo este o foco deste curso.
 
-### 1.1. O que é o R?
+# 2. O que é o R?
 
-O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (uma linguagem de programação).
+O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
 
 Algumas de suas vantagens são:
 
@@ -50,74 +32,122 @@ mercado
 Um **script** refere-se à uma rotina de análise ou visualização de dados que:
 
 * É um texto
-* É transparente
 * É reprodutível
 * Pode ser compartilhado
 * Pode ser colaborativo
 
-### 1.2. O que é o RStudio?
+# 3. O que é o RStudio?
 
-O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado para desenvolver análise de dados com a linguagem R. Além de permitir **escrever códigos em scripts** e **executar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
+O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado na análise de dados com a linguagem de programação R. Além de permitir **escrever códigos em scripts** e **executar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
 
-### 1.3. Transferência e instalação do R e RStudio
+# 4. Instalando o R e RStudio
 
-Primeiro, é necessário instalar o R. Você pode transferir a última versão [neste endereço](https://cran.r-project.org/bin/windows/base/). Após a transferência, siga o passo a passo para a instalação (Fig. 1).
+Primeiro, é necessário instalar o R. Você pode transferir a última versão [neste endereço](https://cran.r-project.org/bin/windows/base/). Após a transferência, siga o passo a passo para a instalação.
 
-![Fig. 1 - Instalação do R](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_instalar_r.gif)
+Se a instalação do R foi bem sucedida, você pode transferir o RStudio Desktop (versão gratuita) [neste endereço](https://rstudio.com/products/rstudio/download/) e seguir o passo a passo para a instalação.
 
-Se a instalação do R foi bem sucedida, você pode transferir o RStudio Desktop (versão gratuita) [neste endereço](https://rstudio.com/products/rstudio/download/) e seguir o passo a passo para a instalação (Fig. 2).
+# 5. Interface RStudio
 
-![Fig. 2 - Instalação do RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_instalar_rstudio.gif)
+A interface do RStudio deve exibir, na maior parte do tempo, quatro painéis:
 
-### 1.4. Interface RStudio
+**1. Source:** É a sua área de trabalho principal. Pode exibir várias janelas, com scripts, tabelas e outros conteúdos. Ao clicar em `Run` ou apertar os comandos `Ctrl + Enter`, dentro de um script, o conteúdo selecionado será enviado ao `Console` para ser executado.
 
-A interface do RStudio deve exibir, na maior parte do tempo, quatro painéis (Fig. 3):
-
-**1. Source:** É a sua área de trabalho principal. Pode exibir várias janelas, com scripts, tabelas e outros conteúdos. Ao clicar em `Run` ou apertar os comandos `Ctrl + Enter`, dentro de um script, o conteúdo selecionado vai executar e aparecer no `Console`.
-
-**2. Console:** Todo código que você executar de um script será enviado ao `Console`, onde os resultados e avisos aparecerão. Você também pode escrever uma linha de código diretamente no `Console`.
+**2. Console:** Todo código que você executar em um script será enviado ao `Console`, onde os resultados e avisos aparecerão. Você também pode escrever uma linha de código diretamente no `Console`.
 
 **3. Environment/History**:
+
 * Environment: É o ambiente de trabalho ativo. Todos os objetos e funções definidos devem aparecer no `Environment`.
 * History: Exibe o histórico de cada linha de código executada, que podem ser enviadas à `Source` ou `Console`. 
 
 **4. Files/Plots/Packages/Help:**
+
 * Files: Permite navegar pelos diretórios de trabalho.
 * Plots: Exibe os gráficos, mapas e outras figuras produzidas.
 * Packages: Permite o gerenciamento dos pacotes ativos e instalados.
 * Help: Contém tutoriais e exibe ajuda, quando solicitada.
 
-![Fig. 3 - Interface RStudio](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/2_interface_rstudio_com_quadros.png)
+![Fig. 1 - Interface RStudio](D:/OneDrive/@/mti2020/figuras/1_interface_rstudio.png)
 
-### 1.5. Objetos
+# 6. Objetos
 
-Dados estruturados (tabela ou *data frame*)
+Na linguagem de programação R, os objetos são a unidade básica de análise. Eles referem-se à um pequeno espaço na memória RAM do computador onde um conjunto de valores serão armazenados. Geralmente usamos o operador `<-` ou `=` para definir um objeto.
 
-### 1.6. Funções
+O R suporta diferentes tipos de objetos, sendo alguns dos mais comuns:
 
-### 1.7. Operadores matemáticos
+* Vetor (`vector`): um conjunto unidimensional de valores da mesma classe.
+* Matriz (`matrix`): um conjunto bidimensional de valores da mesma classe (geralmente, numérico).
+* **Tabela (`data.frame` ou `tibble`)**: um conjunto bidimensional de valores, organizados em linhas e colunas. Todos os valores de uma coluna possuem a mesma classe.
+* Raster (`raster`): uma matriz com atributos geoespaciais.
+* Geoespacial (`sf`): uma tabela com atributos geoespaciais.
+* Lista (`list`): um conjunto unidimensional de outros objetos (por exemplo, tabelas).
 
-### 1.8. Operadores lógicos
+Nas primeiras aulas vamos explorar dados em formato de **tabela**! É nesse formato que os bancos de dados são geralmente disponibilizados na internet. As tabelas de bancos de dados sempre possuem uma estrutura comum: os valores são organizados em **linhas (observações)** e **colunas (variáveis)**, sendo consideradas um tipo de **dados estruturados**. As observações referem-se à unidade de análise (pessoas, domicílios, municípios etc.), enquanto as variáveis são os atributos dessa variável e possuem sempre a mesma classe (caractére, numérico, fator etc.).
 
-### 1.9. Como buscar ajuda
+![Fig. 2 - Dados estruturados. Fonte: adaptado de Grolemund & Wickham, 2017](D:/OneDrive/@/mti2020/figuras/1_dados_estruturados.png)
 
-No decorrer das aulas práticas, você pode precisar de ajuda para entender uma função. Não se preocupe: ter dúvidas faz parte do processo de aprendizado. Na verdade, o R/RStudio conta com uma ferramenta que pode te auxiliar: é possível acessar tutoriais produzidos pelo R/RStudio em `Help`.
+# 7. Funções
+
+Na linguagem de programação R, as **funções** referem-se à uma **sequência de comandos** que permitem **realizar operações complexas**. O R básico já vem com diversas funções estatísticas clássicas definidas:
+
+* `sum()`: soma
+* `mean()`: média
+* `median()`: mediana
+* `quantile()`: quantil
+* `sd()`: desvio padrão
+* `var()`: variância
+* `sqrt()`: raiz quadrada
+* `exp()`: exponencial
+* `round()`: arredondamento
+
+Novas funções podem ser adicionadas carregando pacotes.
+
+# 8. Operadores matemáticos
+
+Os **operadores aritméticos** já estão definidos na linguagem R, permitindo realizar operações com dados numéricos:
+
+* Adição: +
+* Subtração: -
+* Multiplicação: *
+* Divisão: /
+* Módulo: %%
+* Divisão por inteiro: %/%
+* Exponenciação: ^ ou **
+
+# 9. Operadores lógicos
+
+Os **operadores lógicos** também já estão definidos na linguagem R, permitindo fazer perguntas sobre os dados e retornando sempre `TRUE` (verdadeiro) ou `FALSE` (falso).
+
+* x **==** y: x é **igual** a y?
+* x **!=** y: x é **diferente** de y?
+* x **>** y: x é **maior** que y?
+* x **>=** y: x é **maior ou igual** a y?
+* x **<** y: x é **menor** que y?
+* x **<=** y: x é **menor ou igual** a y?
+* x **&** y: x **e** y são verdadeiros?
+* x **|** y: x **ou** y são verdadeiros?
+* **!**x: **negativa** de x.
+* **is.na(**x**)**: x é **igual a NA**?
+* **!is.na(**x**)**: x é **diferente de NA**?
+
+# 10. Como buscar ajuda
+
+No decorrer das aulas práticas, você pode precisar de ajuda para entender uma função. Não se preocupe: ter dúvidas faz parte do processo de aprendizado. Na verdade, o R/RStudio conta com uma ferramenta que pode te auxiliar: é possível acessar tutoriais produzidos pelo R/RStudio na aba `Help`.
 
 `Help` também exibe a documentação de cada função, que pode ser acessada com o uso das funções `help()` ou `?`.
 
 Para acessar a documentação da função média, por exemplo, você pode digitar:
 
-```{r}
+```{r, eval=FALSE}
 help(mean)
 ```
 
 Ou:
 
-```{r}
+```{r, eval=FALSE}
 ?mean
 ```
 
-Que deve exibir o seguinte conteúdo em `Help` (Fig. 4):
+Que deve exibir o seguinte conteúdo na aba `Help`:
 
 * **Descrição:** Função genérica para a média aritmética (aparada).
 * **Uso:** mean(x, ...)
@@ -128,177 +158,12 @@ Que deve exibir o seguinte conteúdo em `Help` (Fig. 4):
   * **...** argumentos adicionais passados para ou de outros métodos.
 * **Valor:** Se o corte for zero (o padrão), a média aritmética dos valores em x é calculada, como um vetor numérico ou complexo de comprimento um. [...]
 
-**Importante: a seção uso descreve os argumentos obrigatórios (apenas x, no caso da função `mean()`), sendo todos os outros argumentos descritos opcionais. Atente-se aos argumentos obrigatórios e opcionais ao usar uma função.**
+**Importante: a seção uso descreve quais são os argumentos obrigatórios (apenas x, no caso da função `mean()`), sendo todos os outros argumentos descritos opcionais. Atente-se aos argumentos obrigatórios e opcionais ao usar uma função.**
 
 Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. :worried:
 
 Você pode traduzir o conteúdo da documentação no tradutor de sua preferência, como fizemos para apresentar a documentação da função `mean()`.
 
-Nós também recomendamos que você busque ajuda no buscador de sua preferência (Google, Bing etc.) e no [Stackoverflow](https://stackoverflow.com/), mas estaremos disponíveis no decorrer deste curso para tirar qualquer dúvida que você tiver no processo de análise de dados.
+Você também pode buscar ajuda em um buscador (Google, Bing, Yahoo etc.), pois já existem diversos materiais em português sobre a linguagem de programação R e análise de dados, mas estaremos disponíveis para tirar quaisquer eventuais dúvidas no decorrer deste curso.
 
-![Fig. 4 - Documentação da função `mean()`](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_documentacao_media.png)
-
-
-
-
-
-
-## 2. Análise exploratória
-
-Nessa primeira aula prática, vamos realizar uma análise exploratória dos discentes matriculados no Bacharelado em Planejamento Territorial (BPT), a partir da amostra dos respondentes da pesquisa [Perfil Discente](http://propladi.ufabc.edu.br/informacoes/perfil) 2019 da PROPLADI/UFABC, com o objetivo de responder às seguintes perguntas: 
-
-1. Qual é a mediana da idade dos discentes matriculados no BPT?
-2. Qual é o CR médio dos discentes matriculados no BPT?
-3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?
-4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no turno matutino no último ano?
-
-### 2.1 Criando um script
-
-Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` >>> `R Script` ou aperte os comando `Ctrl + Shift + N` para criar um novo script, onde vamos salvar a rotina de análise de dados.
-
-Em cada aula prática, vamos salvar a rotina de análise de dados em um novo script, que podemos abrir a qualquer momento para lembrar as funções e objetos que foram usados. É recomendado submeter, junto com o trabalho final, um script que permite a reprodução da sua pesquisa.
-
-![Fig. 5 - Como criar um novo script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/1_criar_script.gif)
-
-### 2.2 Importando os dados
-
-Os dados já foram pré-processados para conter apenas as observações (discentes matriculados no BPT) e variáveis de interesse. O endereço para acessar a base de dados é:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv).
-
-O RStudio conta com um botão para auxiliar na importação de dados. Clique em `Import Dataset` >>> `From Text (readr)...` para importar a sua primeira base de dados. Em `File/URL` você pode colocar o endereço web para a transferência e importação da base de dados (desde que você tenha conexão com a internet) ou você pode clicar em `Browse` para navegar pelo seu diretório até encontrar o arquivo que deseja importar. Uma pré-visualização do arquivo deve aparecer em `Data preview`, permitindo que você confira se a importação da base de dados deu certo. `Import options` apresenta algumas opções de importação adicionais que você pode explorar mais tarde.
-
-Adicione o endereço web da nossa base de dados e clique em `Update` ou faça a transferência do arquivo e indique o caminho clicando no botão `Browse`.
-
-Veja que alguns caracteres apareceram com erro. Isso aconteceu porque o formato do nosso arquivo não foi reconhecido. É possível arrumar esses caracteres clicando em `Locale: Configure...`. Em `Encoding:` selecione `Other...` e escreva `latin1`. Clique em `OK` e em seguida em `Configure`.
-
-Se você clicar na opção `Import`, a base de dados será importada. Mas como o nosso objetivo é tornar o código reprodutível, vamos copiar o código que apareceu em `Code preview` e colar no nosso script.
-
-```{r, warning=FALSE, message=FALSE}
-library(readr)
-dados_bpt1 <- read_csv("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/dados_bpt1.csv", 
-                       locale = locale(encoding = "latin1"))
-View(dados_bpt1)
-```
-
-![Fig. 6 - Importação da base de dados através da interface](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3_importar_base_de_dados.gif)
-
-Selecione todo o código (3 linhas) e clique em `Run` ou aperte os comandos `Ctrl + Enter` para executar o seu primeiro código. Uma nova janela será aberta, permitindo a visualização da base de dados. Ela foi aberta após a reprodução do código `View(dados_bpt1)`, que abre uma tabela parecida com a do excel para visualização dos dados.
-
-Se tudo deu certo, a sua base de dados está agora listada no `Environment`: **dados_bpt1** com 37 observações e 8 variáveis.
-
-![Fig. 7 - Executando o código](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/4_rodar_codigo.gif)
-
-**Atenção: Se essa foi a sua primeira vez usando o R no seu computador, pode ser necessário instalar o pacote `readr` para importar os dados. Isso pode ser feito executando o código abaixo após copiar e colar no seu script ou console. Um pacote só precisa ser instalado uma vez em cada computador.**
-
-```{r, eval = FALSE}
-install.packages("readr")
-```
-
-### 2.3. Análise exploratória
-
-Além da função `View()`, existem diversas outras funções que permitem explorar uma base de dados.
-
-A função `head()` exibe as primeiras observações da base de dados no `Console`, sem a necessidade de abrir uma nova aba, e é altamente recomendada para bases de dados grandes (mais de 100.000 observações) que podem travar o programa RStudio quando abertas.
-
-```{r}
-head(dados_bpt1)
-```
-
-A função `tail()`, de forma similar, exibe as últimas observações da base de dados no `Console`.
-
-```{r}
-tail(dados_bpt1)
-```
-
-A função `names()` exibe o nome de todas as variáveis da base de dados no `Console`.
-
-```{r}
-names(dados_bpt1)
-```
-
-A função `str()` exibe a estrutura da base de dados, com a classe da base de dados (**tibble** - é um nome para uma base de dados estruturada em formato de tabela), o número de observações e variáveis, o nome de cada variável, a classe de cada variável (se é numérica, lógica, caractére ou outras) e as primeiras observações.
-
-```{r}
-str(dados_bpt1)
-```
-
-**Importante: o operador `$` é usado para referir-se a uma variável da base de dados.**
-
-A função `summary()` apresenta um sumário com estatísticas descritivas (mínimo, 1º quartil, mediana, média, 3º quartil, máximo e valores faltantes - NA's) para todas as variáveis numéricas.
-
-```{r}
-summary(dados_bpt1)
-```
-
-No sumário, já temos a resposta para as duas primeiras questões.
-
-Mas essas respostas também podem ser apresentadas de forma mais direta, com o uso de funções específicas para esse fim.
-
-**1. Qual é a mediana da idade dos discentes matriculados no BPT?**
-
-A mediana pode ser obtida através da função `median()`.
-
-```{r}
-median(dados_bpt1$idade)
-```
-
-Mas quando digitamos `median(dados_bpt1$idade)`, a resposta é um valor faltante (NA). Isso aconteceu porque, conforme vimos no sumário, existem 2 NA's na variável idade. Para obter o mesmo resultado do sumário, podemos acrescentar o argumento `na.rm = TRUE` para remover os valores faltantes do cálculo da mediana.
-
-```{r}
-median(dados_bpt1$idade, na.rm = TRUE)
-```
-
-Portanto, a mediana da idade dos discentes matriculados no BPT é 25 anos.
-
-**2. Qual é o CR médio dos discentes matriculados no BPT?**
-
-De forma similar, podemos aplicar a função `mean()` para obter o CR médio dos discentes matriculados no BPT.
-
-```{r}
-mean(dados_bpt1$cr, na.rm = TRUE)
-```
-
-O CR médio dos discentes matriculados no BPT é 2,757.
-
-**3. Quais são os três municípios de residência mais comuns entre os discentes matriculados no BPT?**
-
-Para responder a terceira pergunta, aplicamos a função `table()` para criar uma tabela de contingência com a contagem dos municípios de residência dos discentes matriculados no BPT. 
-
-```{r}
-table(dados_bpt1$municipio_de_residencia)
-```
-
-Os três municípios de residência mais comuns entre os discentes matriculados no BPT são São Paulo, São Bernardo do Campo e Santo André.
-
-**4. Qual o município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no turno matutino no último ano?**
-
-Para responder a essa pergunta, usamos a função `table()` para criar uma tabela de contingência com dois argumentos: município de residência e turno.
-
-```{r}
-table(dados_bpt1$municipio_de_residencia, dados_bpt1$turno)
-```
-O município de residência mais comum entre os discentes matriculados no BPT que assistiram disciplinas principalmente no matutino é São Paulo.
-
-### 2.4. Exportando uma base de dados
-
-O R não vai exportar a sua base de dados a menos que você especifique esse comando.
-
-Após executar a sua rotina de análise de dados, você pode ter feito alterações na base de dados e gostaria de salvá-la como um novo arquivo para acessá-la futuramente. No nosso caso, não fizemos alterações, mas ainda assim vamos exportar a base de dados com o uso da função `write_csv()`. 
-
-```{r}
-write_csv(dados_bpt1, path = "D:/OneDrive/@/mti/aula1/dados_bpt1.csv")
-```
-
-**Atenção: você precisa alterar o argumento `path =` para incluir o diretório de trabalho onde deseja salvar o arquivo. `dados_bpt1.csv` deve ser mantido, pois refere-se ao nome e formato do arquivo que será exportado.**
-
-### 2.5. Salvando o script
-
-Após executar a análise exploratória de dados proposta nessa aula prática o seu script deve estar parecido com [esse](https://raw.githubusercontent.com/luisfelipebr/mti/master/aula1/aula1.R).
-
-Você pode salvar o seu script clicando no disquete azul ou através do comando `Ctrl + S`.
-
-É muito importante salvar a rotina de análise de dados, pois isso permite replicá-la sem escrever todo o código novamente.
-
-![Fig. 8 - Salvando o script](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/6_salvar_script.gif)
-
-**Importante: todo o conteúdo após o `#` não será executado pelo R. Ele é muito usado para adicionar comentários antes de cada linha, para que você e outras pessoas que estão lendo o seu código entendam o que cada linha de código faz ao ser executada.**
+![Fig. 3 - Documentação mean()](D:/OneDrive/@/mti2020/figuras/1_documentacao_mean()3.png)

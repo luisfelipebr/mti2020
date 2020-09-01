@@ -1,7 +1,8 @@
 ---
-title: "Roteiro 3 - Análise Exploratória II"
-author: Elaborado por Luis Felipe Bortolatto da Cunha
-output: 
+title: "Prática no R! Roteiro 3 - Análise Exploratória II"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
   html_document:
     toc: TRUE
     theme: flatly
@@ -10,49 +11,81 @@ output:
 
 # 1. Introdução
 
-O presente roteiro tem como objetivo apresentar funções fundamentais para a **análise exploratória**, mas dessa vez  baseadas no pacote **`tidyverse`** que estão organizadas em torno de um **conjunto de princípios básicos** que tornam a análise de dados mais acessível para quem está tendo o primeiro contato com a programação.
+Este roteiro tem como objetivo apresentar novas funções para a execução **análise exploratória**, mas dessa vez  baseadas no pacote **`tidyverse`** que estão organizadas em torno de um **conjunto de princípios básicos** que tornam a análise de dados mais acessível para quem está tendo o primeiro contato com a programação.
 
-A Figura 1 ilustra as 6 etapas essenciais da análise de dados.
+A Figura 1 ilustra 6 etapas fundamentais da análise de dados que o software R auxilia a executar.
 
-![Fig. 1 - Etapas da análise de dados. Fonte: adaptado de Grolemund & Wickham, 2017](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3.1.png)
+![Fig. 1 - Etapas da análise de dados. Fonte: adaptado de Grolemund & Wickham, 2017](D:/OneDrive/@/mti2020/figuras/3_etapas_da_analise_de_dados.png)
 
+Nesse roteiro, utilizaremos duas bases de dados demográficos e de consumo de água de 2010, extraídas do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
 
+As bases de dados estão disponíveis para download no endereço abaixo:
+[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv)
 
 # 1.1. Importando os dados
 
-Os dados dessa aula estão hospedados na nuvem, em formato csv2. Portanto, se você possui conexão com a internet, você pode abrir os dados com o comando abaixo.
+As duas bases de dados podem ser importadas conforme as instruções do Roteiro 2.
+
+Como elas estão hospedadas na nuvem, também podem ser importadas com o endereço web como argumento, ao invés do endereço local, conforme o exemplo abaixo. É importante lembrar que a importação pelo endereço web exige conexão com a internet!
 
 ```{r}
-agua2 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua2.csv")
+agua1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua1.csv", encoding="UTF-8")
 ```
 
 ```{r}
-rede1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/rede1.csv")
+rede1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/rede1.csv", encoding="UTF-8")
 ```
-
-Uma alternativa é transferir os dados da aula para o seu computador e abri-los colocando o caminho (*path*) para acessá-lo no seu computador, conforme as instruções abaixo. **Atenção: é necessário editar o código abaixo com o caminho do arquivo no seu computador**
 
 # 1.2. Explorando os dados
 
-Antes de realizar qualquer análise, é recomendado explorar a base de dados aberta. Diversos comandos podem auxiliar nessa tarefa.
+A função `names()` permite ver o nome das variáveis das bases de dados. Como os nomes estão codificados, as tabelas abaixo fornecem uma correspondência do código com a descrição da variável.
 
-# 2. Criando um projeto
+```{r}
+names(agua1)
+```
 
+| Código    | Descrição                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| ID_IBGE   | Código IBGE (7 dígitos)                                                                                            |
+| ID_SNIS   | Código IBGE (6 dígitos)                                                                                            |
+| NOME_MUN  | Nome do Município                                                                                                  |
+| UF        | Unidade da Federação                                                                                               |
+| REGIAO    | Região do País                                                                                                     |
+| PIB       | PIB 2010                                                                                                           |
+| RENDAPITA | Renda per Capita 2010                                                                                              |
+| GINI      | Índice GINI 2010                                                                                                   |
+| IDH       | Índice de Desenvolvimento Humano 2010                                                                              |
+| IDH_CLASS | Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto >= 0,9; Alto >= 0,8; Médio >= 0,5; Baixo < 0,5. |
+| GE012     | População Total Residente no Município                                                                             |
+| AG001     | População Total Atendida com Abastecimento de Água                                                                 |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000 m3/ano                                        |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas                                                           |
 
+```{r}
+names(rede1)
+```
 
-# 3. Instalando e abrindo o pacote "tidyverse"
+| Código  | Descrição                                                |
+|---------|----------------------------------------------------------|
+| ID_IBGE | Código IBGE (7 dígitos)                                  |
+| UF      | Unidade da Federação                                     |
+| REGIAO  | Região do País                                           |
+| DOMICIL | Quantidade de Domicílios                                 |
+| REDE    | Quantidade de Domicílios com Acesso à Rede Geral de Água |
 
-Para instalar o pacote `tidyverse`, utilizamos a função `install.packages()`, com o nome do pacote dentro do parênteses e entre aspas. 
+# 2. Instalando e abrindo o pacote "tidyverse"
 
-**Atenção: só é necessário instalar o pacote uma única vez em cada computador.**
+Para instalar o pacote `tidyverse`, usaremos a função `install.packages()`, com o nome do pacote entre aspas como argumento. 
 
-```{r, warning=FALSE, message=FALSE, eval = FALSE}
+**ATENÇÃO: só é necessário instalar o pacote uma única vez em cada computador.**
+
+```{r, eval = FALSE}
 install.packages("tidyverse")
 ```
 
-Após instalar o pacote, utilizamos a função `library()` para abri-lo. Não é necessário colocar o nome do pacote entre aspas.
+Após instalar o pacote, utilizamos a função `library()` para abri-lo, com o nome do pacote como argumento. Não é necessário colocar o nome do pacote entre aspas.
 
-**Atenção: é necessário abrir o pacote todas as vezes que o programa R/RStudio é aberto ou a sessão é reiniciada.**
+**ATENÇÃO: é necessário abrir o pacote todas as vezes que o programa R/RStudio é aberto ou a sessão é reiniciada.**
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -62,7 +95,7 @@ library(tidyverse)
 
 O **operador pipe (`%>%`)** é a principal contribuição do `tidyverse` à análise de dados. Ele é uma ferramenta poderosa para **expressar** de forma clara **uma sequencia de operações**.
 
-Para entender como ele funciona, podemos traçar o paralelo com uma receita de bolo ([curso-r, XXXX]()). Usando a linguagem de programação do R básico, a receita poderia ser representada da seguinte forma:
+Para entender como ele funciona, podemos traçar o paralelo com uma receita de bolo (curso-r, 2018). Usando o R básico, a receita poderia ser representada da seguinte forma:
 
 ```{r, eval = FALSE}
 esfrie(asse(coloque(bata(acrescente(recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo"), "farinha", até = "macio"), duração = "3min"), lugar = "forma", tipo = "grande", untada = TRUE), duração = "50min"), "geladeira", "20min")
@@ -79,7 +112,7 @@ recipiente(rep("farinha", 2), "água", "fermento", "leite", "óleo") %>%
   esfrie("geladeira", "20min")
 ```
 
-Esperamos que esse exercício de abstração tenha convencido-o a adotar o operador pipe na análise de dados. A partir desse roteiro, o pipe será usado em todos os exemplos, apesar do seu uso ser opcional no trabalho final.
+Esperamos que esse exercício de abstração tenha convencido-o a adotar o operador pipe na análise de dados. A partir desse roteiro, o pipe será usado em todos os exemplos, apesar do seu uso ser opcional.
 
 # 4. Filtrar e Selecionar (filter, select)
 
@@ -107,9 +140,12 @@ Definir novas variáveis no R básico é bem simples. Mas para incluir essa etap
 
 Seguindo o exemplo do Roteiro 2, podemos definir as variáveis CONSUMO1 e CONSUMO2 da seguinte forma com o R básico:
 
+* `CONSUMO1`: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)
+* `CONSUMO2`: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)
+
 ```{r}
 agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
-agua1$CONSUMO2 <- agua1$AG020 * 1000 / agua1$AG0001
+agua1$CONSUMO2 <- agua1$AG020 * 1000 / agua1$AG001
 ```
 
 A mesma operação ficaria da seguinte forma no tidyverse:
@@ -133,9 +169,17 @@ No tidyverse, a união pode ser feita usando uma de quatro funções, a depender
 * `inner_join()`: O resultado é uma base de dados que exclui as observações sem correspondência ao identificador.
 * `full_join()`: O resultado é uma base de dados com todas as observações, da primeira e segunda base, adicionando valores faltantes (NA) quando não há correspondência ao identificador.
 
-![Fig. X - Tipos de união. Fonte: Surles, 2017](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3.x.png)
+![Fig. 3 - Tipos de união. Fonte: Surles, 2017](https://raw.githubusercontent.com/luisfelipebr/mti/master/figuras/3.x.png)
 
-Neste roteiro vamos explorar o consumo de água per capita (CONSUMO1) e a proporção de domicílios com acesso à rede geral de água (PROPREDE). A proporção de domicílios com acesso à rede geral pode ser calculada com a função `mutate()` para dividir a quantidade de domicílios com acesso à rede geral pela quantidade total de domicílios (REDE/DOMICIL). Como estes dados estão fragmentados em duas bases de dados diferentes, vamos uni-las com a função `full_join()`. Além disso, como as duas bases de dados possuem variáveis repetidas usaremos a opção `select()` para selecionar apenas as variáveis de interesse. Todas essas etapas da análise de dados podem ser escritas em um único fluxo de análise de dados com o tidyverse, da seguinte forma:
+Neste roteiro vamos explorar a proporção de domicílios com acesso à rede geral de água (PROPREDE). A proporção de domicílios com acesso à rede geral pode ser calculada com a função `mutate()` para dividir a quantidade de domicílios com acesso à rede geral pela quantidade total de domicílios (REDE/DOMICIL). 
+
+* `PROPREDE`: Proporção de Domicílios com com Acesso à Rede Geral de Água (REDE/DOMICIL)
+
+Como estes dados estão fragmentados em duas bases de dados diferentes, vamos uni-las com a função `full_join()`. 
+
+Além disso, como as duas bases de dados possuem variáveis repetidas usaremos a opção `select()` para selecionar apenas as variáveis de interesse. 
+
+Todas essas etapas da análise de dados podem ser escritas em um único fluxo de análise de dados com o tidyverse, da seguinte forma:
 
 ```{r}
 agua_rede1 <- rede1 %>%
@@ -152,7 +196,7 @@ agua_rede1 <- rede1 %>%
 
 Na aula teórica, aprendemos a calcular o intervalo de confiança.
 
-Para explorar a desigualdade de PROPREDE1, vamos primeiro filtrar os valores faltantes (`drop_na()`), agrupar por regiões (`group_by()`), resumir estatísticas básicas (`summarize()`) e calcular o intervalo de confiança para cada região (`mutate()`) com um intervalo de confiança de 95% (escore-z da curva normal é igual a 1,96). O resultado será salvo como o objeto `tabela_PROPREDE`.
+Para explorar a desigualdade de PROPREDE1, vamos primeiro filtrar os valores faltantes (`drop_na()`), agrupar por regiões (`group_by()`), resumir estatísticas básicas (`summarize()`) e calcular o intervalo de confiança para cada região (`mutate()`) com um intervalo de confiança de 95% (escore-z da curva normal é igual a 1,96). O resultado será salvo como o objeto de nome `tabela_PROPREDE`.
 
 ```{r, message=FALSE, warning=FALSE}
 tabela_PROPREDE <- agua_rede1 %>%
@@ -203,19 +247,20 @@ Alguns argumentos adicionais que podem ser explorados são:
 * `+ facet_wrap(~*codigo_variavel*)` = replica um gráfico para diferentes classes
 * `+ coord_flip()` = inverte as coordenadas x e y
 * `+ ggtitle("Título em parênteses")` = adiciona um título
+* `+ theme()` = para customizar os componentes não relacionados aos dados
 
 Argumentos adicionais podem ser consultados acessando a bibliografia complementar.
 
-As funções `group_by()` e `summarize()` permitiram explorar as desigualdades regionais relacionadas ao consumo de água per capita (CONSUMO1) e proporção de domicílios com acesso à rede geral (PROPREDE). Essa análise pode ser aprofundada com a construção de gráficos.
+Vamos usar a função `ggplot()` para explorar com maior profundidade as desigualdades regionais relacionadas à PROPREDE.
 
-O código abaixo desenha um histograma que compara PROPREDE entre as regiões.
+O código abaixo desenha um histograma de PROPREDE:
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agua_rede1, aes(x = PROPREDE)) +
   geom_histogram()
 ```
 
-É possível replicar esse gráfico para cada região adicionando um argumento.
+Adicionando o argumento `facet_wrap()` é possível replicar esse gráfico para cada região:
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agua_rede1, aes(x = PROPREDE)) +
@@ -223,7 +268,7 @@ ggplot(data = agua_rede1, aes(x = PROPREDE)) +
   facet_wrap(~REGIAO)
 ```
 
-Adicionando mais alguns argumentos, o gráfico pode ficar ainda mais claro.
+Adicionando mais alguns argumentos, a visualização do gráfico pode ser aprimorada ainda mais, embora essa etapa é opcional.
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agua_rede1, aes(x = PROPREDE, fill = REGIAO)) +
@@ -236,8 +281,15 @@ ggplot(data = agua_rede1, aes(x = PROPREDE, fill = REGIAO)) +
   theme(legend.position = "none")
 ```
 
+O código abaixo desenha um box-plot que compara `PROPREDE` entre as regiões.
 
-Para desenhar um box-plot que compara as regiões
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(y = PROPREDE)) +
+  geom_boxplot() +
+  facet_wrap(~REGIAO)
+```
+
+Também é possível adicionar alguns argumentos para aprimorar a visualização desse gráfico.
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agua_rede1, aes(y = PROPREDE, fill = REGIAO)) +
@@ -250,19 +302,29 @@ ggplot(data = agua_rede1, aes(y = PROPREDE, fill = REGIAO)) +
   theme(legend.position = "none")
 ```
 
-Por fim, o gráfico abaixo compara 
+Por fim, o gráfico abaixo compara a média e intervalo de confiança de `PROPREDE` por região.
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = tabela_PROPREDE, aes(x = REGIAO, y = media)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = limite_inferior, ymax = limite_superior))
+```
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = tabela_PROPREDE, aes(x = REGIAO, y = media, fill=REGIAO)) +
   geom_col() +
   geom_errorbar(aes(ymin = limite_inferior, ymax = limite_superior)) +
-  ggtitle("Média e desvio padrão de PROPREDE por região") +
+  ggtitle("Média e intervalo de confiança de PROPREDE por região") +
   xlab("") +
   ylab("") +
   theme_bw() +
   theme(legend.position = "none")
 ```
 
-# 9. (Extra) Outras funções do tidyverse
+# 9. Exportando a base de dados
 
+Não se esqueça de exportar a base de dados criada neste roteiro (`agua_rede1`), pois partiremos dela na próxima aula. Isso pode ser feito com a função `write.csv2`.
 
+```{r, eval=FALSE}
+write.csv2(agua_rede1, "dados/agua_rede1.csv")
+```

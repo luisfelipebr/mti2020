@@ -1,7 +1,8 @@
 ---
 title: "Roteiro 5 - Regressão linear no software R"
-author: Elaborado por Luis Felipe Bortolatto da Cunha
-output: 
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
   html_document:
     toc: TRUE
     theme: flatly

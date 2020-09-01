@@ -1,7 +1,8 @@
 ---
-title: "Roteiro 4 - Correlação no software R"
-author: Elaborado por Luis Felipe Bortolatto da Cunha
-output: 
+title: "Prática no R! Roteiro 4 - Correlação"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
   html_document:
     toc: TRUE
     theme: flatly
@@ -10,7 +11,7 @@ output:
 
 # 1. Introdução
 
-Esse roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
+Este roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
 
 Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
 
@@ -164,7 +165,7 @@ cor.test(x = dados$RENDAPITA,
 
 Como o p-valor (`0,00000000000000022`) é menor que o nível de significância (`0,05`), **rejeitamos a hipótese nula (H0)**, ou seja, os dados indicam que não é possível falsear a hipótese alternativa (H1), sendo uma evidência de que **pode existir uma correlação entre o Consumo de Água e a Renda**.
 
-# 5. (Extra) Matriz de correlação
+# 5. Matriz de correlação
 
 Quando você estiver explorando a sua hipótese, com os dados do seu trabalho de curso, você pode achar necessário analisar a correlação entre várias duplas de variáveis.
 
