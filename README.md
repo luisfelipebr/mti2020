@@ -1,25 +1,35 @@
-## Métodos e Técnicas de Análise da Informação para o Planejamento Territorial
+# Métodos e Técnicas de Análise da Informação para o Planejamento (ESHT011-17)
 
-Este repositório contém os roteiros para as aulas práticas.
+Professora Responsável: Flávia da Fonseca Feitosa
+Professor Assistente (Estágio Docência): Luis Felipe Bortolatto Cunha
+Equipe do Laboratório de Geoprocessamento: Diego Marcochi e Danilo Zillig
 
-[Aula 1 - Introdução ao R](https://luisfelipebr.github.io/mti/aula1/aula1.html)
+### Aulas teóricas:
 
-[Aula 2 - Introdução ao R](https://luisfelipebr.github.io/mti/aula2/aula2.html)
+[MTI SPSS - Feitosa, 2018](https://flaviafeitosa.wordpress.com/teaching/bpt-mti/)
 
-[Aula 3 - Introdução ao R](https://luisfelipebr.github.io/mti/aula3/aula3.html)
+### Roteiros:
 
-[Aula 4 - Correlação com o R](https://luisfelipebr.github.io/mti/aula4/aula4.html)
+[Prática no R! Roteiro 1 - Introdução ao R/RStudio](https://luisfelipebr.github.io/mti2020/roteiros/roteiro1.html)
 
-[Aula 5 - Regressão com o R](https://luisfelipebr.github.io/mti/aula5/aula5.html)
+[Prática no R! Roteiro 2 - Análise Exploratória I](https://luisfelipebr.github.io/mti2020/roteiros/roteiro2.html)
 
-[Aula 8 - Autocorrelação espacial com o R](https://luisfelipebr.github.io/mti/aula8/aula8.html)
+[Prática no R! Roteiro 3 - Análise Exploratória II](https://luisfelipebr.github.io/mti2020/roteiros/roteiro3.html)
 
-[Aula 9 - Regressão espacial com o R](https://luisfelipebr.github.io/mti/aula9/aula9.html)
+Prática no R! Roteiro 4 - Correlação
 
-Conteúdo complementar:
+Prática no R! Roteiro 5 - Regressão Linear
 
-[1 - Importação de dados com o R](https://luisfelipebr.github.io/mti/complementar1/complementar1.html)
+Prática no R! Roteiro 6 - Autocorrelação Espacial
 
-[2 - Visualização de dados com o pacote ggplot2](https://luisfelipebr.github.io/mti/complementar2/complementar2.html)
+Prática no R! Roteiro 7 - Regressão Espacial
 
-[3 - Exportação de tabelas com o pacote janitor](https://luisfelipebr.github.io/mti/complementar2/complementar2.html)
+### Bibliografia complementar:
+
+[Grolemund & Wickham, 2017](https://r4ds.had.co.nz/)
+
+[curso-R, 2018](https://material.curso-r.com/)
+
+[IBPAD, 2018](https://cdr.ibpad.com.br/cdr-intro.pdf)
+
+[Phillips, 2020](https://jonnyphillips.github.io/Ciencia_de_Dados/)
