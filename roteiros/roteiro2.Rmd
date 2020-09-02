@@ -18,6 +18,7 @@ Este roteiro tem como objetivo apresentar algumas funções para a execução de
 A apresentação será feita usando uma base de dados demográficos e de consumo de água de 2010, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
 
 A base de dados está disponível para download no endereço abaixo:
+
 [https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U](https://1drv.ms/u/s!AjettDH-3Gbni9kJkYXYWfg32AqrKg?e=WkJ00U)
 
 Baixe essa base de dados pelo endereço indicado para salvá-la em seu computador.
@@ -46,7 +47,7 @@ getwd()
 print("D:/OneDrive")
 ```
 
-No meu caso, o diretório de trabalho retornado foi `"D:/OneDrive"`, mas eu gostaria de trabalhar com outro diretório. Para definir um novo diretório de trabalho pela interface, clique em `Session`, `Set Working Directory` e `Choose Directory...` ou aperte os comandos `Ctrl + Shift + H` e escolha a pasta onde você está salvando os seus arquivos, .
+Neste exemplo, o diretório de trabalho retornado foi `"D:/OneDrive"`, mas os dados estão salvos em outro diretório. Para definir um novo diretório de trabalho pela interface, clique em `Session`, `Set Working Directory` e `Choose Directory...` ou aperte os comandos `Ctrl + Shift + H` e escolha a pasta onde você está salvando os seus arquivos.
 
 A função `setwd()` será executada com um argumento para definir o diretório de trabalho, de forma semelhante ao exemplo abaixo.
 
@@ -222,10 +223,10 @@ table(agua1$REGIAO, agua1$IDH_CLASS)
 
 É possível criar uma nova variável usando o operador `<-` ou `=`. Neste exemplo, vamos criar duas novas variáveis, chamadas `CONSUMO1` e `CONSUMO2`: 
 
-* `CONSUMO1`: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)
-* `CONSUMO2`: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)
+* `CONSUMO1`: Consumo de Água per capita - População Total - m3/ano (AG020/GE012)
+* `CONSUMO2`: Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)
 
-Como a unidade do consumo de agua (AG020) é **1.000 m³/ano**, primeiro é preciso multiplicar AG020 por 1.000 para obter a unidade **m³/ano** e depois dividir pela população para obter o consumo de água per capita em m3/ano.
+Como a unidade do consumo de água (AG020) é **1.000 m³/ano**, primeiro é preciso multiplicar AG020 por 1.000 para obter a unidade **m³/ano** e depois dividir pela população para obter o consumo de água per capita em m3/ano.
 
 ```{r}
 agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
@@ -321,12 +322,12 @@ dev.off()
 
 # 14. Exportando a base de dados
 
-Após executar a rotina, você fez alterações na base de dados (novas variáveis - CONSUMO1 e CONSUMO2), pos isso é importante salvá-la para acesso futuro. O R não vai exportar a sua base de dados a menos que você especifique esse comando.
+Após executar a rotina, você fez alterações na base de dados (novas variáveis - CONSUMO1 e CONSUMO2), por isso é importante salvá-la para acesso futuro. O R não vai exportar a sua base de dados a menos que você especifique esse comando.
 
 É possível exportar a base de dados no formato `csv2` com a função `write.csv2()`. Ela exige dois argumentos: primeiro o nome do objeto que deseja exportar e depois o diretório, nome do arquivo e formato entre aspas. Para não perder a base de dados original, recomendamos salvar essa base de dados com um novo nome - `agua2`.
 
 ```{r,eval=FALSE}
-write.csv2(agua1, "dados/agua2.csv")
+write.csv2(agua1, "dados/agua2.csv", row.names = FALSE)
 ```
 
 # 15. Salvando o script

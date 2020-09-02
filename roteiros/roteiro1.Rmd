@@ -162,7 +162,7 @@ Que deve exibir o seguinte conteúdo na aba `Help`:
 
 **Importante: a seção uso descreve quais são os argumentos obrigatórios (apenas x, no caso da função `mean()`), sendo todos os outros argumentos descritos opcionais. Atente-se aos argumentos obrigatórios e opcionais ao usar uma função.**
 
-Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. :worried:
+Infelizmente, a maior parte do conteúdo está escrito em inglês, assim como em outras linguagens de programação. =(
 
 Você pode traduzir o conteúdo da documentação no tradutor de sua preferência, como fizemos para apresentar a documentação da função `mean()`.
 

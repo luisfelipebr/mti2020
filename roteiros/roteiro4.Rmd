@@ -13,43 +13,44 @@ output:
 
 Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kT7RsSZx0tSe0y0w?e=UFuUO1).
 
-Este roteiro tem como objetivo auxiliar os alunos na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
+Este roteiro tem como objetivo auxiliar na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
 
 Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+
+A base de dados está disponível para download no endereço abaixo:
+
+[https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a](https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a)
 
 ### 1.1. Instalação e importação de pacotes
 
 O software R já conta com funções básicas que permitem executar uma análise de correlação. Mas além das funções básicas, vamos usar os pacotes:
 
-* `readr`: para importar a base de dados em formato `csv2`
-* `dplyr`: para adicionar o operador `%>%` e a função `select()`
+* `tidyverse`: para adicionar o operador `%>%` e a função `select()`
 * `corrplot`: para visualizar como gráfico uma matriz de correlação
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
-install.packages("readr")
-install.packages("dplyr")
+install.packages("tidyverse")
 install.packages("corrplot")
 ```
 
 Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
-library(readr)
-library(dplyr)
+library(tidyverse)
 library(corrplot)
 ```
 
 ### 1.2. Importação da base de dados
 
-Uma base de dados pré-processada está disponível no endereço abaixo:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv)
+A base de dados pode ser importada conforme as instruções do Roteiro 2.
 
-Para importá-la é necessário usar a função `read_csv2()`.
+Como ela está hospedada na nuvem, também pode ser importada com o endereço web como argumento, ao invés do endereço local, conforme o exemplo abaixo. É importante lembrar que a importação pelo endereço web exige conexão com a internet!
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv")
+dados <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua_rede1.csv", 
+                   encoding="UTF-8")
 ```
 
 ### 1.3. Análise exploratória
@@ -62,31 +63,27 @@ names(dados)
 
 Como é possível ver após a execução do comando, os nomes das variáveis estão codificados. Mas a tabela abaixo apresenta uma descrição de cada variável.
 
-| Código    | Descrição                                                                              |
-|-----------|----------------------------------------------------------------------------------------|
-| ID_IBGE   | ID do IBGE                                                                             |
-| ID_SNIS   | ID do SNIS                                                                             |
-| MUNICIP1  | Nome do Municipio 1                                                                    |
-| MUNICIP2  | Nome do Municipio 2                                                                    |
-| UF        | UF                                                                                     |
-| REGIAO    | Regiao do pais                                                                         |
-| CENTRX    | Centroide (X)                                                                          |
-| CENTRY    | Centroide (Y)                                                                          |
-| RENDAPITA | Renda per Capita 2010                                                                  |
-| GINI      | Indice Gini 2010                                                                       |
-| PIB       | PIB 2010                                                                               |
-| IDH       | IDH 2010                                                                               |
-| AG001     | Populacao Total Atendida com Abastecimento de Agua (AG001)                             |
-| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000   m3/ano (AG020). |
-| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas  (AG022)                      |
-| GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
-| CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
-| CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
-| REDE      | População Total com Acesso à Rede Geral de Água                                        |
-| PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
-
-QUANTIDADE DE LIGAÇÕES TOTAIS DE ÁGUA
-QUANTIDADE DE LIGAÇÕES ATIVAS DE ÁGUA
+| Código    | Descrição                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| ID_IBGE   | Código IBGE (7 dígitos)                                                                                            |
+| DOMICIL   | Quantidade de Domicílios                                                                                           |
+| REDE      | Quantidade de Domicílios com Acesso à Rede Geral de Água                                                           |
+| PROPREDE  | Proporção de Domicílios com com Acesso à Rede Geral de Água (REDE/DOMICIL)                                         |
+| ID_SNIS   | Código IBGE (6 dígitos)                                                                                            |
+| NOME_MUN  | Nome do Município                                                                                                  |
+| UF        | Unidade da Federação                                                                                               |
+| REGIAO    | Região do País                                                                                                     |
+| PIB       | Produto Interno Bruto 2010                                                                                         |
+| RENDAPITA | Renda per Capita 2010                                                                                              |
+| GINI      | Índice GINI 2010                                                                                                   |
+| IDH       | Índice de Desenvolvimento Humano 2010                                                                              |
+| IDH_CLASS | Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto >= 0,9; Alto >= 0,8; Médio >= 0,5; Baixo < 0,5. |
+| GE012     | População Total Residente no Município                                                                             |
+| AG001     | População Total Atendida com Abastecimento de Água                                                                 |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000 m3/ano                                        |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas                                                           |
+| CONSUMO1  | Consumo de Água per capita - População Total - m3/ano (AG020/GE012)                                                |
+| CONSUMO2  | Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)                                             |
 
 Vamos usar as variáveis **RENDAPITA** (renda per capita) e  **CONSUMO1** (consumo de água per capita) para testar as hipóteses:
 

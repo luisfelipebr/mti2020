@@ -482,7 +482,8 @@ summary {
 <p class="caption">Fig. 1 - Etapas da análise de dados. Fonte: adaptado de Grolemund &amp; Wickham, 2017</p>
 </div>
 <p>Nesse roteiro, utilizaremos duas bases de dados demográficos e de consumo de água de 2010, extraídas do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por <a href="https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf">Carmo et al., 2013</a>.</p>
-<p>As bases de dados estão disponíveis para download no endereço abaixo: <a href="https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS">https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS</a></p>
+<p>As bases de dados estão disponíveis para download no endereço abaixo:</p>
+<p><a href="https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS">https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS</a></p>
 </div>
 <div id="importando-os-dados" class="section level1">
 <h1>1.1. Importando os dados</h1>
@@ -550,7 +551,7 @@ summary {
 </tr>
 <tr class="even">
 <td>IDH_CLASS</td>
-<td>Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto &gt;= 0,9; Alto &gt;= 0,8; Médio &gt;= 0,5; Baixo &lt; 0,5.</td>
+<td>Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto &gt;= 0,9; Alto &gt;= 0,8; Médio &gt;= 0,5; Baixo &lt; 0,5</td>
 </tr>
 <tr class="odd">
 <td>GE012</td>
@@ -687,8 +688,8 @@ summary {
 <p>Definir novas variáveis no R básico é bem simples. Mas para incluir essa etapa no fluxo do <code>tidyverse</code>, podemos usar a função <code>mutate()</code>.</p>
 <p>Seguindo o exemplo do Roteiro 2, podemos definir as variáveis CONSUMO1 e CONSUMO2 da seguinte forma com o R básico:</p>
 <ul>
-<li><code>CONSUMO1</code>: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)</li>
-<li><code>CONSUMO2</code>: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)</li>
+<li><code>CONSUMO1</code>: Consumo de Água per capita - População Total - m3/ano (AG020/GE012)</li>
+<li><code>CONSUMO2</code>: Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>agua1<span class="op">$</span>CONSUMO1 &lt;-<span class="st"> </span>agua1<span class="op">$</span>AG020 <span class="op">*</span><span class="st"> </span><span class="dv">1000</span> <span class="op">/</span><span class="st"> </span>agua1<span class="op">$</span>GE012</span>
 <span id="cb15-2"><a href="#cb15-2"></a>agua1<span class="op">$</span>CONSUMO2 &lt;-<span class="st"> </span>agua1<span class="op">$</span>AG020 <span class="op">*</span><span class="st"> </span><span class="dv">1000</span> <span class="op">/</span><span class="st"> </span>agua1<span class="op">$</span>AG001</span></code></pre></div>
@@ -833,7 +834,7 @@ summary {
 <div id="exportando-a-base-de-dados" class="section level1">
 <h1>9. Exportando a base de dados</h1>
 <p>Não se esqueça de exportar a base de dados criada neste roteiro (<code>agua_rede1</code>), pois partiremos dela na próxima aula. Isso pode ser feito com a função <code>write.csv2</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">write.csv2</span>(agua_rede1, <span class="st">&quot;dados/agua_rede1.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">write.csv2</span>(agua_rede1, <span class="st">&quot;dados/agua_rede1.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 </div>
 
 

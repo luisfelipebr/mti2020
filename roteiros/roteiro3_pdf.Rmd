@@ -21,6 +21,7 @@ A Figura 1 ilustra 6 etapas fundamentais da análise de dados que o software R a
 Nesse roteiro, utilizaremos duas bases de dados demográficos e de consumo de água de 2010, extraídas do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
 
 As bases de dados estão disponíveis para download no endereço abaixo:
+
 [https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS](https://1drv.ms/u/s!AjettDH-3Gbni9kLp9z7BUHOtvlrng?e=DKVRmS)
 
 # 1.1. Importando os dados
@@ -170,8 +171,8 @@ Definir novas variáveis no R básico é bem simples. Mas para incluir essa etap
 
 Seguindo o exemplo do Roteiro 2, podemos definir as variáveis CONSUMO1 e CONSUMO2 da seguinte forma com o R básico:
 
-* `CONSUMO1`: Consumo de Agua per capita - População Total - m3/ano (AG020/GE012)
-* `CONSUMO2`: Consumo de Agua per capita - População Atendida - m3/ano (AG020/AG001)
+* `CONSUMO1`: Consumo de Água per capita - População Total - m3/ano (AG020/GE012)
+* `CONSUMO2`: Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)
 
 ```{r}
 agua1$CONSUMO1 <- agua1$AG020 * 1000 / agua1$GE012
