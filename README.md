@@ -1,7 +1,9 @@
 # Métodos e Técnicas de Análise da Informação para o Planejamento (ESHT011-17)
 
 Professora Responsável: Flávia da Fonseca Feitosa
+
 Professor Assistente (Estágio Docência): Luis Felipe Bortolatto Cunha
+
 Equipe do Laboratório de Geoprocessamento: Diego Marcochi e Danilo Zillig
 
 ### Aulas teóricas:
@@ -16,7 +18,7 @@ Equipe do Laboratório de Geoprocessamento: Diego Marcochi e Danilo Zillig
 
 [Prática no R! Roteiro 3 - Análise Exploratória II](https://luisfelipebr.github.io/mti2020/roteiros/roteiro3.html)
 
-Prática no R! Roteiro 4 - Correlação
+[Prática no R! Roteiro 4 - Correlação](https://luisfelipebr.github.io/mti2020/roteiros/roteiro4.html)
 
 Prática no R! Roteiro 5 - Regressão Linear
 
