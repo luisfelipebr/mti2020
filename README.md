@@ -20,7 +20,7 @@ Equipe do Laboratório de Geoprocessamento: Diego Marcochi e Danilo Zillig
 
 [Prática no R! Roteiro 4 - Correlação](https://luisfelipebr.github.io/mti2020/roteiros/roteiro4.html)
 
-Prática no R! Roteiro 5 - Regressão Linear
+[Prática no R! Roteiro 5 - Regressão Linear](https://luisfelipebr.github.io/mti2020/roteiros/roteiro5.html)
 
 Prática no R! Roteiro 6 - Autocorrelação Espacial
 
