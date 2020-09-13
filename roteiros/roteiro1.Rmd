@@ -166,4 +166,4 @@ Você pode traduzir o conteúdo da documentação no tradutor de sua preferênci
 
 Você também pode buscar ajuda em um buscador (Google, Bing, Yahoo etc.), pois já existem diversos materiais em português sobre a linguagem de programação R e análise de dados, mas estaremos disponíveis para tirar quaisquer eventuais dúvidas no decorrer deste curso.
 
-![Fig. 3 - Documentação mean()](D:/OneDrive/@/mti2020/figuras/1_documentacao_mean()3.png)
+![Fig. 3 - Documentação mean()](D:/OneDrive/@/mti2020/figuras/1_documentacao_mean().png)

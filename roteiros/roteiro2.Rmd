@@ -29,7 +29,7 @@ Após a instalação do R e RStudio, **abra o RStudio**. Clique em `New file` e 
 
 É muito importante salvar a rotina de cada semana em um script, para lembrar as funções que foram usadas e reproduzir a análise de dados, se necessário.
 
-![Fig. 1 - Criando um script](D:/OneDrive/@/mti2020/figuras/2_criando_um_script3.gif)
+![Fig. 1 - Criando um script](D:/OneDrive/@/mti2020/figuras/2_criando_um_script.gif)
 
 # 3. Definindo o diretório de trabalho
 
