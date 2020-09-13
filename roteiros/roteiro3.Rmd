@@ -11,8 +11,6 @@ output:
 
 # 1. Introdução
 
-Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kSle2w35eL4dSJtg?e=5zga3S).
-
 Este roteiro tem como objetivo apresentar novas funções para a execução **análise exploratória**, mas dessa vez  baseadas no pacote **`tidyverse`** que estão organizadas em torno de um **conjunto de princípios básicos** que tornam a análise de dados mais acessível para quem está tendo o primeiro contato com a programação.
 
 A Figura 1 ilustra 6 etapas fundamentais da análise de dados que o software R auxilia a executar.

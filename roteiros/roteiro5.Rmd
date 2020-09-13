@@ -1,5 +1,5 @@
 ---
-title: "Roteiro 5 - Regressão linear no software R"
+title: "Prática no R! Roteiro 5 - Regressão Linear"
 author: "Elaborado por Luis Felipe Bortolatto da Cunha"
 date: "21 de setembro de 2020"
 output:
@@ -11,82 +11,82 @@ output:
 
 # 1. Introdução
 
-Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kUx3S_57SAUZzPug?e=wzGWrC).
+Este roteiro tem como objetivo auxiliar na **análise de regressão linear** no software R.
 
-Esse roteiro tem como objetivo auxiliar os alunos na execução de uma  **análise de regressão linear** no software R. Isso inclui: 
+Para executar a regressão linear vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar em que medida **o consumo de água está relacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
 
-Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar em que medida **o consumo de água está relacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+Uma base de dados pré-processada está disponível no endereço abaixo:
+[https://1drv.ms/u/s!AjettDH-3Gbni9kKwbI1eaRcG3MRRw?e=SdtiNN](https://1drv.ms/u/s!AjettDH-3Gbni9kKwbI1eaRcG3MRRw?e=SdtiNN)
 
-### 1.1. Instalação e importação de pacotes
+### 1.1. Instalando e abrindo os pacotes
 
-O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar os pacotes:
+O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar o pacote:
 
-* `readr`: para importar a base de dados em formato `csv2`
-* `dplyr`: para adicionar o operador `%>%` e a função `mutate()`
+* `tidyverse`: para adicionar o operador `%>%` e a função `select()`
+* `performance`: para comparar modelos
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
-install.packages("readr")
-install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("performance")
 ```
 
 Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
-library(readr)
-library(dplyr)
+library(tidyverse)
+library(performance)
 ```
 
-### 1.2. Importação da base de dados
+### 1.2. Importando os dados
 
-Uma base de dados pré-processada está disponível no endereço abaixo:
-[https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv](https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv)
+A base de dados pode ser importada conforme as instruções do Roteiro 2.
 
-Para importá-la é necessário usar a função `read_csv2()`.
+Como ela está hospedada na nuvem, também pode ser importada com o endereço web como argumento, ao invés do endereço local, conforme o exemplo abaixo. É importante lembrar que a importação pelo endereço web exige conexão com a internet!
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read_csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/Agua2010_IBGE_SNIS.csv")
+agua_rede1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua_rede1.csv", 
+                   encoding="UTF-8")
 ```
 
-### 1.3. Análise exploratória
+### 1.3. Explorando os dados
 
 A função `names()` exibe os nomes das variáveis.
 
 ```{r}
-names(dados)
+names(agua_rede1)
 ```
 
 Como é possível ver após a execução do comando, os nomes das variáveis estão codificados. Mas a tabela abaixo apresenta uma descrição de cada variável.
 
-| Código    | Descrição                                                                              |
-|-----------|----------------------------------------------------------------------------------------|
-| ID_IBGE   | ID do IBGE                                                                             |
-| ID_SNIS   | ID do SNIS                                                                             |
-| MUNICIP1  | Nome do Municipio 1                                                                    |
-| MUNICIP2  | Nome do Municipio 2                                                                    |
-| UF        | UF                                                                                     |
-| REGIAO    | Regiao do pais                                                                         |
-| CENTRX    | Centroide (X)                                                                          |
-| CENTRY    | Centroide (Y)                                                                          |
-| RENDAPITA | Renda per Capita 2010                                                                  |
-| GINI      | Indice Gini 2010                                                                       |
-| PIB       | PIB 2010                                                                               |
-| IDH       | IDH 2010                                                                               |
-| AG001     | Populacao Total Atendida com Abastecimento de Agua (AG001)                             |
-| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000   m3/ano (AG020). |
-| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas  (AG022)                      |
-| GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
-| CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
-| CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
-| REDE      | Rede de água - em metros?                                                              |
-| PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
+| Código    | Descrição                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| ID_IBGE   | Código IBGE (7 dígitos)                                                                                            |
+| DOMICIL   | Quantidade de Domicílios                                                                                           |
+| REDE      | Quantidade de Domicílios com Acesso à Rede Geral de Água                                                           |
+| PROPREDE  | Proporção de Domicílios com com Acesso à Rede Geral de Água (REDE/DOMICIL)                                         |
+| ID_SNIS   | Código IBGE (6 dígitos)                                                                                            |
+| NOME_MUN  | Nome do Município                                                                                                  |
+| UF        | Unidade da Federação                                                                                               |
+| REGIAO    | Região do País                                                                                                     |
+| PIB       | Produto Interno Bruto 2010                                                                                         |
+| RENDAPITA | Renda per Capita 2010                                                                                              |
+| GINI      | Índice GINI 2010                                                                                                   |
+| IDH       | Índice de Desenvolvimento Humano 2010                                                                              |
+| IDH_CLASS | Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto >= 0,9; Alto >= 0,8; Médio >= 0,5; Baixo < 0,5. |
+| GE012     | População Total Residente no Município                                                                             |
+| AG001     | População Total Atendida com Abastecimento de Água                                                                 |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000 m3/ano                                        |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas                                                           |
+| CONSUMO1  | Consumo de Água per capita - População Total - m3/ano (AG020/GE012)                                                |
+| CONSUMO2  | Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)                                             |
 
 # 2. Regressão linear simples
 
-Com o código e descrição das variáveis já é possível executar uma **análise de regressão linear** simples.
+Com o código e descrição das variáveis já é possível executar uma **regressão linear simples**.
 
-A análise de regressão linear é uma ferramenta estatística que permite **explorar e inferir a relação de uma variável dependente com variáveis independentes**, a partir da fórmula:
+A regressão linear é uma ferramenta estatística que permite **explorar e inferir a relação de uma variável dependente com variáveis independentes**, a partir da fórmula:
 
 $Y = \beta_0 + \beta_1 X_1$
 
@@ -100,7 +100,7 @@ Onde:
 Para executar uma regressão linear simples no R usaremos a função `lm()`, salvando os resultados no objeto `modelo1`.
 
 ```{r}
-modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = dados)
+modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede1)
 ```
 
 ### 2.1. Análise do ajuste global e coeficientes do modelo
@@ -111,9 +111,9 @@ modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = dados)
 summary(modelo1)
 ```
 
-Primeiro sobre o ajuste. O **R² (coeficiente de determinação)** do modelo é `0,3614`, que podemos interpretar como a medida que a variável preditora X explica a variação em Y. O **R² múltiplo** é `0,315`, que é uma medida de quão bem o modelo prevê os dados observados. O R² e R² múltiplo indicam um bom ajuste do modelo.
+Primeiro sobre o ajuste. O **R² (coeficiente de determinação)** do modelo é `0,3615`, que podemos interpretar como a medida que a variável preditora X explica a variação em Y. O **R² ajustado** é `0,314`, sendo uma medida alternativa ao R² que penaliza a inclusão de variáveis independentes (X) pouco explicativas. O R² e R² ajustado indicam um bom ajuste do modelo.
 
-O **Teste F**, que é uma medida do quanto o modelo melhorou na previsão de valores comparado com o nível de não precisão do modelo. O modelo apresenta um valor alta de **estatística F** (`2500`), e ainda mais importante é que o **p-valor** (`0,00000000000000022`) é menor que o nível de significância (`0,05`), ou seja, existe uma alta probabilidade de que os resultados do modelo não representem um erro amostral.
+O **Teste F** é uma medida do quanto o modelo melhorou na previsão de valores comparado com o nível de não precisão do modelo. O modelo apresenta um valor alta de **estatística F** (`2500`) e, ainda mais importante, é que o **p-valor** (`0,00000000000000022`) é menor que o nível de significância (`0,05`), ou seja, existe uma alta probabilidade de que os resultados do modelo não representem um erro amostral.
 
 Sobre os **coeficientes beta**, a estimativa do **$\beta_0$** (coeficiente do intercepto) é `4,252` e do **$\beta_1$** (coeficiente da inclinação) é `0,041`. A tabela de coeficientes também apresenta o erro padrão, estatística t e p-valor, que indicam que os resultados são significativos até para um nível de significância de `0,001`.
 
@@ -123,114 +123,122 @@ Portanto, podemos inferir que, em média, um aumento de R$ 1,00 na renda per cap
 
 O modelo de regressão linear assume algumas **hipóteses** sobre os dados de entrada para que seu resultado seja significativo. 
 
-1. O modelo é linear nos parâmetros
-2. A amostragem é aleatória
-3. Variação amostral da variável independente
-4. Média condicional do erro igual a zero
-5. O erro tem a mesma variância para qualquer valor da variável explicativa
+1. O modelo é linear nos parâmetros.
+2. A amostragem é aleatória.
+3. Variação amostral da variável independente.
+4. Média condicional do erro igual a zero.
+5. O erro tem a mesma variância para qualquer valor da variável explicativa.
 
 Se o modelo for adequado, **os resíduos devem refletir as propriedades impostas pelo termo de erro do modelo**. Portanto, a **análise dos resíduos** se faz necessária para avaliar a adequação do modelo.
 
 O modelo salvo permite a visualização de seis gráficos que auxiliam na análise dos resíduos e hipóteses.
 
-Para avaliar a variação dos resíduos, criamos um diagrama de dispersão dos resíduos e ajuste com a função `plot()` e o argumento `which = 1`.
+Cada um desses gráficos pode ser acessado com a função `plot()`, com o modelo criado como o primeiro argumento e um segundo argumento `which =` com o número do gráfico a ser acessado.
 
 ```{r}
 plot(modelo1, which = 1)
 ```
 
-O modelo parece ter um ótimo ajuste, com três outliers destacados (observações número 4236, 3797 e 4016).
+O primeiro gráfico exibe a relação entre os resíduos e os valores ajustados. Ele permite verificar a não-linearidade do modelo. Um bom modelo possui os valores distribuidos em torno da linha de resíduos igual a zero (linha pontilhada). O modelo aplicado (linha vermelha) desvia um pouco do zero, principalmente nos extremos dos valores ajustados.
 
 ```{r}
 plot(modelo1, which = 2)
 ```
 
+O segundo gráfico (QQ-plot) exibe os resíduos normalizados e os quantis teóricos da curva normal, ou seja, verifica a hipótese de normalidade dos resíduos. O ideal é que as observações sigam a linha pontilhada.
+
 ```{r}
 plot(modelo1, which = 3)
 ```
+
+O terceiro gráfico é útil para verificar a hipótese de homocedasticidade dos resíduos. No modelo ideal, os pontos estão distribuídos uniformemente ao redor da linha vermelha. 
 
 ```{r}
 plot(modelo1, which = 4)
 ```
 
+O quarto gráfico é útil para detectar observações extremas, que possuem alta influência no modelo. As observações mais influentes possuem um valor de distância de Cook maior.
+
 ```{r}
 plot(modelo1, which = 5)
 ```
+
+O quinto gráfico exibe a influência pelos resíduos padronizados. Neste gráfico, as observações mais distantes possuem maior influência.
 
 ```{r}
 plot(modelo1, which = 6)
 ```
 
+O sexto gráfico também apresenta uma análise da distância de Cook, permitindo identificar pontos influentes, mas em termos da alavancagem.
 
 ### 2.3. Diagrama de dispersão com ajuste
 
+Após a aplicação do modelo, é possível criar um diagrama de dispersão com a linha de tendência (ajuste). Para criar este gráfico, é só executar a função `abline()` após a criação do gráfico.
+
 ```{r}
-plot(x = dados$RENDAPITA, 
-     y = dados$CONSUMO1,
+plot(x = agua_rede1$RENDAPITA, 
+     y = agua_rede1$CONSUMO1,
      xlab = "Renda per capita",
-     ylab = "Consumo de água per capita")
+     ylab = "Consumo de água per capita (m³/ano)")
 abline(modelo1, col = "red") 
 ```
 
-### 2.4. Salvando os resultados do modelo
+Também é possível criar esse gráfico com o pacote `ggplot2`, conforme indica o código abaixo:
 
-regressão$fitted.values: calcula os valores preditos da variável resposta para cada elemento da amostra (faz uma previsão);
-
-regressão$residuals: calcula o erro ou os resíduos (valor observado - valor predito) para cada ponto da amostra;
-
-regressão$coefficients: obtém uma estimativa dos coeficientes da regressão.
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = agua_rede1, aes(x = RENDAPITA, y = CONSUMO1)) +
+  geom_point() +
+  geom_smooth(data = modelo1, method = "lm", col = "red", se = FALSE) +
+  theme_bw() +
+  xlab("Renda per capita") +
+  ylab("Consumo de água per capita (m³/ano)")
+```
 
 # 3. Regressão linear múltipla
 
-```{r}
-modelo2 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE, data = dados)
-```
+É possível executar uma **regressão linear múltipla** de forma semelhante à regressão linear simples.
 
-### 3.1. Estatísticas
-
-### 3.2. Resumo do modelo
-
-### 3.3. ANOVA
-
-### 3.4. Parâmetros do modelo
-
-### 3.5. Colinearidade
-
-### 3.6. Diagnósticos por casos
-
-### 3.7. Estatísticas salvas
-
-### 3.8. Estatísticas de influência
-
-### 3.9. Conferindo as hipóteses
-
-### 3.10. Análise dos resíduos
-
-### 4. (Extra) Comparando modelos
+Executando o código abaixo é possível investigar se PROPREDE também influencia em CONSUMO1, além de RENDAPITA. Vamos salvar este modelo como ``modelo2`.
 
 ```{r}
-library(performance)
+modelo2 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE, data = agua_rede1)
 ```
+
+### 3.1. Resumo do modelo
+
+Para acessar o ajuste e resumo do modelo, use a função `summary()`.
+
+```{r}
+summary(modelo2)
+```
+
+# 4. Comparando modelos
+
+Uma forma de comparar modelos é usando o pacote `performance`. Para comparar os dois modelos (regressão linear simples e regressão linear múltipla), vamos usar a função `compare_performance()` e salvar a comparação como o objeto `tabela_modelos`.
+
+```{r}
+tabela_modelos <- compare_performance(modelo1, modelo2, rank = TRUE)
+tabela_modelos
+```
+
+O modelo 2 (regressão linear múltipla) possui um R² e R² ajustado maior que o modelo 1 (regressão linear simples).
+
+Também é possível comparar as métricas de performance como um gráfico, usando a função `plot()`.
+
+```{r}
+plot(tabela_modelos)
+```
+
+O gráfico indica que a performance do modelo 2 é superior em todas as métricas. Se quiser salvar essa tabela, é possível fazê-lo com a função `write.csv2()`.
+
+```{r, eval=FALSE}
+write.csv2(tabela_modelos, "dados/tabela_modelos.csv")
+```
+
+Além das métricas apresentadas, também é importante avaliar as hipóteses e redíduos do segundo modelo. Com o pacote `performance`, é possível visualizar os gráficos do modelo com a função `check_model()`.
 
 ```{r,message=FALSE,warning=FALSE}
 check_model(modelo2)
 ```
 
-```{r}
-model_performance(modelo2)
-```
-
-```{r}
-compare_performance(modelo1, modelo2, rank = TRUE)
-```
-
-
-```{r}
-plot(compare_performance(modelo1, modelo2, rank = TRUE))
-```
-
-# Tarefa 5
-
-Utilizando os dados do seu trabalho de curso, conduza uma análise de regressão utilizando as técnicas apresentadas na aula prática.
-
-Interprete seu modelo de regressão!!!
+Esses gráficos já apresentam no título a hipótese a ser checada e no subtítulo a condição ideal de um bom modelo (em inglês).

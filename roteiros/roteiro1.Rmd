@@ -1,5 +1,5 @@
 ---
-title: "Prática no R! Roteiro 1 - Introdução ao software R/RStudio"
+title: "Prática no R! Roteiro 1 - Introdução ao Software R/RStudio"
 author: "Elaborado por Luis Felipe Bortolatto da Cunha"
 date: "21 de setembro de 2020"
 output:
@@ -11,15 +11,13 @@ output:
 
 # 1. Introdução
 
-Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kQTASsWP-pSraWqg?e=YIMJEt).
-
 Ao longo deste curso, os softwares R/RStudio serão usados como uma **ferramenta** para auxiliar na aplicação de **métodos e técnicas de análise da informação no planejamento**, uma etapa fundamental em pesquisas que buscam o aumento da compreensão de questões no nosso campo de interesse.
 
 É importante ressaltar o uso do R/RStudio não pode ser dissociado do **processo de pesquisa**, que envolve a observação, formulação de hipóteses, coleta de dados e **análise de dados**, sendo este o foco deste curso.
 
 # 2. O que é o R?
 
-O **R** é um **programa estatístico** muito usado na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
+O **R** é um **programa estatístico** muito útil na **análise e visualização de dados**, onde a interação é feita através de uma **sintaxe** (linguagem de programação).
 
 Algumas de suas vantagens são:
 
@@ -40,7 +38,7 @@ Um **script** refere-se à uma rotina de análise ou visualização de dados que
 
 # 3. O que é o RStudio?
 
-O **RStudio** é o **ambiente de desenvolvimento integrado** mais usado na análise de dados com a linguagem de programação R. Além de permitir **escrever códigos em scripts** e **executar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
+O **RStudio** é o **ambiente de desenvolvimento integrado** mais utilizado na análise de dados com a linguagem de programação R. Além de permitir **escrever códigos em scripts** e **executar códigos no console**, é possível visualizar gráficos e mapas (estáticos ou dinâmicos), gerenciar pacotes, navegar pelos arquivos, dentre outras funções.
 
 # 4. Instalando o R e RStudio
 

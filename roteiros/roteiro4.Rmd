@@ -11,8 +11,6 @@ output:
 
 # 1. Introdução
 
-Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kT7RsSZx0tSe0y0w?e=UFuUO1).
-
 Este roteiro tem como objetivo auxiliar na execução de uma **análise de correlação** no software R. Isso inclui a criação de um **diagrama de dispersão**, cálculo do **coeficiente de correlação** e cálculo da estatística teste (**teste de significância**). Adicionalmente, ensina a computar e visualizar uma **matriz de correlação**.
 
 Para executar a análise de correlação vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), para investigar se **o consumo de água está correlacionado com a renda**, conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
@@ -21,7 +19,7 @@ A base de dados está disponível para download no endereço abaixo:
 
 [https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a](https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a)
 
-### 1.1. Instalação e importação de pacotes
+### 1.1. Instalando e abrindo os pacotes
 
 O software R já conta com funções básicas que permitem executar uma análise de correlação. Mas além das funções básicas, vamos usar os pacotes:
 
@@ -42,23 +40,23 @@ library(tidyverse)
 library(corrplot)
 ```
 
-### 1.2. Importação da base de dados
+### 1.2. Importando os dados
 
 A base de dados pode ser importada conforme as instruções do Roteiro 2.
 
 Como ela está hospedada na nuvem, também pode ser importada com o endereço web como argumento, ao invés do endereço local, conforme o exemplo abaixo. É importante lembrar que a importação pelo endereço web exige conexão com a internet!
 
 ```{r, message=FALSE,warning=FALSE}
-dados <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua_rede1.csv", 
+agua_rede1 <- read.csv2("https://raw.githubusercontent.com/luisfelipebr/mti/master/dados/agua_rede1.csv", 
                    encoding="UTF-8")
 ```
 
-### 1.3. Análise exploratória
+### 1.3. Explorando os dados
 
 A função `names()` exibe os nomes das variáveis. 
 
 ```{r}
-names(dados)
+names(agua_rede1)
 ```
 
 Como é possível ver após a execução do comando, os nomes das variáveis estão codificados. Mas a tabela abaixo apresenta uma descrição de cada variável.
@@ -99,8 +97,8 @@ O diagrama de dispersão é um gráfico que **exibe, para cada observação, o v
 Para construir um diagrama de dispersão, vamos usar a função `plot()` com dois argumentos (x e y), que são as duas variáveis que desejamos investigar a correlação.
 
 ```{r}
-plot(x = dados$RENDAPITA, 
-     y = dados$CONSUMO1)
+plot(x = agua_rede1$RENDAPITA, 
+     y = agua_rede1$CONSUMO1)
 ```
 
 É possível ainda aprimorar o diagrama de dispersão adicionando alguns argumentos: 
@@ -110,11 +108,22 @@ plot(x = dados$RENDAPITA,
 * Para explorar mais opções, acesse a documentação da função `plot` executando o comando `help(plot)`
 
 ```{r}
-plot(x = dados$RENDAPITA, 
-     y = dados$CONSUMO1,
+plot(x = agua_rede1$RENDAPITA, 
+     y = agua_rede1$CONSUMO1,
      xlab = "Renda per capita",
      ylab = "Consumo de água per capita")
 ```
+
+Também é possível criar um diagrama de dispersão com o pacote `ggplot2`.
+
+```{r}
+ggplot(data = agua_rede1, aes(x = RENDAPITA, y = CONSUMO1)) +
+  geom_point() +
+  theme_bw() +
+  xlab("Renda per capita") +
+  ylab("Consumo de água per capita (m³/ano)")
+```
+
 
 O diagrama de dispersão indica que existe uma **correlação positiva** entre as duas variáveis, ou seja, **quanto maior a renda, maior o consumo de água**. Mas vamos verificar essa relação estatísticamente através de um teste de correlação.
 
@@ -134,8 +143,8 @@ Para calcular o coeficiente de correlação de Pearson entre duas variáveis usa
 * `use = "complete.obs"`: para remover os valores faltantes (NA)
 
 ```{r}
-cor(x = dados$RENDAPITA, 
-    y = dados$CONSUMO1,
+cor(x = agua_rede1$RENDAPITA, 
+    y = agua_rede1$CONSUMO1,
     method = "pearson",
     use = "complete.obs")
 ```
@@ -155,8 +164,8 @@ Para testar a significâcia do coeficiente de correlação de Pearson é necess�
 * `conf.level = 0.95`: define o nível de significância como 0,05
 
 ```{r}
-cor.test(x = dados$RENDAPITA, 
-         y = dados$CONSUMO1,
+cor.test(x = agua_rede1$RENDAPITA, 
+         y = agua_rede1$CONSUMO1,
          method = "pearson",
          alternative = "two.sided",
          conf.level = 0.95)
@@ -173,7 +182,7 @@ Se esse for o caso, é indicada a construção de uma **matriz de correlação**
 Para construir uma matriz de correlação, primeiro é necessário selecionar as variáveis que deseja investigar (com a função `select()`), para depois calcular o coeficiente de correlação entre cada dupla de variáveis (com a função `cor()`).
 
 ```{r}
-dados %>%
+agua_rede1 %>%
   select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs")
@@ -182,7 +191,7 @@ dados %>%
 Se você quiser facilitar ainda mais a visualização da matriz de correlação, pode adicionar ainda a função `round()` para arredondar os valores do coeficiente de correlação para duas casas decimais.
 
 ```{r}
-dados %>%
+agua_rede1 %>%
   select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
@@ -192,7 +201,7 @@ dados %>%
 Também é possível visualizar a matriz de correlação construindo um gráfico, usando a função `corrplot()` do pacote `corrplot`.
 
 ```{r}
-dados %>%
+agua_rede1 %>%
   select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
@@ -202,7 +211,7 @@ dados %>%
 Manipulando o argumento `method`, você pode testar outras visualizações desse gráfico, conforme indica a documentação da função (`help(corrplot)`) e os exemplos abaixo.
 
 ```{r}
-dados %>%
+agua_rede1 %>%
   select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
@@ -210,7 +219,7 @@ dados %>%
 ```
 
 ```{r}
-dados %>%
+agua_rede1 %>%
   select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
   cor(method = "pearson",
     use = "complete.obs") %>%

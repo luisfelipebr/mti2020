@@ -1,28 +1,103 @@
 ---
-title: "aula8"
-output: html_document
+title: "Prática no R! Roteiro 6 - Autocorrelação Espacial"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
+  html_document:
+    toc: TRUE
+    theme: flatly
+    highlight: haddock
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# 1. Introdução
+
+Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kT7RsSZx0tSe0y0w?e=UFuUO1).
+
+Este roteiro tem como objetivo auxiliar na execução de uma **análise de autocorrelação espacial** no software R.
+
+Para executar a autocorrelação espacial vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+
+A base de dados está disponível para download no endereço abaixo:
+
+[https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a](https://1drv.ms/u/s!AjettDH-3Gbni9kM6Qmtsk8hxOhoFQ?e=ZdHG4a)
+
+### 1.1. Instalação e importação de pacotes
+
+Neste roteiro, vamos usar os seguintes pacotes:
+
+* `tidyverse`: para adicionar o operador `%>%`
+* `sf`: para abrir dados geoespaciais (shapefile ou geopackage)
+* `tmap`: para visualizar dados geoespaciais (com uma gramática semelhante ao ggplot2)
+* `spdep`: para calcular a autocorrelação espacial
+
+* `spgrw`: para rodar os modelos de regressão espacial
+
+Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+install.packages("sf")
+install.packages("tmap")
+install.packages("spdep")
 ```
 
-## R Markdown
+Após a instalação, você pode importá-los com o uso da função `library()`.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r, message=FALSE,warning=FALSE}
+library(tidyverse)
+library(sf)
+library(tmap)
+library(spdep)
 ```
 
-## Including Plots
+### 1.2. Importação da base de dados
 
-You can also embed plots, for example:
+A base de dados está em formato geopackage (.gpkg) e pode ser importada com a função `read_sf()`. Esta função também funciona com o formato shapefile (.shp).
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, message=FALSE,warning=FALSE}
+agua_rede1 <- read_sf("dados/agua_rede1.gpkg")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### 1.3. Análise exploratória
+
+A função `names()` exibe os nomes das variáveis. 
+
+```{r}
+names(dados)
+```
+
+Como é possível ver após a execução do comando, os nomes das variáveis estão codificados. Mas a tabela abaixo apresenta uma descrição de cada variável.
+
+| Código    | Descrição                                                                              |
+|-----------|----------------------------------------------------------------------------------------|
+| ID_IBGE   | ID do IBGE                                                                             |
+| ID_SNIS   | ID do SNIS                                                                             |
+| MUNICIP1  | Nome do Municipio 1                                                                    |
+| MUNICIP2  | Nome do Municipio 2                                                                    |
+| UF        | UF                                                                                     |
+| REGIAO    | Regiao do pais                                                                         |
+| CENTRX    | Centroide (X)                                                                          |
+| CENTRY    | Centroide (Y)                                                                          |
+| RENDAPITA | Renda per Capita 2010                                                                  |
+| GINI      | Indice Gini 2010                                                                       |
+| PIB       | PIB 2010                                                                               |
+| IDH       | IDH 2010                                                                               |
+| AG001     | Populacao Total Atendida com Abastecimento de Agua (AG001)                             |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000   m3/ano (AG020). |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas  (AG022)                      |
+| GE012     | Populacao Total Residente no Municipio - IBGE (GE012)                                  |
+| CONSUMO1  | Consumo de Agua per capita - Pop Total (AG020/GE012) - m3/ano                          |
+| CONSUMO2  | Consumo de Agua per capita - Pop Atendida (AG020/AG001) - m3/ano                       |
+| REDE      | Rede de água - em metros?                                                              |
+| PROPREDE  | Proporção da população residente atendida por Rede de Água                             |
+
+# 2. Explorando os dados geoespaciais
+
+
+
+# 3. Calculando o Índice de Moran Global
+
+
+# 4. Calculando o Índice de Moran Local
+
+

@@ -11,8 +11,6 @@ output:
 
 # 1. Introdução
 
-Você pode baixar este roteiro em formato PDF [neste endereço](https://1drv.ms/u/s!AjettDH-3Gbni9kRHmhou-sgLRblag?e=yw6xBY).
-
 Este roteiro tem como objetivo apresentar algumas funções para a execução de uma **análise exploratória** no software R.
 
 A apresentação será feita usando uma base de dados demográficos e de consumo de água de 2010, extraídos do Censo Demográfico (IBGE) e Sistema Nacional de Informações sobre Saneamento (SNIS), para uma amostra de 4.417 municípios, organizada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf). 
