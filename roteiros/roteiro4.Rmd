@@ -24,13 +24,15 @@ A base de dados está disponível para download no endereço abaixo:
 O software R já conta com funções básicas que permitem executar uma análise de correlação. Mas além das funções básicas, vamos usar os pacotes:
 
 * `tidyverse`: para adicionar o operador `%>%` e a função `select()`
-* `corrplot`: para visualizar como gráfico uma matriz de correlação
+* `corrplot`: para visualizar a matriz de correlação como um gráfico
+* `Hmisc`: para calcular uma matriz de correlação com os respectivos teste de significância
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
 install.packages("corrplot")
+install.packages("Hmisc")
 ```
 
 Após a instalação, você pode importá-los com o uso da função `library()`.
@@ -38,6 +40,7 @@ Após a instalação, você pode importá-los com o uso da função `library()`.
 ```{r, message=FALSE,warning=FALSE}
 library(tidyverse)
 library(corrplot)
+library(Hmisc)
 ```
 
 ### 1.2. Importando os dados
@@ -116,7 +119,7 @@ plot(x = agua_rede1$RENDAPITA,
 
 Também é possível criar um diagrama de dispersão com o pacote `ggplot2`.
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data = agua_rede1, aes(x = RENDAPITA, y = CONSUMO1)) +
   geom_point() +
   theme_bw() +
@@ -224,4 +227,15 @@ agua_rede1 %>%
   cor(method = "pearson",
     use = "complete.obs") %>%
   corrplot(method = "number")
+```
+
+As abordagens propostas possuem a desvantagem de não computarem o teste de significância em conjunto com a correlação, ou seja, para saber se o resultado da correlação é significativo, seria necessário executar o teste de significância para cada dupla de variáveis com a função `cor.test()`.
+
+Usando a função `rcorr()` é possível calcular uma matriz de correlação que é apresentada com uma matriz adicional que exibe o número de observações consideradas neste cômputo (após a exclusão de valores faltantes) e outra matriz adicional que exibe o nível de significância. Mas atenção: além de ser necessário aplicar a função `select()` para selecionar as variáveis numéricas de interesse, também é necessário transformar essa tabela em uma matriz com a função `as.matrix()`.
+
+```{r}
+agua_rede1 %>%
+  select(RENDAPITA, CONSUMO1, CONSUMO2, PIB, IDH, GINI, REDE, PROPREDE) %>%
+  as.matrix() %>%
+  rcorr(type = "pearson")
 ```
