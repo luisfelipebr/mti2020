@@ -238,7 +238,7 @@ Além das métricas apresentadas, também é importante avaliar as hipóteses e 
 
 Ao executar a regressão linear simples ou múltipla, são computadas diversas estatísticas relacionadas a cada observação, por exemplo os valores previstos para Y e os resíduos padronizados. 
 
-Existem diversas formas de salvar essas estatísticas, mas recomendamos o uso da função `augment()` do pacote `broom`. Ela precisa de dois argumento: `x` que especifica o modelo e `data` que especifica os dados usados para gerar o modelo.
+Existem diversas formas de salvar essas estatísticas, mas recomendamos o uso da função `augment()` do pacote `broom`. Ela exige dois argumentos: `x` que especifica o modelo e `data` que especifica os dados usados para gerar o modelo.
 
 ```{r}
 agua_rede1_modelo1 <- augment(x = modelo1, data = agua_rede1)

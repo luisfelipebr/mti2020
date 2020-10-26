@@ -753,7 +753,7 @@ summary {
 <div id="exportando-os-resultados-do-modelo" class="section level1">
 <h1>5. Exportando os resultados do modelo</h1>
 <p>Ao executar a regressão linear simples ou múltipla, são computadas diversas estatísticas relacionadas a cada observação, por exemplo os valores previstos para Y e os resíduos padronizados.</p>
-<p>Existem diversas formas de salvar essas estatísticas, mas recomendamos o uso da função <code>augment()</code> do pacote <code>broom</code>. Ela precisa de dois argumento: <code>x</code> que especifica o modelo e <code>data</code> que especifica os dados usados para gerar o modelo.</p>
+<p>Existem diversas formas de salvar essas estatísticas, mas recomendamos o uso da função <code>augment()</code> do pacote <code>broom</code>. Ela exige dois argumentos: <code>x</code> que especifica o modelo e <code>data</code> que especifica os dados usados para gerar o modelo.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>agua_rede1_modelo1 &lt;-<span class="st"> </span><span class="kw">augment</span>(<span class="dt">x =</span> modelo1, <span class="dt">data =</span> agua_rede1)</span></code></pre></div>
 <p>É possível visualizar a base de dados nova com a função <code>head()</code>.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">head</span>(agua_rede1_modelo1)</span></code></pre></div>
