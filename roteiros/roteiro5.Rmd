@@ -20,16 +20,18 @@ Uma base de dados pré-processada está disponível no endereço abaixo:
 
 ### 1.1. Instalando e abrindo os pacotes
 
-O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar o pacote:
+O software estatístico R já conta com funções básicas que permitem executar uma análise de regressão linear. Mas além das funções básicas, vamos usar os pacotes:
 
 * `tidyverse`: para adicionar o operador `%>%` e a função `select()`
 * `performance`: para comparar modelos
+* `broom`: para salvar as estatísticas resultantes do modelo
 
 Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
 install.packages("performance")
+install.packages("broom")
 ```
 
 Após a instalação, você pode importá-los com o uso da função `library()`.
@@ -37,6 +39,7 @@ Após a instalação, você pode importá-los com o uso da função `library()`.
 ```{r, message=FALSE,warning=FALSE}
 library(tidyverse)
 library(performance)
+library(broom)
 ```
 
 ### 1.2. Importando os dados
@@ -97,10 +100,10 @@ Onde:
 * $\beta_0$ = coeficiente do intercepto
 * $\beta_1$ = coeficiente da inclinação
 
-Para executar uma regressão linear simples no R usaremos a função `lm()`, salvando os resultados no objeto `modelo1`.
+Para executar uma regressão linear simples no R usaremos a função `lm()`, salvando os resultados no objeto `modelo1`. São necessários os argumentos: `formula` que indica as variaveis seguindo a estrutura "Y ~ X", `data` que indica a base de dados e adicionalmente foi especificado o argumento `na.action = na.exclude` para excluir os valores faltantes (NA).
 
 ```{r}
-modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede1)
+modelo1 <- lm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede1, na.action = na.exclude)
 ```
 
 ### 2.1. Análise do ajuste global e coeficientes do modelo
@@ -188,7 +191,7 @@ Também é possível criar esse gráfico com o pacote `ggplot2`, conforme indica
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agua_rede1, aes(x = RENDAPITA, y = CONSUMO1)) +
   geom_point() +
-  geom_smooth(data = modelo1, method = "lm", col = "red", se = FALSE) +
+  geom_smooth(data = lm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede1), method = "lm", col = "red", se = FALSE) +
   theme_bw() +
   xlab("Renda per capita") +
   ylab("Consumo de água per capita (m³/ano)")
@@ -201,7 +204,7 @@ ggplot(data = agua_rede1, aes(x = RENDAPITA, y = CONSUMO1)) +
 Executando o código abaixo é possível investigar se PROPREDE também influencia em CONSUMO1, além de RENDAPITA. Vamos salvar este modelo como ``modelo2`.
 
 ```{r}
-modelo2 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE, data = agua_rede1)
+modelo2 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE, data = agua_rede1, na.action = na.exclude)
 ```
 
 ### 3.1. Resumo do modelo
@@ -223,22 +226,73 @@ tabela_modelos
 
 O modelo 2 (regressão linear múltipla) possui um R² e R² ajustado maior que o modelo 1 (regressão linear simples).
 
-Também é possível comparar as métricas de performance como um gráfico, usando a função `plot()`.
-
-```{r}
-plot(tabela_modelos)
-```
-
-O gráfico indica que a performance do modelo 2 é superior em todas as métricas. Se quiser salvar essa tabela, é possível fazê-lo com a função `write.csv2()`.
+Se quiser salvar essa tabela, é possível fazê-lo com a função `write.csv2()`.
 
 ```{r, eval=FALSE}
 write.csv2(tabela_modelos, "dados/tabela_modelos.csv")
 ```
 
-Além das métricas apresentadas, também é importante avaliar as hipóteses e redíduos do segundo modelo. Com o pacote `performance`, é possível visualizar os gráficos do modelo com a função `check_model()`.
+Além das métricas apresentadas, também é importante avaliar as hipóteses e redíduos do segundo modelo, conforme as instruções apresentadas na seção 2.2.
 
-```{r,message=FALSE,warning=FALSE}
-check_model(modelo2)
+# 5. Exportando os resultados do modelo
+
+Ao executar a regressão linear simples ou múltipla, são computadas diversas estatísticas relacionadas a cada observação, por exemplo os valores previstos para Y e os resíduos padronizados. 
+
+Existem diversas formas de salvar essas estatísticas, mas recomendamos o uso da função `augment()` do pacote `broom`. Ela precisa de dois argumento: `x` que especifica o modelo e `data` que especifica os dados usados para gerar o modelo.
+
+```{r}
+agua_rede1_modelo1 <- augment(x = modelo1, data = agua_rede1)
 ```
 
-Esses gráficos já apresentam no título a hipótese a ser checada e no subtítulo a condição ideal de um bom modelo (em inglês).
+É possível visualizar a base de dados nova com a função `head()`.
+
+```{r}
+head(agua_rede1_modelo1)
+```
+
+Foram adicionadas à base de dados original seis novas variáveis:
+
+* .fitted = Valor ajustado ou previsto
+* .resid = A diferença entre os valores observados e ajustados
+* .std.resid = Resíduos padronizados
+* .hat = Diagonal da matriz de influência
+* .sigma = Desvio padrão residual estimado a observação correspondente é excluída do modelo
+* .cooksd = Distância de Cook
+
+É possível exportar essa nova tabela com a função `write.csv2`. Ela será usada nas próximas aulas para visualizar a distribuição espacial dos resíduos padronizados.
+
+```{r, eval = FALSE}
+write.csv2(agua_rede1_modelo1, "dados/agua_rede1_modelo1.csv")
+```
+
+# 6. Regressão linear múltipla com o método stepwise
+
+A regressão stepwise consiste em adicionar e remover iterativamente preditores (X) no intuito de encontro o subconjunto de variáveis que resulta no melhor desempenho, que é o modelo que melhor reduz o erro de predição (AIC).
+
+Ela pode ser feita de três formas diferentes:
+
+- Forward selection: começa sem preditores no modelo e adiciona iterativamente os preditores com maior poder preditivo, até não existir melhoria estatisticamente significativa.
+- Backward selection: começa com todos os preditores no modelo e remove iterativamente os preditores com menor poder preditivo, resultando em um modelo onde todos os preditores são estatisticamente significativos.
+- Stepwise selection: é uma combinação da forward selection e backward selection, sendo o método mais eficaz.
+
+Para mostrar como funciona esse método, vamos aplicar a regressão do tipo stepwise selection em um conjunto de variáveis da base de dados. As variáveis escolhidas foram: RENDAPITA, PROPREDE, PIB, IDH e GINI. Para aplicar o método, primeiro é necessário criar o modelo com todas as variáveis e depois aplicar a função `step()` para obter o modelo com os melhores resultados.
+
+```{r}
+modelo3 <- lm(formula = CONSUMO1 ~ RENDAPITA + PROPREDE + PIB + IDH + GINI, data = agua_rede1, na.action = na.exclude)
+```
+
+```{r}
+summary(modelo3)
+```
+
+```{r}
+modelo4 <- step(modelo3, direction = "both")
+```
+
+```{r}
+summary(modelo4)
+```
+
+Neste caso, a aplicação do método stepwise excluiu a variável PIB, que não representava ganhos na estatística AIC (critério de informação de Akaike) e, coincidentemente, não era significativa (pois o p-valor > 0,05).
+
+Mas é necessário cautela ao aplicar o método stepwise, pois ele permite não pensar no problema o qual buscamos a solução. Além disso, ele pode apresentar: (1) viés na estimativa dos parâmetros, (2) o problema inerente (mas frequentemente esquecido) do teste de múltiplas hipóteses e (3) foco inadequado na busca de um único modelo. Tomando o exemplo apresentado, sabemos que RENDAPITA, PIB, IDH e GINI são altamente correlacionados e não deveriam ser considerados variáveis explicativas de um fenômeno conjuntamente.
