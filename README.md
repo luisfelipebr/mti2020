@@ -22,9 +22,11 @@ Equipe do Laboratório de Geoprocessamento: Diego Marcochi e Danilo Zillig
 
 [Prática no R! Roteiro 5 - Regressão Linear](https://luisfelipebr.github.io/mti2020/roteiros/roteiro5.html)
 
-Prática no R! Roteiro 6 - Autocorrelação Espacial
+[Prática no GWR! Roteiro 6 - Autocorrelação Espacial](https://www.youtube.com/watch?v=1FpBFUxmbkc&t)
 
-Prática no R! Roteiro 7 - Regressão Espacial
+Por Ana Carolina Soares Ribeiro/Vitor Vieira Vasconcelos - Projeto Recursos Didáticos em Geotecnologias/PROGRAD/UFABC
+
+[Prática no R! Roteiro 7 - Regressão Espacial Local (GWR)](https://luisfelipebr.github.io/mti2020/roteiros/roteiro7.html)
 
 ### Bibliografia complementar:
 
