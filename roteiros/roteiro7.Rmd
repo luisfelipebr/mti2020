@@ -1,28 +1,174 @@
 ---
-title: "aula9"
-output: html_document
+title: "Prática no R! Roteiro 7 - Regressão Espacial Local (GRW)"
+author: "Elaborado por Luis Felipe Bortolatto da Cunha"
+date: "21 de setembro de 2020"
+output:
+  html_document:
+    toc: TRUE
+    theme: flatly
+    highlight: haddock
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# 1. Introdução
+
+Este roteiro tem como objetivo auxiliar na execução de um **modelo de regressão espacial local (GWR)** com o software R.
+
+Para executar o modelo de regressão espacial vamos utilizar dados demográficos e de consumo de água de 2010, para uma amostra de 4.417 municípios, extraídos do Censo Demográfico (IBGE) e do Sistema Nacional de Informações sobre Saneamento (SNIS), conforme análise apresentada por [Carmo et al., 2013](https://abrh.s3.sa-east-1.amazonaws.com/Sumarios/155/ea6a64ffc76c211d6b7749ab8444b626_bf87b0b219dd784ffa049f367598e626.pdf).
+
+A base de dados está disponível para download no endereço abaixo:
+
+[https://1drv.ms/u/s!AjettDH-3Gbni9kP8cPtA04EBQQ7xQ?e=4dyWz5](https://1drv.ms/u/s!AjettDH-3Gbni9kP8cPtA04EBQQ7xQ?e=4dyWz5)
+
+### 1.1. Instalação e importação de pacotes
+
+Neste roteiro, vamos usar os seguintes pacotes:
+
+* `sf`: para abrir e manipular dados geoespaciais (shapefile ou geopackage)
+* `spgrw`: para calcular modelos de regressão espacial
+
+Se você ainda não possui esses pacotes instalados, é necessário executar o comando abaixo para instalar.
+
+```{r, eval = FALSE}
+install.packages("sf")
+install.packages("spgwr")
 ```
 
-## R Markdown
+Após a instalação, você pode importá-los com o uso da função `library()`.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r, message=FALSE,warning=FALSE}
+library(sf)
+library(spgwr)
 ```
 
-## Including Plots
+### 1.2. Importação da base de dados
 
-You can also embed plots, for example:
+A base de dados está em formato geopackage (.gpkg) e pode ser importada com a função `read_sf()`. Esta função também funciona com o formato shapefile (.shp), alterando apenas a extensão após o ponto.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+agua_rede_sf <- read_sf("dados/agua_rede_sf.gpkg")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Lembre-se de ajustar o diretório de trabalho que está entre aspas para conseguir importar os dados os dados corretamente.
+
+```{r, echo=FALSE}
+agua_rede_sf <- read_sf("D:/OneDrive/@/mti2020/dados/agua_rede_sf.gpkg")
+```
+
+### 1.3. Análise exploratória
+
+Os arquivos geoespaciais que trabalharemos são chamados de simple features (sf) no R. A sua estrutura é semelhante à de uma tabela, mas trazendo informações do Sistema de Referência de Coordenadas (CRS) e uma variável adicional: a geometria (geom ou geometry), com as coordenadas que permitem mapear os pontos, linhas ou polígonos.
+
+Executando o nome do objeto é possível obter algumas dessas informações.
+
+```{r}
+agua_rede_sf
+```
+
+Com a função `summary()`, é possível observar o sumário dos dados
+
+```{r}
+summary(agua_rede_sf)
+```
+
+A função `names()` exibe os nomes das variáveis. 
+
+```{r}
+names(agua_rede_sf)
+```
+
+Os nomes das variáveis estão codificados, apresentando correspondência às variáveis descritas abaixo:
+
+
+| Código    | Descrição                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| ID_IBGE   | Código IBGE (7 dígitos)                                                                                            |
+| DOMICIL   | Quantidade de Domicílios                                                                                           |
+| REDE      | Quantidade de Domicílios com Acesso à Rede Geral de Água                                                           |
+| PROPREDE  | Proporção de Domicílios com com Acesso à Rede Geral de Água (REDE/DOMICIL)                                         |
+| ID_SNIS   | Código IBGE (6 dígitos)                                                                                            |
+| NOME_MUN  | Nome do Município                                                                                                  |
+| UF        | Unidade da Federação                                                                                               |
+| REGIAO    | Região do País                                                                                                     |
+| PIB       | Produto Interno Bruto 2010                                                                                         |
+| RENDAPITA | Renda per Capita 2010                                                                                              |
+| GINI      | Índice GINI 2010                                                                                                   |
+| IDH       | Índice de Desenvolvimento Humano 2010                                                                              |
+| IDH_CLASS | Classificação do Índice de Desenvolvimento Humano 2010: Muito Alto >= 0,9; Alto >= 0,8; Médio >= 0,5; Baixo < 0,5. |
+| GE012     | População Total Residente no Município                                                                             |
+| AG001     | População Total Atendida com Abastecimento de Água                                                                 |
+| AG020     | Volume Micromedido nas Economias Residenciais Ativas de Agua - 1.000 m3/ano                                        |
+| AG022     | Quantidade de Economias Residenciais Ativas Micromedidas                                                           |
+| CONSUMO1  | Consumo de Água per capita - População Total - m3/ano (AG020/GE012)                                                |
+| CONSUMO2  | Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)                                             |
+
+Além delas, estão presentes outras variáveis que trazem os resultados do modelo de regressão linear (.fitted, .resid, .std.resid, .hat, .sigma, .cooksd), conforme apresentado no Roteiro 5, e as coordenadas do centróide dos polígonos (LON, LAT).
+
+Outras funções apresentadas nas aulas anteriores funcionam em dados geoespaciais de forma semelhante aos dados estruturados, inclusive aquelas do pacote `tidyverse`, como `inner_join()` e `mutate()`.
+
+# 2. Modelo de regressão espacial local (GWR)
+
+O modelo de regressão espacial local ou Geographically Weighted Regression (GWR) incorpora a estrutura de dependência espacial (verificada com o teste de autocorrelação espacial - Roteiro 6). Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser dixa ou adaptável à densidade dos dados.
+
+Algumas considerações sobre os dados antes de rodar o modelo:
+
+- O modelo não vai funcionar em uma base de dados com valores faltantes (NA). Já foi aplicado um filtro para a base de dados apresentar apenas os municípios com observações em CONSUMO1 e RENDAPITA.
+- É necessário trazer em uma coluna as coordenadas do centróide dos polígonos (longitude/latitude). Nesta base de dados, são as colunas LON e LAT.
+- Os modelos de regressão espacial são complexos e exigem um tempo de processamento muito maior que os modelos lineares! Nos nossos testes, ele demorou entre 10 a 30 minutos para ser executado.
+
+Caso não consiga rodar este modelo com os seus dados, lembre-se de pedir ajuda aos monitores.
+
+O processo de modelagem envolverá quatro etapas: (1) estimativa do kernel, (2) execução do modelo, (3) análise do sumário do modelo e (4) exportação dos resultados para análise espacial no QGIS.
+
+É possível obter a melhor estimativa do kernel com a função `gwr.sel()`. Como argumentos, indicamos a fórmula, os dados, as coordenadas dos centróides e indicamos que a largura da banda será adaptativa (`adapt = TRUE`). O resultado será salvo no objeto `gwr_kernel`.
+
+```{r, message=FALSE, warning=FALSE}
+gwr_kernel <- gwr.sel(formula = CONSUMO1 ~ RENDAPITA, 
+                        data = agua_rede_sf,
+                        coords = cbind(agua_rede_sf$LON, agua_rede_sf$LAT),
+                        adapt = TRUE)
+```
+
+Após obter a melhor estimativa para o kernel, é possível fazer a modelagem com a função `gwr()`. Além da fórmula, dados e coordenadas, é necessário indicar o kernel (`adapt = gwr_kernel`) e dois argumentos adicionais para salvar os resultados completos.
+
+```{r, eval=FALSE}
+gwr_modelo <- gwr(formula = CONSUMO1 ~ RENDAPITA,
+                data = agua_rede_sf,
+                coords = cbind(agua_rede_sf$LON,agua_rede_sf$LAT),
+                adapt = gwr_kernel, 
+                hatmatrix = TRUE,
+                se.fit = TRUE)
+```
+
+```{r, echo=FALSE}
+gwr_modelo <- load(file = "D:/OneDrive/@/mti2020/gwr_modelo.rda")
+```
+
+É possível visualizar o sumário com alguns resultados executando como comando o nome do objeto onde o modelo foi salvo, `gwr_modelo`.
+
+```{r}
+gwr_modelo
+```
+
+Duas estatísticas muito importantes sobre o modelo são o AIC e o R². Neste caso o AIC do modelo de regressão espacial local (32.345) é menor que o AIC do modelo de regressão linear (35.289), indicando um melhor resultado. O R² "quasi-global" (0,71) é maior que o R² do modelo de regressão linear (0,36), também indicando um melhor resultado.
+
+Também é importante verificar os parâmetros locais estimados e o coeficiente local de determinação (R²). Para visualizar esses parâmetros, vamos salvar uma nova base de dados (em formato geopackage ou shapefile) para abrir e visualizar no QGIS.
+
+O código abaixo indica como executar essa última etapa.
+
+```{r}
+agua_rede_gwr <- cbind(agua_rede_sf, as.matrix(as.data.frame(gwr_modelo$SDF)))
+```
+
+Para salvar como geopackage:
+
+```{r, eval = FALSE}
+write_sf(agua_rede_gwr, "dados/agua_rede_gwr.gpkg")
+```
+
+Para salvar como shapefile:
+
+```{r, eval = FALSE}
+write_sf(agua_rede_gwr, "dados/agua_rede_gwr.shp")
+```
+
+A variável "pred" apresenta os parâmetros locais estimados para a variável Renda per capita, enquanto a variável "localR2" apresenta o coeficiente local de determinação (R²).
