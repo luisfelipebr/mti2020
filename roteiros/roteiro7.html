@@ -785,7 +785,7 @@ summary {
 ## AIC: 33908, (AIC for lm: 35289)
 ## LM test for residual autocorrelation
 ## test value: 1.5145, p-value: 0.21845</code></pre>
-<p>O modelo SAR não é significativo neste caso (p-valor &gt; 0,05), indicado pelo p-valor do teste dos resíduos da aucorrelação espacial (0,22) e do intercepto (0,09). Se ele fosse significativo, o AIC (33.908) seria menor que o AIC do modelo de regressão linear (35.289), indicando um melhor resultado.</p>
+<p>O modelo SAR possui um melhor desempenho que o modelo de regressão linear, indicado pelo AIC (33.908), que é menor que o AIC do modelo de regressão linear (35.289). Além disso, o teste de autocorrelação espacial dos resíduos não é significativo (p-valor = 0,22), indicando que após a modelagem os resíduos não são mais correlacionados espacialmente.</p>
 </div>
 <div id="conditional-autoregressive-model-spatial-errorcar" class="section level3">
 <h3>2.3. Conditional Autoregressive Model (Spatial Error/CAR)</h3>
@@ -838,7 +838,7 @@ summary {
 <div id="modelo-de-regressão-espacial-local-gwr" class="section level1">
 <h1>3. Modelo de regressão espacial local (GWR)</h1>
 <p>O modelo de regressão espacial local ou Geographically Weighted Regression (GWR) incorpora a estrutura de dependência espacial (verificada com o teste de autocorrelação espacial - Roteiro 6).</p>
-<p>Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser dixa ou adaptável à densidade dos dados.</p>
+<p>Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser fixa ou adaptável à densidade dos dados.</p>
 <p>Algumas considerações sobre os dados antes de rodar o modelo:</p>
 <ul>
 <li>O modelo não vai funcionar em uma base de dados com valores faltantes (NA). Já foi aplicado um filtro para a base de dados apresentar apenas os municípios com observações em CONSUMO1 e RENDAPITA.</li>

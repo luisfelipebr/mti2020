@@ -197,7 +197,7 @@ Para ver os resultados do novo modelo, você pode acessar o sumário.
 summary(sar_modelo)
 ```
 
-O modelo SAR não é significativo neste caso (p-valor > 0,05), indicado pelo p-valor do teste dos resíduos da aucorrelação espacial (0,22) e do intercepto (0,09). Se ele fosse significativo, o AIC (33.908) seria menor que o AIC do modelo de regressão linear (35.289), indicando um melhor resultado.
+O modelo SAR possui um melhor desempenho que o modelo de regressão linear, indicado pelo AIC (33.908), que é menor que o AIC do modelo de regressão linear (35.289). Além disso, o teste de autocorrelação espacial dos resíduos não é significativo (p-valor = 0,22), indicando que após a modelagem os resíduos não são mais correlacionados espacialmente.
 
 ### 2.3. Conditional Autoregressive Model (Spatial Error/CAR)
 
@@ -242,7 +242,7 @@ write_sf(agua_rede_sar_car, "dados/agua_rede_sar_car.shp")
 
 O modelo de regressão espacial local ou Geographically Weighted Regression (GWR) incorpora a estrutura de dependência espacial (verificada com o teste de autocorrelação espacial - Roteiro 6).
 
-Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser dixa ou adaptável à densidade dos dados.
+Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser fixa ou adaptável à densidade dos dados.
 
 Algumas considerações sobre os dados antes de rodar o modelo:
 
