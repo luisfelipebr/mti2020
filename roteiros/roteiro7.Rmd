@@ -103,9 +103,32 @@ Os nomes das variáveis estão codificados, apresentando correspondência às va
 | CONSUMO1  | Consumo de Água per capita - População Total - m3/ano (AG020/GE012)                                                |
 | CONSUMO2  | Consumo de Água per capita - População Atendida - m3/ano (AG020/AG001)                                             |
 
-Além delas, estão presentes outras variáveis que trazem os resultados do modelo de regressão linear (.fitted, .resid, .std.resid, .hat, .sigma, .cooksd), conforme apresentado no Roteiro 5, e as coordenadas do centróide dos polígonos (LON, LAT).
+Além delas, estão presentes outras variáveis que trazem os resultados do modelo de regressão linear (.fitted, .resid, .std.resid, .hat, .sigma, .cooksd), conforme apresentado no Roteiro 5.
 
-Outras funções apresentadas nas aulas anteriores funcionam em dados geoespaciais de forma semelhante aos dados estruturados, inclusive aquelas do pacote `tidyverse`, como `inner_join()` e `mutate()`.
+**ATENÇÃO: Algumas considerações sobre os dados antes de rodar o modelo:**
+
+1. O modelo não vai funcionar em uma base de dados com valores faltantes (NA).
+2. É necessário trazer em uma coluna as coordenadas do centróide dos polígonos (longitude/latitude).
+3. Os modelos de regressão espacial são complexos e exigem um tempo de processamento muito maior que os modelos lineares! Nos nossos testes, o tempo de processamento variou entre 10 à 30 minutos.
+
+As funções apresentadas nas aulas anteriores funcionam em dados geoespaciais de forma semelhante à tabelas. Vamos usá-las para resolver a primeira e segunda consideração.
+
+Para filtrar apenas as observações completas, ou seja, sem valores faltantes (NA), podemos aplicar a função `filter()`, levando em consideração as variáveis que serão utilizadas (ID, Variável Y e Variável X).
+
+```{r}
+agua_rede_sf <- agua_rede_sf %>%
+  filter(!is.na(ID_IBGE) & !is.na(CONSUMO1) & !is.na(RENDAPITA))
+```
+
+Dos 5.567 municípios presentes na base de dados, apenas 4.417 tinham informações completas do ID_IBGE, CONSUMO1 e RENDAPITA. O modelo será aplicado apenas nessas observações.
+
+Para executar o modelo de regressão espacial local (GWR), é necessário ter variáveis que descrevem a longitude e latitude do centróide dos polígonos. Vamos criar essas novas variáveis com a função `mutate()`, dando o nome `LON` para longitude e `LAT` para latitude.
+
+```{r, warning=FALSE, message=FALSE}
+agua_rede_sf <- agua_rede_sf %>%
+  mutate(LON = st_coordinates(st_centroid(agua_rede_sf))[,1],
+         LAT = st_coordinates(st_centroid(agua_rede_sf))[,2])
+```
 
 # 2. Modelos de regressão espacial global (Spatial Lag e Spatial Error)
 
@@ -244,12 +267,6 @@ O modelo de regressão espacial local ou Geographically Weighted Regression (GWR
 
 Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser fixa ou adaptável à densidade dos dados.
 
-Algumas considerações sobre os dados antes de rodar o modelo:
-
-- O modelo não vai funcionar em uma base de dados com valores faltantes (NA). Já foi aplicado um filtro para a base de dados apresentar apenas os municípios com observações em CONSUMO1 e RENDAPITA.
-- É necessário trazer em uma coluna as coordenadas do centróide dos polígonos (longitude/latitude). Nesta base de dados, são as colunas LON e LAT.
-- Os modelos de regressão espacial são complexos e exigem um tempo de processamento muito maior que os modelos lineares! Nos nossos testes, ele demorou entre 10 a 30 minutos para ser executado.
-
 O processo de modelagem envolverá quatro etapas: (1) estimativa do kernel, (2) cômputo do modelo, (3) análise do sumário do modelo e (4) exportação dos resultados para análise espacial no QGIS.
 
 É possível obter a melhor estimativa do kernel com a função `gwr.sel()`. Como argumentos, indicamos a fórmula, os dados, as coordenadas dos centróides e indicamos que a largura da banda será adaptativa (`adapt = TRUE`). O resultado será salvo no objeto `gwr_kernel`.
@@ -288,6 +305,21 @@ O código abaixo indica como executar essa última etapa.
 agua_rede_gwr <- cbind(agua_rede_sf, as.matrix(as.data.frame(gwr_modelo$SDF)))
 ```
 
+As novas variáveis são:
+
+- X.Intercept = valores locais de beta zero (intercepto)
+- RENDAPITA.1 = valores locais do coeficiente de renda per capita (X1)
+- X.Intercept._se = erro padrão de beta zero (intercepto)
+- RENDAPITA_se = erro padrão do coeficiente estimado para renda per capita (X1)
+- pred = valores previstos de Y
+- localR2 = valores locais de R2
+
+Para interpretar os resultados do GWR, é importante mapear algumas estatísticas, tais como o R2 local, os coeficientes beta e estatísticas t.
+
+Para obter a estatística t para cada coeficiente beta, deve-se dividir os valores dos coeficientes (por exemplo, RENDAPITA.1) por seus respectivos erros padrão (RENDAPITA_se). Se o módulo da estatística t for maior do que o valor do t crítico, pode-se rejeitar a hipótese nula de que beta é igual a zero (ou seja, beta é significativo).
+
+A variável "pred" apresenta os parâmetros locais estimados para a variável Renda per capita, enquanto a variável "localR2" apresenta o coeficiente local de determinação (R²). Também é interessante aplicar um teste de autocorrelação espacial nos resíduos, para verificar se a dependência espacial foi resolvida pelo modelo.
+
 Para exportar como geopackage:
 
 ```{r, eval = FALSE}
@@ -299,5 +331,3 @@ Para exportar como shapefile:
 ```{r, eval = FALSE}
 write_sf(agua_rede_gwr, "dados/agua_rede_gwr.shp")
 ```
-
-A variável "pred" apresenta os parâmetros locais estimados para a variável Renda per capita, enquanto a variável "localR2" apresenta o coeficiente local de determinação (R²). Também é interessante aplicar um teste de autocorrelação espacial nos resíduos, para verificar se a dependência espacial foi resolvida pelo modelo.
