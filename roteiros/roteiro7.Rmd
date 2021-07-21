@@ -19,6 +19,10 @@ A base de dados está disponível para download no endereço abaixo:
 
 [https://1drv.ms/u/s!AjettDH-3Gbni9kP8cPtA04EBQQ7xQ?e=4dyWz5](https://1drv.ms/u/s!AjettDH-3Gbni9kP8cPtA04EBQQ7xQ?e=4dyWz5)
 
+O código também está disponível no Google Colab:
+
+[https://colab.research.google.com/drive/1wFZtdc0CpmH-Jvd4ARXhwz008LE2aOqc?usp=sharing](https://colab.research.google.com/drive/1wFZtdc0CpmH-Jvd4ARXhwz008LE2aOqc?usp=sharing)
+
 ### 1.1. Instalando e abrindo os pacotes
 
 Neste roteiro, vamos usar os seguintes pacotes:
