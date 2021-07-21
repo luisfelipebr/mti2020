@@ -109,7 +109,7 @@ Além delas, estão presentes outras variáveis que trazem os resultados do mode
 
 1. O modelo não vai funcionar em uma base de dados com valores faltantes (NA).
 2. É necessário trazer em uma coluna as coordenadas do centróide dos polígonos (longitude/latitude).
-3. Os modelos de regressão espacial são complexos e exigem um tempo de processamento muito maior que os modelos lineares! Nos nossos testes, o tempo de processamento variou entre 10 à 30 minutos.
+3. Os modelos de regressão espacial são complexos e exigem um tempo de processamento muito maior que os modelos lineares! Nos nossos testes, o tempo de processamento variou entre 10 a 30 minutos. **Recomendamos rodar o modelo apenas em uma amostra dos dados (UF == "SP").
 
 As funções apresentadas nas aulas anteriores funcionam em dados geoespaciais de forma semelhante à tabelas. Vamos usá-las para resolver a primeira e segunda consideração.
 
@@ -129,6 +129,14 @@ agua_rede_sf <- agua_rede_sf %>%
   mutate(LON = st_coordinates(st_centroid(agua_rede_sf))[,1],
          LAT = st_coordinates(st_centroid(agua_rede_sf))[,2])
 ```
+
+**Amostragem:** o código abaixo cria uma amostra apenas com os dados do estado de São Paulo.
+
+```{r}
+agua_rede_sf <- agua_rede_sf %>%
+  filter(UF == "SP")
+```
+
 
 # 2. Modelos de regressão espacial global (Spatial Lag e Spatial Error)
 
@@ -197,7 +205,7 @@ Como interpretar os resultados dos testes de hipótese dos multiplicadores de La
 
 Primeiro examinamos os testes simples (LMerr e LMlag). Se eles não forem significativos (p-valor > 0,05), a hipótese de modelagem do erro ou lag não se sustenta. Se apenas um deles for significativo (p-valor < 0,05): problema resolvido  - mas é bastante comum que ambos sejam significativos. Se ambos forem significativos, é necessário conferir os testes robustos. 
 
-Olhando para os multiplicadores de Lagrange robustos (RLMlag e RLMerr), normalmente, apenas um deles será significativo, ou um terá uma ordem de magnitude mais significativo do que o outro (por exemplo, p < 0,00000 em comparação com p < 0,03). Nesse caso, a decisão é simples: estimar o modelo de regressão espacial correspondendo à estatística mais "robusta" (ou significativa). No caso raro de ambos serem altamente significativos, escolha o modelo com o maior valor para a estatística de teste. No entanto, nesta situação, é necessário algum cuidado, uma vez que podem existir outras fontes de erros de especificação. Outra ação a se tomar é alterar a especificação básica (ou seja, a parte não espacial) do modelo. 
+Olhando para os multiplicadores de Lagrange robustos (RLMlag e RLMerr), normalmente, apenas um deles será significativo, ou um terá uma ordem de magnitude mais significativo do que o outro (por exemplo, p < 0,000003 em comparação com p < 0,03). Nesse caso, a decisão é simples: estimar o modelo de regressão espacial correspondendo à estatística mais "robusta" (ou significativa). No caso raro de ambos serem altamente significativos, escolha o modelo com o maior valor para a estatística de teste. No entanto, nesta situação, é necessário algum cuidado, uma vez que podem existir outras fontes de erros de especificação. Outra ação a se tomar é alterar a especificação básica (ou seja, a parte não espacial) do modelo. 
 
 Também há casos raros em que nenhuma das estatísticas do teste robusto é significativa. Nesses casos, problemas de especificação mais sérios provavelmente estão presentes e devem ser resolvidos primeiro. Por outros erros de especificação, nos referimos a problemas com algumas das outras suposições da regressão linear (Roteiro 5).
 
@@ -220,7 +228,7 @@ Para ver os resultados do novo modelo, você pode acessar o sumário.
 summary(sar_modelo)
 ```
 
-O modelo SAR possui um melhor desempenho que o modelo de regressão linear, indicado pelo AIC (33.908), que é menor que o AIC do modelo de regressão linear (35.289). Além disso, o teste de autocorrelação espacial dos resíduos não é significativo (p-valor = 0,22), indicando que após a modelagem os resíduos não são mais correlacionados espacialmente.
+O modelo SAR possui um melhor desempenho que o modelo de regressão linear, indicado pelo AIC (4130), que é menor que o AIC do modelo de regressão linear (4188). Além disso, o teste de autocorrelação espacial dos resíduos não é significativo (p-valor = 0,16), indicando que após a modelagem os resíduos não são mais correlacionados espacialmente.
 
 ### 2.3. Conditional Autoregressive Model (Spatial Error/CAR)
 
@@ -239,7 +247,7 @@ car_modelo <- errorsarlm(formula = CONSUMO1 ~ RENDAPITA,
 summary(car_modelo)
 ```
 
-O AIC do modelo CAR (33.794) é menor que o AIC do modelo de regressão linear (35.289), indicando um melhor resultado. Além disso, todos os valores estimados são significativos (p-valor < 0,05).
+O AIC do modelo CAR (4120) é menor que o AIC do modelo de regressão linear (4188), indicando um melhor resultado. Além disso, todos os valores estimados são significativos (p-valor < 0,05).
 
 ### 2.4. Exportando os resíduos do modelo
 
@@ -295,7 +303,7 @@ gwr_modelo <- gwr(formula = CONSUMO1 ~ RENDAPITA,
 gwr_modelo
 ```
 
-Duas estatísticas muito importantes sobre o modelo são o AIC e o R². Neste caso o AIC do modelo de regressão espacial local (32.345) é menor que o AIC do modelo de regressão linear (35.289), indicando um melhor resultado. O R² "quasi-global" (0,71) é maior que o R² do modelo de regressão linear (0,36), também indicando um melhor resultado.
+Duas estatísticas muito importantes sobre o modelo são o AIC e o R². Neste caso o AIC do modelo de regressão espacial local (4083) é menor que o AIC do modelo de regressão linear (4188), indicando um melhor resultado. O R² "quasi-global" (0,37) é maior que o R² do modelo de regressão linear (0,21), também indicando um melhor resultado.
 
 Também é importante verificar os parâmetros locais estimados e o coeficiente local de determinação (R²). Para visualizar esses parâmetros, vamos exportar uma nova base de dados (em formato geopackage ou shapefile) para abrir e visualizar no QGIS.
 
