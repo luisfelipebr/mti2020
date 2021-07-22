@@ -490,24 +490,26 @@ pre code {
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;spdep&quot;</span>)</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;spatialreg&quot;</span>)</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;spgwr&quot;</span>)</span></code></pre></div>
+<p><strong>Atenção: dependendo da versão de R que você está usando, você pode precisar instalar o pacote <code>Rcpp</code> antes dos pacotes de análise espacial. Se você encontrar um erro na instalação dos pacotes acima, instale o pacote citado e tente novamente. Se o problema persistir, por favor entre em contato com a equipe responsável pela disciplina.</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;Rcpp&quot;</span>)</span></code></pre></div>
 <p>Após a instalação, você pode importá-los com o uso da função <code>library()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(sf)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(spdep)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">library</span>(spatialreg)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">library</span>(spgwr)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">library</span>(sf)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">library</span>(spdep)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">library</span>(spatialreg)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">library</span>(spgwr)</span></code></pre></div>
 </div>
 <div id="importando-os-dados" class="section level3">
 <h3>1.2. Importando os dados</h3>
 <p>A base de dados está em formato geopackage (.gpkg) e pode ser importada com a função <code>read_sf()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>agua_rede_sf &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;dados/agua_rede_sf.gpkg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>agua_rede_sf &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;dados/agua_rede_sf.gpkg&quot;</span>)</span></code></pre></div>
 <p>Lembre-se de ajustar o diretório de trabalho (entre aspas) para conseguir importar os dados os dados corretamente.</p>
 </div>
 <div id="explorando-os-dados" class="section level3">
 <h3>1.3. Explorando os dados</h3>
 <p>Os arquivos geoespaciais que trabalharemos são chamados de simple features (sf) no R. A sua estrutura é semelhante à de uma tabela, mas trazendo informações do Sistema de Referência de Coordenadas (CRS) e uma variável adicional: a geometria (geom ou geometry), com as coordenadas que permitem mapear os pontos, linhas ou polígonos.</p>
 <p>Executando o nome do objeto é possível obter algumas dessas informações.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>agua_rede_sf</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>agua_rede_sf</span></code></pre></div>
 <pre><code>## Simple feature collection with 5567 features and 25 fields
 ## geometry type:  MULTIPOLYGON
 ## dimension:      XY
@@ -532,7 +534,7 @@ pre code {
 ## #   .std.resid &lt;dbl&gt;, .hat &lt;dbl&gt;, .sigma &lt;dbl&gt;, .cooksd &lt;dbl&gt;,
 ## #   geom &lt;MULTIPOLYGON [°]&gt;</code></pre>
 <p>A função <code>names()</code> exibe os nomes das variáveis.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">names</span>(agua_rede_sf)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">names</span>(agua_rede_sf)</span></code></pre></div>
 <pre><code>##  [1] &quot;ID_IBGE&quot;    &quot;DOMICIL&quot;    &quot;REDE&quot;       &quot;PROPREDE&quot;   &quot;ID_SNIS&quot;   
 ##  [6] &quot;NOME_MUN&quot;   &quot;UF&quot;         &quot;REGIAO&quot;     &quot;PIB&quot;        &quot;RENDAPITA&quot; 
 ## [11] &quot;GINI&quot;       &quot;IDH&quot;        &quot;IDH_CLASS&quot;  &quot;GE012&quot;      &quot;AG001&quot;     
@@ -639,16 +641,16 @@ pre code {
 </ol>
 <p>As funções apresentadas nas aulas anteriores funcionam em dados geoespaciais de forma semelhante à tabelas. Vamos usá-las para resolver a primeira e segunda consideração.</p>
 <p>Para filtrar apenas as observações completas, ou seja, sem valores faltantes (NA), podemos aplicar a função <code>filter()</code>, levando em consideração as variáveis que serão utilizadas (ID, Variável Y e Variável X).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>agua_rede_sf &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(ID_IBGE) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(CONSUMO1) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(RENDAPITA))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>agua_rede_sf &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(ID_IBGE) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(CONSUMO1) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(RENDAPITA))</span></code></pre></div>
 <p>Dos 5.567 municípios presentes na base de dados, apenas 4.417 tinham informações completas do ID_IBGE, CONSUMO1 e RENDAPITA. O modelo será aplicado apenas nessas observações.</p>
 <p>Para executar o modelo de regressão espacial local (GWR), é necessário ter variáveis que descrevem a longitude e latitude do centróide dos polígonos. Vamos criar essas novas variáveis com a função <code>mutate()</code>, dando o nome <code>LON</code> para longitude e <code>LAT</code> para latitude.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>agua_rede_sf &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">LON =</span> <span class="kw">st_coordinates</span>(<span class="kw">st_centroid</span>(agua_rede_sf))[,<span class="dv">1</span>],</span>
-<span id="cb9-3"><a href="#cb9-3"></a>         <span class="dt">LAT =</span> <span class="kw">st_coordinates</span>(<span class="kw">st_centroid</span>(agua_rede_sf))[,<span class="dv">2</span>])</span></code></pre></div>
-<p><strong>Amostragem:</strong> o código abaixo cria uma amostra apenas com os dados do estado de São Paulo.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>agua_rede_sf &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">filter</span>(UF <span class="op">==</span><span class="st"> &quot;SP&quot;</span>)</span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">LON =</span> <span class="kw">st_coordinates</span>(<span class="kw">st_centroid</span>(agua_rede_sf))[,<span class="dv">1</span>],</span>
+<span id="cb10-3"><a href="#cb10-3"></a>         <span class="dt">LAT =</span> <span class="kw">st_coordinates</span>(<span class="kw">st_centroid</span>(agua_rede_sf))[,<span class="dv">2</span>])</span></code></pre></div>
+<p><strong>Amostragem:</strong> o código abaixo cria uma amostra apenas com os dados do estado de São Paulo.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>agua_rede_sf &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">filter</span>(UF <span class="op">==</span><span class="st"> &quot;SP&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="modelos-de-regressão-espacial-global-spatial-lag-e-spatial-error" class="section level1">
@@ -659,14 +661,14 @@ pre code {
 <div id="preparando-os-dados" class="section level3">
 <h3>2.1. Preparando os dados</h3>
 <p>O ponto de partida para o Spatial Lag e Spatial Error é o modelo de regressão linear (Roteiro 5), criado com a função <code>lm()</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>modelo1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA, </span>
-<span id="cb11-2"><a href="#cb11-2"></a>              <span class="dt">data =</span> agua_rede_sf, </span>
-<span id="cb11-3"><a href="#cb11-3"></a>              <span class="dt">na.action =</span> na.exclude)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>modelo1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA, </span>
+<span id="cb12-2"><a href="#cb12-2"></a>              <span class="dt">data =</span> agua_rede_sf, </span>
+<span id="cb12-3"><a href="#cb12-3"></a>              <span class="dt">na.action =</span> na.exclude)</span></code></pre></div>
 <p>Também é necessário criar um arquivo com a lista de vizinhança, com a função <code>poly2nb()</code>. Foi usado o critério de vizinhança do tipo <code>queen</code>. Para usar outros critérios, lembre-se de consultar a documentação da função.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>w &lt;-<span class="st"> </span><span class="kw">poly2nb</span>(<span class="dt">pl =</span> agua_rede_sf, </span>
-<span id="cb12-2"><a href="#cb12-2"></a>             <span class="dt">row.names =</span> agua_rede_sf<span class="op">$</span>ID_IBGE)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>w &lt;-<span class="st"> </span><span class="kw">poly2nb</span>(<span class="dt">pl =</span> agua_rede_sf, </span>
+<span id="cb13-2"><a href="#cb13-2"></a>             <span class="dt">row.names =</span> agua_rede_sf<span class="op">$</span>ID_IBGE)</span></code></pre></div>
 <p>Visualizando o sumário desse arquivo, é possível ter uma ideia da distribuição da vizinhança.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">summary</span>(w)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">summary</span>(w)</span></code></pre></div>
 <pre><code>## Neighbour list object:
 ## Number of regions: 510 
 ## Number of nonzero links: 2288 
@@ -683,13 +685,13 @@ pre code {
 ## 1 most connected region:
 ## 448 with 20 links</code></pre>
 <p>Agora é possível criar uma matriz de pesos espaciais, com as funções <code>nb2mat()</code> e <code>mat2listw()</code>. Em vários momentos é necessário definir o argumento adicional <code>zero.policy = TRUE</code>, que permite obter os resultados mesmo que uma ou mais observações não tenham nenhum vizinho. Não se esqueça de adicionar este parâmetro sempre que indicado neste roteiro.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>wm &lt;-<span class="st"> </span><span class="kw">nb2mat</span>(<span class="dt">neighbours =</span> w, <span class="dt">style=</span><span class="st">&#39;B&#39;</span>, <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>rwm &lt;-<span class="st"> </span><span class="kw">mat2listw</span>(<span class="dt">x =</span> wm, <span class="dt">style=</span><span class="st">&#39;W&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>wm &lt;-<span class="st"> </span><span class="kw">nb2mat</span>(<span class="dt">neighbours =</span> w, <span class="dt">style=</span><span class="st">&#39;B&#39;</span>, <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>rwm &lt;-<span class="st"> </span><span class="kw">mat2listw</span>(<span class="dt">x =</span> wm, <span class="dt">style=</span><span class="st">&#39;W&#39;</span>)</span></code></pre></div>
 <p>Agora já é possível realizar o teste de autocorrelação espacial dos resíduos, com a função <code>lm.morantest()</code>, que levará como argumentos: o modelo (modelo1), a matriz de pesos espaciais (rwm) e a tipo de hipótese alternativa (“two-sided”, que representa o teste bicaudal).</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">lm.morantest</span>(<span class="dt">model =</span> modelo1, </span>
-<span id="cb16-2"><a href="#cb16-2"></a>             <span class="dt">listw =</span> rwm, </span>
-<span id="cb16-3"><a href="#cb16-3"></a>             <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
-<span id="cb16-4"><a href="#cb16-4"></a>             <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">lm.morantest</span>(<span class="dt">model =</span> modelo1, </span>
+<span id="cb17-2"><a href="#cb17-2"></a>             <span class="dt">listw =</span> rwm, </span>
+<span id="cb17-3"><a href="#cb17-3"></a>             <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>             <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Global Moran I for regression residuals
 ## 
@@ -711,10 +713,10 @@ pre code {
 <li>RLMerr: teste LM robusto para dependência do erro</li>
 <li>RLMlag: teste LM robusto para uma variável dependente espacialmente defasada</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">lm.LMtests</span>(<span class="dt">model =</span> modelo1,</span>
-<span id="cb18-2"><a href="#cb18-2"></a>          <span class="dt">listw =</span> rwm,</span>
-<span id="cb18-3"><a href="#cb18-3"></a>          <span class="dt">test =</span> <span class="kw">c</span>(<span class="st">&quot;LMerr&quot;</span>,<span class="st">&quot;LMlag&quot;</span>,<span class="st">&quot;RLMerr&quot;</span>,<span class="st">&quot;RLMlag&quot;</span>),</span>
-<span id="cb18-4"><a href="#cb18-4"></a>          <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">lm.LMtests</span>(<span class="dt">model =</span> modelo1,</span>
+<span id="cb19-2"><a href="#cb19-2"></a>          <span class="dt">listw =</span> rwm,</span>
+<span id="cb19-3"><a href="#cb19-3"></a>          <span class="dt">test =</span> <span class="kw">c</span>(<span class="st">&quot;LMerr&quot;</span>,<span class="st">&quot;LMlag&quot;</span>,<span class="st">&quot;RLMerr&quot;</span>,<span class="st">&quot;RLMlag&quot;</span>),</span>
+<span id="cb19-4"><a href="#cb19-4"></a>          <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Lagrange multiplier diagnostics for spatial dependence
 ## 
@@ -763,12 +765,12 @@ pre code {
 <div id="spatial-autoregressive-model-spatial-lagsar" class="section level3">
 <h3>2.2. Spatial Autoregressive Model (Spatial Lag/SAR)</h3>
 <p>Para aplicar o modelo Spatial Lag usaremos a função <code>lagsarlm()</code>, especificando a fórmula, os dados e a matriz de pesos espaciais.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>sar_modelo &lt;-<span class="st"> </span><span class="kw">lagsarlm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
-<span id="cb20-2"><a href="#cb20-2"></a>                       <span class="dt">data =</span> agua_rede_sf,</span>
-<span id="cb20-3"><a href="#cb20-3"></a>                       <span class="dt">listw =</span> rwm,</span>
-<span id="cb20-4"><a href="#cb20-4"></a>                       <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>sar_modelo &lt;-<span class="st"> </span><span class="kw">lagsarlm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
+<span id="cb21-2"><a href="#cb21-2"></a>                       <span class="dt">data =</span> agua_rede_sf,</span>
+<span id="cb21-3"><a href="#cb21-3"></a>                       <span class="dt">listw =</span> rwm,</span>
+<span id="cb21-4"><a href="#cb21-4"></a>                       <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Para ver os resultados do novo modelo, você pode acessar o sumário.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">summary</span>(sar_modelo)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">summary</span>(sar_modelo)</span></code></pre></div>
 <pre><code>## 
 ## Call:lagsarlm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede_sf, 
 ##     listw = rwm, zero.policy = TRUE)
@@ -802,12 +804,12 @@ pre code {
 <div id="conditional-autoregressive-model-spatial-errorcar" class="section level3">
 <h3>2.3. Conditional Autoregressive Model (Spatial Error/CAR)</h3>
 <p>Para aplicar o modelo Spatial Error usaremos a função <code>errorsarlm()</code>, especificando a fórmula, os dados e a matriz de pesos espaciais.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>car_modelo &lt;-<span class="st"> </span><span class="kw">errorsarlm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
-<span id="cb23-2"><a href="#cb23-2"></a>                        <span class="dt">data =</span> agua_rede_sf,</span>
-<span id="cb23-3"><a href="#cb23-3"></a>                        <span class="dt">listw =</span> rwm,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>                        <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>car_modelo &lt;-<span class="st"> </span><span class="kw">errorsarlm</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
+<span id="cb24-2"><a href="#cb24-2"></a>                        <span class="dt">data =</span> agua_rede_sf,</span>
+<span id="cb24-3"><a href="#cb24-3"></a>                        <span class="dt">listw =</span> rwm,</span>
+<span id="cb24-4"><a href="#cb24-4"></a>                        <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>É possível visualizar os resultados do modelo usando o sumário.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">summary</span>(car_modelo)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">summary</span>(car_modelo)</span></code></pre></div>
 <pre><code>## 
 ## Call:errorsarlm(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede_sf, 
 ##     listw = rwm, zero.policy = TRUE)
@@ -839,12 +841,12 @@ pre code {
 <div id="exportando-os-resíduos-do-modelo" class="section level3">
 <h3>2.4. Exportando os resíduos do modelo</h3>
 <p>Para verificar a autocorrelação espacial no GeoDa, é necessário exportar os resíduos do modelo. O código abaixo indica como executar essa etapa para os dois modelos, criando as variáveis (colunas) sar_residuos e car_residuos.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>agua_rede_sar_car &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sar_residuos =</span> <span class="kw">residuals</span>(sar_modelo),</span>
-<span id="cb26-3"><a href="#cb26-3"></a>         <span class="dt">car_residuos =</span> <span class="kw">residuals</span>(car_modelo))</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>agua_rede_sar_car &lt;-<span class="st"> </span>agua_rede_sf <span class="op">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sar_residuos =</span> <span class="kw">residuals</span>(sar_modelo),</span>
+<span id="cb27-3"><a href="#cb27-3"></a>         <span class="dt">car_residuos =</span> <span class="kw">residuals</span>(car_modelo))</span></code></pre></div>
 <p>Após criar essa nova base de dados, você pode exportá-la como geopackage ou shapefile com a função <code>write_sf()</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">write_sf</span>(agua_rede_sar_car, <span class="st">&quot;dados/agua_rede_sar_car.gpkg&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">write_sf</span>(agua_rede_sar_car, <span class="st">&quot;dados/agua_rede_sar_car.shp&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">write_sf</span>(agua_rede_sar_car, <span class="st">&quot;dados/agua_rede_sar_car.gpkg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">write_sf</span>(agua_rede_sar_car, <span class="st">&quot;dados/agua_rede_sar_car.shp&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="modelo-de-regressão-espacial-local-gwr" class="section level1">
@@ -853,10 +855,10 @@ pre code {
 <p>Nesse modelo, as variações espaciais são modeladas de forma contínua, com parâmetros variando no espaço. Ele ajusta um modelo de regressão para cada observação, ponderando todas as demais observações como função da distância a este ponto. Existe uma função (kernel) sobre cada ponto do espaço que determina todos os pontos da regressão local que é ponderada pela distância. Pontos mais próximos do ponto central tem maior peso. Assim como no kernel, a escolha da largura da banda é importante, pondendo ser fixa ou adaptável à densidade dos dados.</p>
 <p>O processo de modelagem envolverá quatro etapas: (1) estimativa do kernel, (2) cômputo do modelo, (3) análise do sumário do modelo e (4) exportação dos resultados para análise espacial no QGIS.</p>
 <p>É possível obter a melhor estimativa do kernel com a função <code>gwr.sel()</code>. Como argumentos, indicamos a fórmula, os dados, as coordenadas dos centróides e indicamos que a largura da banda será adaptativa (<code>adapt = TRUE</code>). O resultado será salvo no objeto <code>gwr_kernel</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>gwr_kernel &lt;-<span class="st"> </span><span class="kw">gwr.sel</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA, </span>
-<span id="cb29-2"><a href="#cb29-2"></a>                        <span class="dt">data =</span> agua_rede_sf,</span>
-<span id="cb29-3"><a href="#cb29-3"></a>                        <span class="dt">coords =</span> <span class="kw">cbind</span>(agua_rede_sf<span class="op">$</span>LON, agua_rede_sf<span class="op">$</span>LAT),</span>
-<span id="cb29-4"><a href="#cb29-4"></a>                        <span class="dt">adapt =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>gwr_kernel &lt;-<span class="st"> </span><span class="kw">gwr.sel</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA, </span>
+<span id="cb30-2"><a href="#cb30-2"></a>                        <span class="dt">data =</span> agua_rede_sf,</span>
+<span id="cb30-3"><a href="#cb30-3"></a>                        <span class="dt">coords =</span> <span class="kw">cbind</span>(agua_rede_sf<span class="op">$</span>LON, agua_rede_sf<span class="op">$</span>LAT),</span>
+<span id="cb30-4"><a href="#cb30-4"></a>                        <span class="dt">adapt =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## Adaptive q: 0.381966 CV score: 102015.2 
 ## Adaptive q: 0.618034 CV score: 105439.5 
 ## Adaptive q: 0.236068 CV score: 98555.95 
@@ -879,14 +881,14 @@ pre code {
 ## Adaptive q: 0.04509398 CV score: 92718.17 
 ## Adaptive q: 0.04509398 CV score: 92718.17</code></pre>
 <p>Após obter a melhor estimativa para o kernel, é possível fazer a modelagem com a função <code>gwr()</code>. Além da fórmula, dados e coordenadas, é necessário indicar o kernel (<code>adapt = gwr_kernel</code>) e dois argumentos adicionais para salvar os resultados completos.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>gwr_modelo &lt;-<span class="st"> </span><span class="kw">gwr</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
-<span id="cb31-2"><a href="#cb31-2"></a>                <span class="dt">data =</span> agua_rede_sf,</span>
-<span id="cb31-3"><a href="#cb31-3"></a>                <span class="dt">coords =</span> <span class="kw">cbind</span>(agua_rede_sf<span class="op">$</span>LON,agua_rede_sf<span class="op">$</span>LAT),</span>
-<span id="cb31-4"><a href="#cb31-4"></a>                <span class="dt">adapt =</span> gwr_kernel, </span>
-<span id="cb31-5"><a href="#cb31-5"></a>                <span class="dt">hatmatrix =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb31-6"><a href="#cb31-6"></a>                <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>gwr_modelo &lt;-<span class="st"> </span><span class="kw">gwr</span>(<span class="dt">formula =</span> CONSUMO1 <span class="op">~</span><span class="st"> </span>RENDAPITA,</span>
+<span id="cb32-2"><a href="#cb32-2"></a>                <span class="dt">data =</span> agua_rede_sf,</span>
+<span id="cb32-3"><a href="#cb32-3"></a>                <span class="dt">coords =</span> <span class="kw">cbind</span>(agua_rede_sf<span class="op">$</span>LON,agua_rede_sf<span class="op">$</span>LAT),</span>
+<span id="cb32-4"><a href="#cb32-4"></a>                <span class="dt">adapt =</span> gwr_kernel, </span>
+<span id="cb32-5"><a href="#cb32-5"></a>                <span class="dt">hatmatrix =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb32-6"><a href="#cb32-6"></a>                <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>É possível visualizar o sumário com alguns resultados executando como comando o nome do objeto onde o modelo foi salvo, <code>gwr_modelo</code>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>gwr_modelo</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>gwr_modelo</span></code></pre></div>
 <pre><code>## Call:
 ## gwr(formula = CONSUMO1 ~ RENDAPITA, data = agua_rede_sf, coords = cbind(agua_rede_sf$LON, 
 ##     agua_rede_sf$LAT), adapt = gwr_kernel, hatmatrix = TRUE, 
@@ -912,7 +914,7 @@ pre code {
 <p>Duas estatísticas muito importantes sobre o modelo são o AIC e o R². Neste caso o AIC do modelo de regressão espacial local (4083) é menor que o AIC do modelo de regressão linear (4188), indicando um melhor resultado. O R² “quasi-global” (0,37) é maior que o R² do modelo de regressão linear (0,21), também indicando um melhor resultado.</p>
 <p>Também é importante verificar os parâmetros locais estimados e o coeficiente local de determinação (R²). Para visualizar esses parâmetros, vamos exportar uma nova base de dados (em formato geopackage ou shapefile) para abrir e visualizar no QGIS.</p>
 <p>O código abaixo indica como executar essa última etapa.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>agua_rede_gwr &lt;-<span class="st"> </span><span class="kw">cbind</span>(agua_rede_sf, <span class="kw">as.matrix</span>(<span class="kw">as.data.frame</span>(gwr_modelo<span class="op">$</span>SDF)))</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>agua_rede_gwr &lt;-<span class="st"> </span><span class="kw">cbind</span>(agua_rede_sf, <span class="kw">as.matrix</span>(<span class="kw">as.data.frame</span>(gwr_modelo<span class="op">$</span>SDF)))</span></code></pre></div>
 <p>As novas variáveis são:</p>
 <ul>
 <li>X.Intercept = valores locais de beta zero (intercepto)</li>
@@ -926,9 +928,9 @@ pre code {
 <p>Para obter a estatística t para cada coeficiente beta, deve-se dividir os valores dos coeficientes (por exemplo, RENDAPITA.1) por seus respectivos erros padrão (RENDAPITA_se). Se o módulo da estatística t for maior do que o valor do t crítico, pode-se rejeitar a hipótese nula de que beta é igual a zero (ou seja, beta é significativo).</p>
 <p>A variável “pred” apresenta os parâmetros locais estimados para a variável Renda per capita, enquanto a variável “localR2” apresenta o coeficiente local de determinação (R²). Também é interessante aplicar um teste de autocorrelação espacial nos resíduos, para verificar se a dependência espacial foi resolvida pelo modelo.</p>
 <p>Para exportar como geopackage:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">write_sf</span>(agua_rede_gwr, <span class="st">&quot;dados/agua_rede_gwr.gpkg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">write_sf</span>(agua_rede_gwr, <span class="st">&quot;dados/agua_rede_gwr.gpkg&quot;</span>)</span></code></pre></div>
 <p>Para exportar como shapefile:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">write_sf</span>(agua_rede_gwr, <span class="st">&quot;dados/agua_rede_gwr.shp&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">write_sf</span>(agua_rede_gwr, <span class="st">&quot;dados/agua_rede_gwr.shp&quot;</span>)</span></code></pre></div>
 </div>
 
 

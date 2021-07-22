@@ -43,6 +43,12 @@ install.packages("spatialreg")
 install.packages("spgwr")
 ```
 
+**Atenção: dependendo da versão de R que você está usando, você pode precisar instalar o pacote `Rcpp` antes dos pacotes de análise espacial. Se você encontrar um erro na instalação dos pacotes acima, instale o pacote citado e tente novamente. Se o problema persistir, por favor entre em contato com a equipe responsável pela disciplina.**
+
+```{r, eval = FALSE}
+install.packages("Rcpp")
+```
+
 Após a instalação, você pode importá-los com o uso da função `library()`.
 
 ```{r, message=FALSE,warning=FALSE}
